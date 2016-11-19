@@ -30,6 +30,12 @@ public class TrasaService extends Service implements ServiceInterface {
     }
 
     @Override
+    public String validate(DataModel data) {
+
+        return "";
+    }
+
+    @Override
     public Trasa parseToModel() {
         return null;
     }

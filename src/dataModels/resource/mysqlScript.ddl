@@ -66,7 +66,7 @@ CREATE TABLE Uzytkownik
     imie             VARCHAR (512) NOT NULL ,
     nazwisko         VARCHAR (512) NOT NULL ,
     data_urodzenia   DATE ,
-    email            VARCHAR (128) NOT NULL ,
+    login            VARCHAR (128) NOT NULL ,
     telefon          VARCHAR (64) ,
     haslo            VARCHAR (256) NOT NULL ,
     poziom_uprawnien INTEGER NOT NULL ,

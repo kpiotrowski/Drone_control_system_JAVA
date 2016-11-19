@@ -5,7 +5,7 @@ public class Uzytkownik extends DataModel{
   private String imie;
   private String nazwisko;
   private java.sql.Date data_urodzenia;
-  private String email;
+  private String login;
   private String telefon;
   private String haslo;
   private Long poziom_uprawnien;
@@ -42,12 +42,12 @@ public class Uzytkownik extends DataModel{
     this.data_urodzenia = data_urodzenia;
   }
 
-  public String getEmail() {
-    return email;
+  public String getLogin() {
+    return login;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setLogin(String login) {
+    this.login = login;
   }
 
   public String getTelefon() {

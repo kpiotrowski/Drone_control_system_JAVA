@@ -12,7 +12,7 @@ public final class Consts {
     public final static String dbHost = "146.185.128.224";
     public final static String dbPort = "3306";
 
-    public final static String dbTable = "droneDatabase";
+    public final static String dbName = "droneDatabase";
 
     public final static String mainTitle = "Drone control system";
     public final static String loginTitle = "Login form";

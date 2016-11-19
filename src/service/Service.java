@@ -7,7 +7,7 @@ import databaseController.MySQLController;
  */
 public class Service {
 
-    private MySQLController mysql;
+    protected MySQLController mysql;
 
     public Service(MySQLController con){
         this.mysql = con;

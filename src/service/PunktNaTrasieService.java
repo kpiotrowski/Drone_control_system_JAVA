@@ -30,6 +30,12 @@ public class PunktNaTrasieService extends Service implements ServiceInterface {
     }
 
     @Override
+    public String validate(DataModel data) {
+
+        return "";
+    }
+
+    @Override
     public Punkt_na_trasie parseToModel() {
         return null;
     }

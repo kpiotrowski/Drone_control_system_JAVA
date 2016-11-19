@@ -29,6 +29,12 @@ public class DroneService extends Service implements ServiceInterface{
     }
 
     @Override
+    public String validate(DataModel data) {
+
+        return "";
+    }
+
+    @Override
     public Dron parseToModel() {
         return null;
     }

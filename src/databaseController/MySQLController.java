@@ -13,11 +13,11 @@ import java.util.Properties;
  */
 public class MySQLController {
 
-    Connection con;
+    public Connection con;
 
     public MySQLController(String user, String password, String host, String port) throws SQLException {
 
-        String conUrl = "jdbc:mysql://"+host+":"+port+"/"+Consts.dbTable;
+        String conUrl = "jdbc:mysql://"+host+":"+port+"/"+Consts.dbName;
         Properties props = new Properties();
         props.put("user", user);
         props.put("password", password);

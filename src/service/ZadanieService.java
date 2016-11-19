@@ -30,6 +30,12 @@ public class ZadanieService extends Service implements ServiceInterface{
     }
 
     @Override
+    public String validate(DataModel data) {
+
+        return "";
+    }
+
+    @Override
     public Zadanie parseToModel() {
         return null;
     }

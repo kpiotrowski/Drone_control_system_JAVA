@@ -41,27 +41,38 @@ public class GUI {
     }
 
     public void showRegForm(){
-        this.registrationStage = new Stage();
-        this.registrationStage.setTitle(Consts.registrationTitle);
-        this.registrationStage.setScene(registrationScene);
+        if(this.registrationStage==null) {
+            this.registrationStage = new Stage();
+            this.registrationStage.setTitle(Consts.registrationTitle);
+            this.registrationStage.setScene(registrationScene);
+        }
         this.registrationStage.show();
     }
-    public void hideRegForm(){
-        if(this.registrationStage != null) this.registrationStage.close();
-    }
+    public void hideRegForm(){ if(this.registrationStage != null) this.registrationStage.close();}
 
-    public void hideMainStage() { if(this.primaryStage != null) this.primaryStage.close(); }
+    public void showLogForm(){
+        if(this.loginStage==null){
+            this.loginStage = new Stage();
+            this.loginStage.setTitle(Consts.loginTitle);
+            this.loginStage.setScene(loginScene);
+        }
+        this.loginStage.show();
+    }
+    public void hideLogForm(){ if(this.loginStage != null) this.loginStage.close(); }
+
     public void showMainStage() { if(this.primaryStage !=null) this.primaryStage.show(); }
+    public void hideMainStage() { if(this.primaryStage != null) this.primaryStage.close(); }
+
 
     public Alert showDialog(String tit, String mes, String lmes, Alert.AlertType typ){
         Alert alert = new Alert(typ);
-        alert.show();
         alert.setTitle(tit);
         alert.setHeaderText(mes);
         alert.setResizable(true);
         if(lmes!=""){
             alert.setContentText(lmes);
         }
+        alert.show();
         return alert;
     }
 

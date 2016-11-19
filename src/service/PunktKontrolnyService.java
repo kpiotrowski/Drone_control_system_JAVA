@@ -29,6 +29,12 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
     }
 
     @Override
+    public String validate(DataModel data) {
+
+        return "";
+    }
+
+    @Override
     public Punkt_kontrolny parseToModel() {
         return null;
     }
