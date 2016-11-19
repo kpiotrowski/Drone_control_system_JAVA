@@ -4,6 +4,8 @@ import dataModels.DataModel;
 import dataModels.Punkt_kontrolny;
 import databaseController.MySQLController;
 
+import java.sql.ResultSet;
+
 /**
  * Created by no-one on 18.11.16.
  */
@@ -35,7 +37,7 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
     }
 
     @Override
-    public Punkt_kontrolny parseToModel() {
+    public Punkt_kontrolny parseToModel(ResultSet res) {
         return null;
     }
 }

@@ -2,6 +2,7 @@ package service;
 
 import dataModels.DataModel;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -17,6 +18,6 @@ public interface ServiceInterface {
 
     public String validate(DataModel data);
 
-    public DataModel parseToModel();
+    public DataModel parseToModel(ResultSet res) throws SQLException;
 
 }

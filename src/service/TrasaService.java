@@ -4,6 +4,8 @@ import dataModels.DataModel;
 import dataModels.Trasa;
 import databaseController.MySQLController;
 
+import java.sql.ResultSet;
+
 /**
  * Created by no-one on 18.11.16.
  */
@@ -36,7 +38,7 @@ public class TrasaService extends Service implements ServiceInterface {
     }
 
     @Override
-    public Trasa parseToModel() {
+    public Trasa parseToModel(ResultSet res) {
         return null;
     }
 }

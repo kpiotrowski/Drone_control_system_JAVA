@@ -26,7 +26,7 @@ public final class CommonFunc {
 
     public static boolean comparePass(String pass, String hash) {
         pass = hashPass(pass);
-        if(pass==hash) return true;
+        if(pass.equals(hash)) return true;
         return false;
     }
 

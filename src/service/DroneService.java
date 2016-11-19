@@ -4,6 +4,8 @@ import dataModels.DataModel;
 import dataModels.Dron;
 import databaseController.MySQLController;
 
+import java.sql.ResultSet;
+
 /**
  * Created by no-one on 18.11.16.
  */
@@ -35,7 +37,7 @@ public class DroneService extends Service implements ServiceInterface{
     }
 
     @Override
-    public Dron parseToModel() {
+    public Dron parseToModel(ResultSet res) {
         return null;
     }
 }

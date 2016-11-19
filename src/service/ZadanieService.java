@@ -4,6 +4,8 @@ import dataModels.DataModel;
 import dataModels.Zadanie;
 import databaseController.MySQLController;
 
+import java.sql.ResultSet;
+
 /**
  * Created by no-one on 18.11.16.
  */
@@ -36,7 +38,7 @@ public class ZadanieService extends Service implements ServiceInterface{
     }
 
     @Override
-    public Zadanie parseToModel() {
+    public Zadanie parseToModel(ResultSet res) {
         return null;
     }
 }

@@ -1,6 +1,7 @@
 package main;
 
 import common.Consts;
+import dataModels.Uzytkownik;
 import databaseController.MySQLController;
 import gui.GUI;
 import gui.MainGUIController;
@@ -16,6 +17,8 @@ import java.sql.SQLException;
 import java.util.concurrent.Semaphore;
 
 public final class Main extends Application{
+
+    public static Uzytkownik authenticatedUser;
 
     public static GUI gui;
     public static UserService userService;

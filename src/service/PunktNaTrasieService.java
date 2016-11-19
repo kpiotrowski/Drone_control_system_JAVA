@@ -4,6 +4,8 @@ import dataModels.DataModel;
 import dataModels.Punkt_na_trasie;
 import databaseController.MySQLController;
 
+import java.sql.ResultSet;
+
 /**
  * Created by no-one on 18.11.16.
  */
@@ -36,7 +38,7 @@ public class PunktNaTrasieService extends Service implements ServiceInterface {
     }
 
     @Override
-    public Punkt_na_trasie parseToModel() {
+    public Punkt_na_trasie parseToModel(ResultSet res) {
         return null;
     }
 }

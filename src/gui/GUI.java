@@ -37,7 +37,6 @@ public class GUI {
 
         primaryStage.setTitle(Consts.mainTitle);
         primaryStage.setScene(this.primaryScene);
-        //primaryStage.show();
     }
 
     public void showRegForm(){
@@ -62,7 +61,6 @@ public class GUI {
 
     public void showMainStage() { if(this.primaryStage !=null) this.primaryStage.show(); }
     public void hideMainStage() { if(this.primaryStage != null) this.primaryStage.close(); }
-
 
     public Alert showDialog(String tit, String mes, String lmes, Alert.AlertType typ){
         Alert alert = new Alert(typ);
