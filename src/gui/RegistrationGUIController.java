@@ -70,9 +70,8 @@ public class RegistrationGUIController {
         uz.setNazwisko(CommonFunc.emptyNullStr(surname.getText()));
         uz.setLogin(CommonFunc.emptyNullStr(login.getText()));
         uz.setTelefon(CommonFunc.emptyNullStr(phone.getText()));
-        uz.setPoziom_uprawnien((long)0);
+        uz.setPoziom_uprawnien(0);
         uz.setHaslo(CommonFunc.hashPass(password.getText()));
-        System.out.print(birthdate.getText());
         if(birthdate.getText().length() > 0 )
             uz.setData_urodzenia(CommonFunc.parseDateToSQL(birthdate.getText()));
         else

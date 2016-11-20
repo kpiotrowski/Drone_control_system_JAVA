@@ -12,12 +12,19 @@ public interface ServiceInterface {
 
     public void insert(DataModel data) throws SQLException;
 
-    public void update(DataModel data);
+    public Error update(DataModel data);
 
     public void delete(DataModel data);
 
+    /*
+        Validate and return error String
+        empty string is returned if model is valid
+     */
     public String validate(DataModel data);
 
+    /*
+        Parse select result
+     */
     public DataModel parseToModel(ResultSet res) throws SQLException;
 
 }

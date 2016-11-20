@@ -74,7 +74,6 @@ public class LoginGUIController {
     private void actionAfterLogin(Uzytkownik auth){
         Main.gui.hideLogForm();
         Main.authenticatedUser = auth;
-        //TODO
-
+        Main.gui.mainCtrl.afterLogin();
     }
 }

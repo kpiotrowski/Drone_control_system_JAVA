@@ -21,11 +21,11 @@ public class GUI {
     private Scene loginScene;
     private Stage loginStage;
 
+    public MainGUIController mainCtrl;
+
     public GUI(){}
 
-    public GUI(Stage primaryStage) throws IOException {
-        this.primaryStage = primaryStage;
-
+    public void initialize(Stage primaryStage) throws IOException {
         Parent mainScene = FXMLLoader.load(getClass().getResource("main.fxml"));
         this.primaryScene = new Scene(mainScene);
 
@@ -34,6 +34,8 @@ public class GUI {
 
         Parent registrationScene = FXMLLoader.load(getClass().getResource("registration.fxml"));
         this.registrationScene = new Scene(registrationScene);
+
+        this.primaryStage = primaryStage;
 
         primaryStage.setTitle(Consts.mainTitle);
         primaryStage.setScene(this.primaryScene);
@@ -72,6 +74,10 @@ public class GUI {
         }
         alert.show();
         return alert;
+    }
+
+    public void setDatabaseStatus(String str, boolean ok){
+        this.mainCtrl.setDatabaseStatus(str, ok);
     }
 
 }

@@ -1,5 +1,10 @@
 package dataModels;
 
+import com.sun.istack.internal.NotNull;
+
+import javax.xml.ws.soap.Addressing;
+import java.lang.annotation.Target;
+
 public class Dron extends DataModel{
   private Long id;
   private String nazwa;
@@ -14,7 +19,7 @@ public class Dron extends DataModel{
   private Double wspz;
   private Long stan;
   private Long punkt_kontrolny_id;
-
+  
   public Long getId() {
     return id;
   }

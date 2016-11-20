@@ -16,17 +16,181 @@
           </children>
         </Pane>
       </bottom>
+      <center>
+        <TabPane fx:id="mainTabPane" disable="false" focusTraversable="true" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" visible="true">
+          <tabs>
+            <Tab text="Profile">
+              <content>
+                <fx:include fx:id="profile" source="profile.fxml" />
+              </content>
+            </Tab>
+            <Tab text="Routes">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+            <Tab text="Jobs">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+            <Tab disable="false" text="Drones">
+              <content>
+                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                  <center>
+                    <TableView prefHeight="785.0" prefWidth="821.0">
+                      <columns>
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="56.0" text="ID" />
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="106.0" text="name" />
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="67.0" text="weight" />
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="51.0" text="rotors" />
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="96.0" text="max speed" />
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="120.0" text="max flight time" />
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="63.0" text="battery" />
+                        <TableColumn prefWidth="75.0" text="state" />
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="58.0" text="wspX" />
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="60.0" text="wspY" />
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="60.0" text="wspZ" />
+                      </columns>
+                    </TableView>
+                  </center>
+                  <left>
+                    <TabPane prefHeight="785.0" prefWidth="363.0" tabClosingPolicy="UNAVAILABLE">
+                      <tabs>
+                        <Tab text="Find">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                        <Tab text="Create">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                        <Tab text="Edit">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                      </tabs>
+                    </TabPane>
+                  </left>
+                </BorderPane>
+              </content>
+            </Tab>
+            <Tab disable="false" text="Drone Points">
+              <content>
+                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                  <center>
+                    <TableView prefHeight="420.0" prefWidth="-1.0" style="">
+                      <columns>
+                        <TableColumn prefWidth="75.0" text="ID" />
+                        <TableColumn prefWidth="75.0" text="koorX" />
+                        <TableColumn prefWidth="75.0" text="koorY" />
+                        <TableColumn prefWidth="75.0" text="koorZ" />
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="113.0" text="max drones" />
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="113.0" text="drones now" />
+                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="311.0" text="description" />
+                      </columns>
+                    </TableView>
+                  </center>
+                  <left>
+                    <TabPane prefHeight="785.0" prefWidth="355.0000999999975" tabClosingPolicy="UNAVAILABLE">
+                      <tabs>
+                        <Tab text="Find / Create">
+                          <content>
+                            <SplitPane dividerPositions="0.499330655957162" focusTraversable="true" orientation="VERTICAL" prefHeight="785.0" prefWidth="413.0" visible="false">
+                              <items>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="352.0" prefWidth="354.0">
+                                  <children>
+                                    <Label layoutX="163.0" layoutY="66.0" text="FIND" />
+                                    <Label layoutX="32.0" layoutY="106.0" text="name" />
+                                    <TextField layoutX="125.0" layoutY="103.0" prefWidth="200.0" />
+                                    <TextField layoutX="125.0" layoutY="138.0" prefWidth="82.0" />
+                                    <Label layoutX="32.0" layoutY="141.0" text="koor X" />
+                                    <Label layoutX="32.0" layoutY="175.0" text="koor Y" />
+                                    <Label layoutX="32.0" layoutY="209.0" text="koor Z" />
+                                    <Label layoutX="32.0" layoutY="242.0" text="free places" />
+                                    <TextField layoutX="125.0" layoutY="239.0" prefWidth="200.0" />
+                                    <TextField layoutX="125.0" layoutY="172.0" prefWidth="82.0" />
+                                    <TextField layoutX="243.0" layoutY="138.0" prefWidth="82.0" />
+                                    <TextField layoutX="243.0" layoutY="172.0" prefWidth="82.0" />
+                                    <TextField layoutX="125.0" layoutY="203.0" prefWidth="82.0" />
+                                    <TextField layoutX="243.0" layoutY="203.0" prefWidth="82.0" />
+                                    <Label layoutX="216.0" layoutY="141.0" text="TO" />
+                                    <Label layoutX="216.0" layoutY="175.0" text="TO" />
+                                    <Label layoutX="216.0" layoutY="206.0" text="TO" />
+                                    <Button layoutX="144.0" layoutY="278.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="60.0" text="FIND" />
+                                    <Label layoutY="25.0" prefWidth="295.0" text="" AnchorPane.leftAnchor="32.0" />
+                                  </children>
+                                </AnchorPane>
+                                <Pane prefHeight="401.0" prefWidth="354.0">
+                                  <children>
+                                    <Label layoutX="82.0" layoutY="65.0" text="ADD NEW DRONE POINT" />
+                                    <Label layoutX="25.0" layoutY="136.0" text="description" />
+                                    <Label layoutX="23.0" layoutY="11.0" prefHeight="32.1328125" prefWidth="309.0" text="" />
+                                    <TextArea layoutX="136.0" layoutY="117.0" prefHeight="53.0" prefWidth="200.0" wrapText="true" />
+                                    <Label layoutX="23.0" layoutY="184.0" text="koor X" />
+                                    <Label layoutX="25.0" layoutY="218.0" text="koor Y" />
+                                    <Label layoutX="23.0" layoutY="249.0" text="koor Z" />
+                                    <Label layoutX="23.0" layoutY="283.0" text="max drones" />
+                                    <TextField layoutX="136.0" layoutY="181.0" prefWidth="200.0" />
+                                    <TextField layoutX="136.0" layoutY="215.0" prefWidth="200.0" />
+                                    <TextField layoutX="136.0" layoutY="246.0" prefWidth="200.0" />
+                                    <TextField layoutX="136.0" layoutY="280.0" prefWidth="200.0" />
+                                    <Button layoutX="125.0" layoutY="331.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.00009999999747" text="ADD" />
+                                  </children>
+                                </Pane>
+                              </items>
+                            </SplitPane>
+                          </content>
+                        </Tab>
+                        <Tab text="Edit">
+                          <content>
+                            <Pane prefHeight="200.0" prefWidth="200.0">
+                              <children>
+                                <Label layoutX="24.0" layoutY="111.0" text="name" />
+                                <Label layoutX="24.0" layoutY="144.0" text="koor X" />
+                                <Label layoutX="24.0" layoutY="176.0" text="koor Y" />
+                                <Label layoutX="24.0" layoutY="207.0" text="koor Z" />
+                                <Label layoutX="24.0" layoutY="241.0" text="max drones" />
+                                <Label layoutX="24.0" layoutY="274.0" text="drones now" />
+                                <Label layoutX="24.0" layoutY="76.0" text="ID" />
+                                <Button layoutX="144.0" layoutY="330.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="75.0" text="SAVE" />
+                                <Label layoutX="20.0" layoutY="31.0" prefHeight="26.0" prefWidth="311.0" text="" textFill="#cc0000" />
+                                <TextField layoutX="131.0" layoutY="76.0" prefWidth="200.0" />
+                                <TextField layoutX="131.0" layoutY="108.0" prefWidth="200.0" />
+                                <TextField layoutX="131.0" layoutY="141.0" prefWidth="200.0" />
+                                <TextField layoutX="131.0" layoutY="173.0" prefWidth="200.0" />
+                                <TextField layoutX="131.0" layoutY="204.0" prefWidth="200.0" />
+                                <TextField layoutX="131.0" layoutY="238.0" prefWidth="200.0" />
+                                <TextField layoutX="131.0" layoutY="271.0" prefWidth="200.0" />
+                              </children>
+                            </Pane>
+                          </content>
+                        </Tab>
+                      </tabs>
+                    </TabPane>
+                  </left>
+                </BorderPane>
+              </content>
+            </Tab>
+          </tabs>
+        </TabPane>
+      </center>
       <top>
         <Pane prefHeight="53.0" prefWidth="1200.0" style="-fx-background-color:#444444;">
           <children>
-            <Button id="r" fx:id="registerButton" layoutX="23.0" layoutY="13.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.00009999999747" text="Register" />
+            <Button fx:id="registerButton" layoutX="23.0" layoutY="13.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.00009999999747" text="Register" />
             <Button fx:id="loginButton" layoutX="132.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.0" text="Login" />
-            <Button fx:id="logoutButton" layoutX="1071.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="104.0" text="Logout" visible="false" />
-            <Label fx:id="usernameLabel" alignment="CENTER_RIGHT" layoutX="864.0" layoutY="13.0" prefHeight="26.0" prefWidth="191.0" text="username" textAlignment="JUSTIFY" textFill="WHITE" visible="false">
+            <Button fx:id="logoutButton" layoutX="1071.0" layoutY="13.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="104.0" text="Logout" visible="false" />
+            <Label fx:id="usernameLabel" alignment="CENTER_RIGHT" layoutX="858.0" layoutY="12.0" prefHeight="26.0" prefWidth="191.0" text="username" textAlignment="JUSTIFY" textFill="WHITE" visible="false">
               <font>
                 <Font size="15.0" />
               </font>
             </Label>
+            <Label fx:id="databaseLabel" layoutX="250.0" layoutY="19.0" prefWidth="478.0" text="" textFill="#99daff" />
+            <Button fx:id="reload" layoutX="23.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.00009155273438" text="Reload" visible="false" />
           </children>
         </Pane>
       </top>

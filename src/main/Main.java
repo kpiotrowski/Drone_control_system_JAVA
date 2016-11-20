@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.concurrent.Semaphore;
 
-public final class Main extends Application{
+public class Main extends Application{
 
     public static Uzytkownik authenticatedUser;
 
@@ -31,7 +31,9 @@ public final class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        gui = new GUI(primaryStage);
+        gui = new GUI();
+        gui.initialize(primaryStage);
+
         Alert info = gui.showDialog("database connect", "Connecting to database", "", Alert.AlertType.INFORMATION);
         info.getDialogPane().lookupButton(ButtonType.OK).setVisible(false);
 
@@ -43,8 +45,10 @@ public final class Main extends Application{
         };
         t.setOnSucceeded(e -> {
             MySQLController con = (MySQLController) t.getValue();
+            gui.setDatabaseStatus("Połączno z bazą danych",true);
             gui.showMainStage();
             info.close();
+            con.pinger();
 
             userService = new UserService(con);
             droneService = new DroneService(con);

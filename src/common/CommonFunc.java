@@ -1,10 +1,16 @@
 package common;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
+
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
+
 
 /**
  * Created by no-one on 19.11.16.
@@ -16,8 +22,8 @@ public final class CommonFunc {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             messageDigest.update(pass.getBytes());
-            String encryptedString = new String(messageDigest.digest());
-            return encryptedString;
+            byte[] hash = messageDigest.digest(pass.getBytes(StandardCharsets.UTF_8));
+            return new String(HexBin.encode(hash));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return "";
@@ -35,6 +41,11 @@ public final class CommonFunc {
         Date parsed = format.parse(date);
         java.sql.Date sql = new java.sql.Date(parsed.getTime());
         return sql;
+    }
+
+    public static String sqlDateToString(java.sql.Date date){
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        return df.format(date);
     }
 
     public static String emptyNullStr(String str){

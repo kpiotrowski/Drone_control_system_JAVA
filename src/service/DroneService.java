@@ -21,8 +21,9 @@ public class DroneService extends Service implements ServiceInterface{
     }
 
     @Override
-    public void update(DataModel data) {
+    public Error update(DataModel data) {
 
+        return null;
     }
 
     @Override
