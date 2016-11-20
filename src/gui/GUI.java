@@ -1,6 +1,7 @@
 package gui;
 
 import common.Consts;
+import gui.base.MainGUIController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,13 +27,13 @@ public class GUI {
     public GUI(){}
 
     public void initialize(Stage primaryStage) throws IOException {
-        Parent mainScene = FXMLLoader.load(getClass().getResource("main.fxml"));
+        Parent mainScene = FXMLLoader.load(getClass().getResource("base/main.fxml"));
         this.primaryScene = new Scene(mainScene);
 
-        Parent loginScene = FXMLLoader.load(getClass().getResource("login.fxml"));
+        Parent loginScene = FXMLLoader.load(getClass().getResource("login/login.fxml"));
         this.loginScene = new Scene(loginScene);
 
-        Parent registrationScene = FXMLLoader.load(getClass().getResource("registration.fxml"));
+        Parent registrationScene = FXMLLoader.load(getClass().getResource("registration/registration.fxml"));
         this.registrationScene = new Scene(registrationScene);
 
         this.primaryStage = primaryStage;
@@ -69,9 +70,7 @@ public class GUI {
         alert.setTitle(tit);
         alert.setHeaderText(mes);
         alert.setResizable(true);
-        if(lmes!=""){
-            alert.setContentText(lmes);
-        }
+        if(lmes!="") alert.setContentText(lmes);
         alert.show();
         return alert;
     }

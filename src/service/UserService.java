@@ -17,33 +17,38 @@ public class UserService extends Service implements ServiceInterface{
 
     private final String table = "Uzytkownik";
     private final String insertStr="imie,nazwisko,data_urodzenia,login,telefon,haslo,poziom_uprawnien";
-    private final String selectStr="id,imie,nazwisko,data_urodzenia,login,telefon,haslo,poziom_uprawnien";
+    private final String selectStr="id,"+insertStr;
     private final String updateStr="imie=?,nazwisko=?,data_urodzenia=?,telefon=?";
 
     public UserService(MySQLController con){
         super(con);
-
     }
 
     @Override
-    public void insert(DataModel data) throws SQLException {
+    public Error insert(DataModel data) {
         Uzytkownik uz = (Uzytkownik) data;
         StringBuilder builder = new StringBuilder();
         builder.append("INSERT INTO "+ this.table +"(");
         builder.append(insertStr);
         builder.append(") VALUES(?,?,?,?,?,?,?)");
 
-        PreparedStatement pstmt = mysql.con.prepareStatement(builder.toString());
-        pstmt.setString(1, uz.getImie());
-        pstmt.setString(2, uz.getNazwisko());
-        pstmt.setDate(3, uz.getData_urodzenia());
-        pstmt.setString(4,uz.getLogin());
-        pstmt.setString(5, uz.getTelefon());
-        pstmt.setString(6,uz.getHaslo());
-        pstmt.setLong(7, uz.getPoziom_uprawnien());
-        pstmt.executeUpdate();
-        mysql.con.commit();
-        pstmt.close();
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = mysql.con.prepareStatement(builder.toString());
+            pstmt.setString(1, uz.getImie());
+            pstmt.setString(2, uz.getNazwisko());
+            pstmt.setDate(3, uz.getData_urodzenia());
+            pstmt.setString(4,uz.getLogin());
+            pstmt.setString(5, uz.getTelefon());
+            pstmt.setString(6,uz.getHaslo());
+            pstmt.setLong(7, uz.getPoziom_uprawnien());
+            pstmt.executeUpdate();
+            mysql.con.commit();
+            pstmt.close();
+            return null;
+        } catch (SQLException e) {
+            return new Error(e.toString());
+        }
     }
 
     @Override
@@ -60,22 +65,6 @@ public class UserService extends Service implements ServiceInterface{
             pstmt.executeUpdate();
             mysql.con.commit();
             Main.authenticatedUser = uz;
-        } catch (SQLException e) {
-            return new Error(e.toString());
-        }
-        return null;
-    }
-
-    public Error changePassword(String newPass) {
-        String newPassword = CommonFunc.hashPass(newPass);
-
-        String sql = "UPDATE "+this.table+" SET haslo=? WHERE id=?";
-        try ( PreparedStatement pstmt = mysql.con.prepareStatement(sql);){
-            pstmt.setString(1, newPassword);
-            pstmt.setInt(2, Main.authenticatedUser.getId());
-            pstmt.executeUpdate();
-            mysql.con.commit();
-            Main.authenticatedUser.setHaslo(newPassword);
         } catch (SQLException e) {
             return new Error(e.toString());
         }
@@ -112,6 +101,22 @@ public class UserService extends Service implements ServiceInterface{
             return uz;
         }
         res.close();
+        return null;
+    }
+
+    public Error changePassword(String newPass) {
+        String newPassword = CommonFunc.hashPass(newPass);
+
+        String sql = "UPDATE "+this.table+" SET haslo=? WHERE id=?";
+        try ( PreparedStatement pstmt = mysql.con.prepareStatement(sql);){
+            pstmt.setString(1, newPassword);
+            pstmt.setInt(2, Main.authenticatedUser.getId());
+            pstmt.executeUpdate();
+            mysql.con.commit();
+            Main.authenticatedUser.setHaslo(newPassword);
+        } catch (SQLException e) {
+            return new Error(e.toString());
+        }
         return null;
     }
 

@@ -10,20 +10,38 @@ import java.sql.SQLException;
  */
 public interface ServiceInterface {
 
-    public void insert(DataModel data) throws SQLException;
+    /**
+     *
+     * @param data Data model to insert
+     * @return Error if inserting failed
+     */
+    public Error insert(DataModel data);
 
+    /**
+     *
+     * @param data Datamodel to update
+     * @return Error when updating failed
+     */
     public Error update(DataModel data);
 
+    /**
+     *
+     * @param data Data model to delete
+     */
     public void delete(DataModel data);
 
-    /*
-        Validate and return error String
-        empty string is returned if model is valid
+    /**
+     *
+     * @param data Datamodel to validation
+     * @return empty string if valid
      */
     public String validate(DataModel data);
 
-    /*
-        Parse select result
+    /**
+     *
+     * @param res ResultSet with SQL results
+     * @return Parsed datamodel
+     * @throws SQLException Exception if getting data from resultSet failed
      */
     public DataModel parseToModel(ResultSet res) throws SQLException;
 

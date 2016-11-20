@@ -4,7 +4,6 @@ import common.Consts;
 import dataModels.Uzytkownik;
 import databaseController.MySQLController;
 import gui.GUI;
-import gui.MainGUIController;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
@@ -14,7 +13,6 @@ import service.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.concurrent.Semaphore;
 
 public class Main extends Application{
 

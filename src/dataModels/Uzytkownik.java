@@ -32,9 +32,7 @@ public class Uzytkownik extends DataModel{
     this.nazwisko = nazwisko;
   }
 
-  public java.sql.Date getData_urodzenia() {
-    return data_urodzenia;
-  }
+  public java.sql.Date getData_urodzenia() { return data_urodzenia; }
 
   public void setData_urodzenia(java.sql.Date data_urodzenia) {
     this.data_urodzenia = data_urodzenia;

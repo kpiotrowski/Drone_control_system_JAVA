@@ -1,30 +1,21 @@
-package gui;
+package gui.base;
 
-import common.Consts;
-import dataModels.Uzytkownik;
-import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
+import gui.base.points.PointsController;
+import gui.base.profile.ProfileController;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 import main.Controller;
 import main.Main;
-
-import java.io.IOException;
 
 /**
  * Created by no-one on 17.11.16.
  */
 public class MainGUIController extends Controller {
 
-    public Button reload;
-    public Tab usersId;
+    @FXML
+    private Button reload;
     @FXML
     private TabPane mainTabPane;
     @FXML
@@ -41,6 +32,10 @@ public class MainGUIController extends Controller {
     private Parent profile;
     @FXML
     private ProfileController profileController;
+    @FXML
+    private Parent points;
+    @FXML
+    private PointsController pointsController;
 
     public MainGUIController(){}
 
@@ -58,22 +53,26 @@ public class MainGUIController extends Controller {
         this.registerButton.setVisible(false);
         this.loginButton.setVisible(false);
         this.logoutButton.setVisible(true);
-        reloadTopInfo();
         this.usernameLabel.setVisible(true);
         this.mainTabPane.setVisible(true);
         this.reload.setVisible(true);
-        if(Main.authenticatedUser.getPoziom_uprawnien()>0) this.usersId.setDisable(false);
         this.profileController.profileTabUpdate();
+        this.reloadTopInfo();
+        this.reloadPermissions();
     }
 
     public void reloadTopInfo(){
         this.usernameLabel.setText(Main.authenticatedUser.getImie()+" "+Main.authenticatedUser.getNazwisko());
     }
 
-
     public void reload(){
         this.profileController.refresh();
         reloadTopInfo();
+        reloadPermissions();
+    }
+
+    private void reloadPermissions(){
+        this.pointsController.refreshPermissions(Main.authenticatedUser);
     }
 
     private void logout(){

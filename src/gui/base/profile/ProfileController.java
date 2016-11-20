@@ -1,4 +1,4 @@
-package gui;
+package gui.base.profile;
 
 import common.CommonFunc;
 import dataModels.Uzytkownik;
@@ -17,18 +17,19 @@ import java.text.ParseException;
  */
 public class ProfileController {
 
-    public TextField currentPas;
-    public TextField profileId;
-    public TextField profileName;
-    public TextField profileSurname;
-    public TextField profileLogin;
-    public TextField profilePhone;
-    public TextField profilePermis;
-    public TextField profileDate;
-    public Button changePassButton;
-    public Button updateProfileButton;
-    public Label profileErrorLabel;
-    public TextField newPass;
+
+    @FXML private TextField currentPas;
+    @FXML private TextField profileId;
+    @FXML private TextField profileName;
+    @FXML private TextField profileSurname;
+    @FXML private TextField profileLogin;
+    @FXML private TextField profilePhone;
+    @FXML private TextField profilePermis;
+    @FXML private TextField profileDate;
+    @FXML private Button changePassButton;
+    @FXML private Button updateProfileButton;
+    @FXML private Label profileErrorLabel;
+    @FXML private TextField newPass;
 
     public void ProfileController(){}
 
@@ -39,7 +40,7 @@ public class ProfileController {
 
     }
 
-    protected void profileTabUpdate(){
+    public void profileTabUpdate(){
         if(Main.authenticatedUser==null) return;
         this.profileId.setText(String.valueOf(Main.authenticatedUser.getId()));
         this.profileName.setText(Main.authenticatedUser.getImie());

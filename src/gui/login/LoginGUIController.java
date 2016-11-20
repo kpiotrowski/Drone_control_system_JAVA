@@ -1,4 +1,4 @@
-package gui;
+package gui.login;
 
 import common.Consts;
 import dataModels.Uzytkownik;

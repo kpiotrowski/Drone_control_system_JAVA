@@ -35,6 +35,9 @@ public class MySQLController {
         this.valid = true;
     }
 
+    /**
+     * dnawia połączenie z bazą danych
+     */
     private void refresh(){
         Task t = new Task() {
             @Override
@@ -58,6 +61,9 @@ public class MySQLController {
         new Thread(t).start();
     }
 
+    /**
+     * PInguje bazę banych, w razie błędu połączenia stara się je odnowić
+     */
     public void pinger(){
         Task t = new Task(){
             @Override

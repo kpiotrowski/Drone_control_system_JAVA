@@ -1,4 +1,4 @@
-package gui;
+package gui.registration;
 
 import common.CommonFunc;
 import dataModels.Uzytkownik;
@@ -49,11 +49,11 @@ public class RegistrationGUIController {
                     return;
                 }
                 Main.gui.hideRegForm();
-                try {
-                    Main.userService.insert(uz);
+                Error e = Main.userService.insert(uz);
+                if(e==null) {
                     Main.gui.showDialog("sukces", "Pomyslnie zarejestrowano użytkownika.", "", Alert.AlertType.INFORMATION);
                     clearForm();
-                } catch (SQLException e) {
+                } else {
                     Main.gui.showDialog("error", "Wystąpił błąd podczas rejestracji", e.toString(), Alert.AlertType.ERROR);
                 }
             } catch (ParseException e) {

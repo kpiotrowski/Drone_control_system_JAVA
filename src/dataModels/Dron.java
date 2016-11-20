@@ -19,7 +19,7 @@ public class Dron extends DataModel{
   private Double wspz;
   private Long stan;
   private Long punkt_kontrolny_id;
-  
+
   public Long getId() {
     return id;
   }
