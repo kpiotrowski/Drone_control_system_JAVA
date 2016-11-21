@@ -2,6 +2,7 @@ package gui.base.profile;
 
 import common.CommonFunc;
 import dataModels.Uzytkownik;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -18,6 +19,7 @@ import java.text.ParseException;
 public class ProfileController {
 
 
+    @FXML private Label passwordErrorLabel;
     @FXML private TextField currentPas;
     @FXML private TextField profileId;
     @FXML private TextField profileName;
@@ -52,25 +54,34 @@ public class ProfileController {
     }
 
     protected void changePassword(){
-        this.profileErrorLabel.setText("");
+        this.passwordErrorLabel.setText("");
         String curP = this.currentPas.getText();
         String newP = this.newPass.getText();
+        this.currentPas.setText("");
+        this.newPass.setText("");
         if(curP.length()==0) {
-            setProfileError("Nie podano obecnego hasła"); return;
+            setProfileError("Nie podano obecnego hasła",1); return;
         }
         if(newP.length()==0) {
-            setProfileError("Nie podano nowego hasła"); return;
+            setProfileError("Nie podano nowego hasła",1); return;
         }
         if(!CommonFunc.comparePass(curP, Main.authenticatedUser.getHaslo())) {
-            setProfileError("Wprowadzone hasło jest nieprawidłowe");
+            setProfileError("Wprowadzone hasło jest nieprawidłowe",1);
             return;
         }
-
-        Error e = Main.userService.changePassword(newP);
-        if(e != null)
-            Main.gui.showDialog("error",e.toString(), "", Alert.AlertType.ERROR);
-        else
-            Main.gui.showDialog("success","Pomyslnie zmieniono hasło", "", Alert.AlertType.INFORMATION);
+        Task t = new Task() {
+            protected Error call() throws Exception {
+                return Main.userService.changePassword(newP);
+            }
+        };
+        t.setOnSucceeded(event -> {
+            Error e = (Error) t.getValue();
+            if(e != null)
+                Main.gui.showDialog("error",e.toString(), "", Alert.AlertType.ERROR);
+            else
+                Main.gui.showDialog("success","Pomyslnie zmieniono hasło", "", Alert.AlertType.INFORMATION);
+        });
+        new Thread(t).start();
     }
 
     public void refresh(){
@@ -89,24 +100,30 @@ public class ProfileController {
             Uzytkownik uz = parseUpdateForm();
             String valid = Main.userService.validate(uz);
             if(valid.length()>0){
-                profileErrorLabel.setText(valid);
+                setProfileError(valid,0);
                 return;
             }
-            Error e = Main.userService.update(uz);
-            if(e != null)
-                Main.gui.showDialog("error",e.toString(), "", Alert.AlertType.ERROR);
-            else {
-                Main.gui.showDialog("success", "Pomyslnie zaktualizowano dane", "", Alert.AlertType.INFORMATION);
-                profileTabUpdate();
-                Main.gui.mainCtrl.reloadTopInfo();
-            }
+            Task t = new Task() {
+                protected Error call() { return Main.userService.update(uz); }
+            };
+            t.setOnSucceeded(event -> {
+                Error e = (Error) t.getValue();
+                if(e != null) Main.gui.showDialog("error",e.toString(), "", Alert.AlertType.ERROR);
+                else {
+                    Main.gui.showDialog("success", "Pomyslnie zaktualizowano dane", "", Alert.AlertType.INFORMATION);
+                    profileTabUpdate();
+                    Main.gui.mainCtrl.reloadTopInfo();
+                }
+            });
+            new Thread(t).start();
         } catch (ParseException e) {
-            profileErrorLabel.setText("Niepoprawny format daty! (poprawny:dd-MM-yyyy)");
+            setProfileError("Niepoprawny format daty! (poprawny:dd-MM-yyyy)",0);
         }
     }
 
-    protected void setProfileError(String err){
-        this.profileErrorLabel.setText(err);
+    protected void setProfileError(String err, int error){
+        if(error == 0 ) this.profileErrorLabel.setText(err);
+        else this.passwordErrorLabel.setText(err);
     }
 
     @FXML

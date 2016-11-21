@@ -45,6 +45,7 @@ public final class CommonFunc {
 
     public static String sqlDateToString(java.sql.Date date){
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        if(date == null) return "";
         return df.format(date);
     }
 

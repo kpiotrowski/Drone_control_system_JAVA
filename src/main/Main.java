@@ -11,8 +11,11 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import service.*;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class Main extends Application{
 
@@ -37,8 +40,14 @@ public class Main extends Application{
 
         Task t = new Task(){
             @Override
-            protected MySQLController call() throws SQLException {
-                return new MySQLController(Consts.dbUser, Consts.dbPass, Consts.dbHost, Consts.dbPort);
+            protected MySQLController call() throws SQLException, IOException {
+                FileInputStream in = new FileInputStream("config.conf");
+                Properties conf = new Properties();
+                conf.load(in);
+                MySQLController my = new MySQLController(conf.getProperty("DATABASE_USER"),
+                        conf.getProperty("DATABASE_PASS"), conf.getProperty("DATABASE_HOST"), Consts.dbPort);
+                in.close();
+                return my;
             };
         };
         t.setOnSucceeded(e -> {
@@ -57,8 +66,11 @@ public class Main extends Application{
             trasaService = new TrasaService(con);
         });
         t.setOnFailed(e -> {
+            if(t.getException() instanceof SQLException)
+                gui.showDialog("database error", "Error when connecting to database", t.getException().toString() ,Alert.AlertType.ERROR);
+            else
+                gui.showDialog("database error", "Incorrect config file", "" ,Alert.AlertType.ERROR);
             info.close();
-            Alert error = gui.showDialog("database error", "Error when connecting to database", t.getException().toString() ,Alert.AlertType.ERROR);
         });
         new Thread(t).start();
     }

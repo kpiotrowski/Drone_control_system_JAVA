@@ -77,11 +77,11 @@ public class UserService extends Service implements ServiceInterface{
     @Override
     public String validate(DataModel data) {
         Uzytkownik uz = (Uzytkownik) data;
-        if(uz.getImie().length()==0) return "Imie jest wymagane";
-        if(uz.getNazwisko().length()==0) return "Nazwisko jest wymagane";
-        if(uz.getLogin().length()==0) return "Login jest wymagany";
-        if(uz.getHaslo().length()==0) return "Haslo jest wymagane";
-        if(uz.getPoziom_uprawnien()==null) return "Błędny poziom uprawnień";
+        if(uz.getImie() == null || uz.getImie().length()==0) return "Imie jest wymagane";
+        if(uz.getNazwisko() == null || uz.getNazwisko().length()==0) return "Nazwisko jest wymagane";
+        if(uz.getLogin() == null || uz.getLogin().length()==0) return "Login jest wymagany";
+        if(uz.getHaslo()==null || uz.getHaslo().length()==0) return "Haslo jest wymagane";
+        if(uz.getPoziom_uprawnien() == null || uz.getPoziom_uprawnien()==null) return "Błędny poziom uprawnień";
         return "";
     }
 

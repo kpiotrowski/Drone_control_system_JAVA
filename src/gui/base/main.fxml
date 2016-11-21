@@ -17,7 +17,7 @@
         </Pane>
       </bottom>
       <center>
-        <TabPane fx:id="mainTabPane" disable="false" focusTraversable="true" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" visible="true">
+        <TabPane fx:id="mainTabPane" disable="false" focusTraversable="true" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" visible="false">
           <tabs>
             <Tab text="Profile">
               <content>
@@ -80,7 +80,7 @@
             </Tab>
             <Tab disable="false" text="Drone Points">
               <content>
-                <fx:include source="points/points.fxml" fx:id="points"></fx:include>
+                <fx:include fx:id="points" source="points/points.fxml" />
               </content>
             </Tab>
           </tabs>

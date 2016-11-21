@@ -50,6 +50,12 @@ public class MySQLController {
         };
         t.setOnSucceeded( (e) -> {
             this.con = (Connection) t.getValue();
+            try {
+                this.con.setAutoCommit(false);
+                this.con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            } catch (SQLException e1) {
+                refresh();
+            }
             pinger();
         });
         t.setOnFailed( (e) -> {
