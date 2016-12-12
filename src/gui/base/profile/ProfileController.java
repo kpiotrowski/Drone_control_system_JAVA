@@ -98,9 +98,9 @@ public class ProfileController {
         profileErrorLabel.setText("");
         try {
             Uzytkownik uz = parseUpdateForm();
-            String valid = Main.userService.validate(uz);
-            if(valid.length()>0){
-                setProfileError(valid,0);
+            Error valid = Main.userService.validate(uz);
+            if(valid!=null){
+                setProfileError(valid.toString(),0);
                 return;
             }
             Task t = new Task() {

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="764.0" prefWidth="1252.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="gui.base.drone.DroneController">
+  <center>
+    <TableView fx:id="tableView" prefHeight="785.0" prefWidth="821.0">
+      <columnResizePolicy>
+        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+      </columnResizePolicy>
+      <columns>
+        <TableColumn fx:id="tabDroneId" maxWidth="5000.0" minWidth="10.0" prefWidth="56.0" text="ID" />
+        <TableColumn fx:id="tabDroneName" maxWidth="5000.0" minWidth="10.0" prefWidth="106.0" text="name" />
+        <TableColumn fx:id="tabDroneWeight" maxWidth="5000.0" minWidth="10.0" prefWidth="67.0" text="weight" />
+        <TableColumn fx:id="tabDroneRotors" maxWidth="5000.0" minWidth="10.0" prefWidth="51.0" text="rotors" />
+        <TableColumn fx:id="tabDroneSpeed" maxWidth="5000.0" minWidth="10.0" prefWidth="96.0" text="max speed" />
+        <TableColumn fx:id="tabDroneFlightTime" maxWidth="5000.0" minWidth="10.0" prefWidth="120.0" text="max flight time" />
+        <TableColumn fx:id="tabDroneBattery" maxWidth="5000.0" minWidth="10.0" prefWidth="63.0" text="battery" />
+        <TableColumn fx:id="tabDroneState" prefWidth="75.0" text="state" />
+        <TableColumn fx:id="tabDroneKoorX" maxWidth="5000.0" minWidth="10.0" prefWidth="58.0" text="wspX" />
+        <TableColumn fx:id="tabDroneKoorY" maxWidth="5000.0" minWidth="10.0" prefWidth="60.0" text="wspY" />
+        <TableColumn fx:id="tabDroneKoorZ" maxWidth="5000.0" minWidth="10.0" prefWidth="60.0" text="wspZ" />
+        <TableColumn fx:id="tabDronePointId" prefWidth="75.0" text="Point id" />
+      </columns>
+    </TableView>
+  </center>
+  <left>
+    <TabPane fx:id="tabPane" prefHeight="785.0" prefWidth="363.0" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab text="Find">
+          <content>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+              <children>
+                <Label id="droneCreateError" fx:id="droneFindError" layoutX="27.0" layoutY="28.0" prefHeight="32.1328125" prefWidth="309.0" text="" />
+                <TextField layoutX="249.0" layoutY="164.0" prefWidth="82.0" />
+                <TextField layoutX="131.0" layoutY="198.0" prefWidth="82.0" />
+                <TextField layoutX="249.0" layoutY="198.0" prefWidth="82.0" />
+                <TextField layoutX="131.0" layoutY="229.0" prefWidth="82.0" />
+                <TextField layoutX="249.0" layoutY="229.0" prefWidth="82.0" />
+                <Label layoutX="22.0" layoutY="235.0" text="koor Z" />
+                <Label layoutX="222.0" layoutY="167.0" text="TO" />
+                <Label layoutX="222.0" layoutY="201.0" text="TO" />
+                <Label layoutX="222.0" layoutY="232.0" text="TO" />
+                <Label layoutX="22.0" layoutY="201.0" text="koor Y" />
+                <Label layoutX="22.0" layoutY="167.0" text="koor X" />
+                <TextField layoutX="131.0" layoutY="164.0" prefWidth="82.0" />
+                <TextField layoutX="131.0" layoutY="129.0" prefWidth="200.0" />
+                <Label layoutX="169.0" layoutY="92.0" text="FIND" />
+                <Label layoutX="22.0" layoutY="132.0" text="name" />
+                <Label layoutX="23.0" layoutY="265.0" text="max flight time" />
+                <TextField layoutX="131.0" layoutY="262.0" prefWidth="120.0" />
+                <CheckBox layoutX="133.0" layoutY="353.0" mnemonicParsing="false" text="busy" />
+                <Label layoutX="23.0" layoutY="294.0" text="max speed" />
+                <TextField layoutX="131.0" layoutY="291.0" prefWidth="120.0" />
+                <TextField layoutX="132.0" layoutY="320.0" prefWidth="82.0" />
+                <TextField layoutX="250.0" layoutY="320.0" prefWidth="82.0" />
+                <Label layoutX="23.0" layoutY="326.0" text="weight" />
+                <Label layoutX="223.0" layoutY="323.0" text="TO" />
+                <Button fx:id="droneFindButton" layoutX="133.0" layoutY="392.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="60.0" text="FIND" />
+              </children>
+            </Pane>
+          </content>
+        </Tab>
+        <Tab fx:id="createTab" disable="true" text="Create">
+          <content>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+              <children>
+                <Label layoutX="108.0" layoutY="74.0" text="ADD NEW DRONE" />
+                <Label layoutX="29.0" layoutY="139.0" text="name" />
+                <Label fx:id="droneCreateError" layoutX="27.0" layoutY="21.0" prefHeight="32.1328125" prefWidth="309.0" text="" />
+                <Label layoutX="27.0" layoutY="176.0" text="weight" />
+                <Label layoutX="29.0" layoutY="210.0" text="rotors" />
+                <Label layoutX="27.0" layoutY="241.0" text="max speed" />
+                <Label layoutX="27.0" layoutY="275.0" text="max flight time" />
+                <TextField layoutX="140.0" layoutY="173.0" prefWidth="200.0" />
+                <TextField layoutX="140.0" layoutY="207.0" prefWidth="200.0" />
+                <TextField layoutX="140.0" layoutY="238.0" prefWidth="200.0" />
+                <TextField layoutX="140.0" layoutY="272.0" prefWidth="200.0" />
+                <TextField layoutX="140.0" layoutY="136.0" prefWidth="200.0" />
+                <Label layoutX="29.0" layoutY="311.0" text="opis" />
+                <TextArea layoutX="140.0" layoutY="311.0" prefHeight="64.0" prefWidth="200.0" wrapText="true" />
+                <Label layoutX="27.0" layoutY="397.0" text="start point" />
+                <ChoiceBox layoutX="140.0" layoutY="395.0" prefWidth="196.5">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ChoiceBox>
+                <Button fx:id="droneCreateButton" layoutX="129.0" layoutY="490.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.00009999999747" text="ADD" />
+              </children>
+            </Pane>
+          </content>
+        </Tab>
+        <Tab fx:id="tabEdit" disable="true" text="Edit">
+          <content>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+              <children>
+                <Label layoutX="140.0" layoutY="73.0" text="EDIT" />
+                <Label layoutX="28.0" layoutY="159.0" text="name" />
+                <Label fx:id="droneEditError" layoutX="27.0" layoutY="23.0" prefHeight="32.1328125" prefWidth="309.0" text="" />
+                <Label layoutX="29.0" layoutY="228.0" text="Description" />
+                <Label layoutX="26.0" layoutY="196.0" text="battery" />
+                <Label layoutX="30.0" layoutY="125.0" text="ID" />
+                <TextField fx:id="droneEditId" editable="false" layoutX="141.0" layoutY="122.0" prefWidth="200.0" />
+                <TextField fx:id="droneEditName" layoutX="139.0" layoutY="156.0" prefWidth="200.0" />
+                <TextField fx:id="droneEditBattery" editable="true" layoutX="139.0" layoutY="193.0" prefWidth="200.0" />
+                <TextArea fx:id="droneEditDesc" layoutX="140.0" layoutY="228.0" prefHeight="64.0" prefWidth="200.0" wrapText="true" />
+                <Button fx:id="droneEdiButton" layoutX="139.0" layoutY="320.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.00009999999747" text="SAVE" />
+                <Button fx:id="droneDeleteAction" layoutX="263.0" layoutY="320.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.00009999999747" text="DELETE" textFill="#cc0000" />
+              </children>
+            </Pane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </left>
+</BorderPane>

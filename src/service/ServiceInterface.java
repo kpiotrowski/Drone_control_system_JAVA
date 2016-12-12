@@ -4,6 +4,7 @@ import dataModels.DataModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by no-one on 18.11.16.
@@ -26,16 +27,16 @@ public interface ServiceInterface {
 
     /**
      *
-     * @param data Data model to delete
+     * @param id Data model to delete
      */
-    public void delete(DataModel data);
+    public Error delete(Integer id);
 
     /**
      *
      * @param data Datamodel to validation
      * @return empty string if valid
      */
-    public String validate(DataModel data);
+    public Error validate(DataModel data);
 
     /**
      *
@@ -43,6 +44,6 @@ public interface ServiceInterface {
      * @return Parsed datamodel
      * @throws SQLException Exception if getting data from resultSet failed
      */
-    public DataModel parseToModel(ResultSet res) throws SQLException;
+    public List<DataModel> parseToModel(ResultSet res) throws SQLException;
 
 }

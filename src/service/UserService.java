@@ -9,6 +9,8 @@ import main.Main;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by no-one on 18.11.16.
@@ -32,9 +34,7 @@ public class UserService extends Service implements ServiceInterface{
         builder.append(insertStr);
         builder.append(") VALUES(?,?,?,?,?,?,?)");
 
-        PreparedStatement pstmt = null;
-        try {
-            pstmt = mysql.con.prepareStatement(builder.toString());
+        try (PreparedStatement pstmt = mysql.getCon().prepareStatement(builder.toString());){
             pstmt.setString(1, uz.getImie());
             pstmt.setString(2, uz.getNazwisko());
             pstmt.setDate(3, uz.getData_urodzenia());
@@ -43,7 +43,7 @@ public class UserService extends Service implements ServiceInterface{
             pstmt.setString(6,uz.getHaslo());
             pstmt.setLong(7, uz.getPoziom_uprawnien());
             pstmt.executeUpdate();
-            mysql.con.commit();
+            mysql.getCon().commit();
             pstmt.close();
             return null;
         } catch (SQLException e) {
@@ -55,15 +55,15 @@ public class UserService extends Service implements ServiceInterface{
     public Error update(DataModel data) {
         Uzytkownik uz = (Uzytkownik) data;
 
-        String sql = "UPDATE " + this.table + " SET " + updateStr + " WHERE ID=?";
-        try (PreparedStatement pstmt = mysql.con.prepareStatement(sql);) {
+        String sql = String.format("UPDATE %s SET %s WHERE ID=?", this.table, updateStr);
+        try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
             pstmt.setString(1,uz.getImie());
             pstmt.setString(2,uz.getNazwisko());
             pstmt.setDate(3,uz.getData_urodzenia());
             pstmt.setString(4,uz.getTelefon());
             pstmt.setInt(5, Main.authenticatedUser.getId());
             pstmt.executeUpdate();
-            mysql.con.commit();
+            mysql.getCon().commit();
             Main.authenticatedUser = uz;
         } catch (SQLException e) {
             return new Error(e.toString());
@@ -72,22 +72,26 @@ public class UserService extends Service implements ServiceInterface{
     }
 
     @Override
-    public void delete(DataModel data) { System.out.println("Nawet o tym nie myśl");}
-
-    @Override
-    public String validate(DataModel data) {
-        Uzytkownik uz = (Uzytkownik) data;
-        if(uz.getImie() == null || uz.getImie().length()==0) return "Imie jest wymagane";
-        if(uz.getNazwisko() == null || uz.getNazwisko().length()==0) return "Nazwisko jest wymagane";
-        if(uz.getLogin() == null || uz.getLogin().length()==0) return "Login jest wymagany";
-        if(uz.getHaslo()==null || uz.getHaslo().length()==0) return "Haslo jest wymagane";
-        if(uz.getPoziom_uprawnien() == null || uz.getPoziom_uprawnien()==null) return "Błędny poziom uprawnień";
-        return "";
+    public Error delete(Integer id) {
+        return new Error("You can't delete user");
     }
 
     @Override
-    public Uzytkownik parseToModel(ResultSet res) throws SQLException {
+    public Error validate(DataModel data) {
+        Uzytkownik uz = (Uzytkownik) data;
+        if(uz.getImie() == null || uz.getImie().length()==0) return new Error("Imie jest wymagane");
+        if(uz.getNazwisko() == null || uz.getNazwisko().length()==0) return new Error("Nazwisko jest wymagane");
+        if(uz.getLogin() == null || uz.getLogin().length()==0) return new Error("Login jest wymagany");
+        if(uz.getHaslo()==null || uz.getHaslo().length()==0) return new Error("Haslo jest wymagane");
+        if(uz.getPoziom_uprawnien() == null || uz.getPoziom_uprawnien()==null) return new Error("Błędny poziom uprawnień");
+        return null;
+    }
+
+    @Override
+    public List<DataModel> parseToModel(ResultSet res) throws SQLException {
         Uzytkownik uz = new Uzytkownik();
+        ArrayList<DataModel> list = new ArrayList<>();
+
         if( res.next() ){
             uz.setId(res.getInt(1));
             uz.setImie(res.getString(2));
@@ -98,7 +102,8 @@ public class UserService extends Service implements ServiceInterface{
             uz.setHaslo(res.getString(7));
             uz.setPoziom_uprawnien(res.getInt(8));
             res.close();
-            return uz;
+            list.add(uz);
+            return list;
         }
         res.close();
         return null;
@@ -107,12 +112,12 @@ public class UserService extends Service implements ServiceInterface{
     public Error changePassword(String newPass) {
         String newPassword = CommonFunc.hashPass(newPass);
 
-        String sql = "UPDATE "+this.table+" SET haslo=? WHERE id=?";
-        try ( PreparedStatement pstmt = mysql.con.prepareStatement(sql);){
+        String sql = String.format("UPDATE %s SET haslo=? WHERE id=?", this.table);
+        try ( PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);){
             pstmt.setString(1, newPassword);
             pstmt.setInt(2, Main.authenticatedUser.getId());
             pstmt.executeUpdate();
-            mysql.con.commit();
+            mysql.getCon().commit();
             Main.authenticatedUser.setHaslo(newPassword);
         } catch (SQLException e) {
             return new Error(e.toString());
@@ -135,11 +140,11 @@ public class UserService extends Service implements ServiceInterface{
 
     private Uzytkownik getUser(String login) throws SQLException {
         StringBuilder builder = new StringBuilder();
-        builder.append("SELECT "+selectStr+" FROM "+ this.table +" WHERE login=?");
-        PreparedStatement pstmt = mysql.con.prepareStatement(builder.toString());
+        builder.append(String.format("SELECT %s FROM %s WHERE login=?", selectStr, this.table));
+        PreparedStatement pstmt = mysql.getCon().prepareStatement(builder.toString());
         pstmt.setString(1, login);
         ResultSet rs = pstmt.executeQuery();
-        Uzytkownik uz = parseToModel(rs);
+        Uzytkownik uz = (Uzytkownik) parseToModel(rs).get(0);
         pstmt.close();
         return uz;
     }

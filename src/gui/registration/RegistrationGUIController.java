@@ -42,9 +42,9 @@ public class RegistrationGUIController {
             errorLabel.setVisible(false);
             try {
                 Uzytkownik uz = parseForm();
-                String ifValid = Main.userService.validate(uz);
-                if(ifValid.length()>0){
-                    errorLabel.setText(ifValid);
+                Error ifValid = Main.userService.validate(uz);
+                if(ifValid!=null){
+                    errorLabel.setText(ifValid.toString());
                     errorLabel.setVisible(true);
                     return;
                 }

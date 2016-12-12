@@ -12,9 +12,9 @@ CREATE TABLE Dron
     max_predkosc FLOAT (4) NOT NULL ,
     max_czas_lotu FLOAT (2) NOT NULL,
     poziom_baterii FLOAT (4) NOT NULL ,
-    wspX FLOAT (10,10) ,
-    wspY FLOAT (10,10) ,
-    wspZ FLOAT (10,10) ,
+    wspX FLOAT (10,5) ,
+    wspY FLOAT (10,5) ,
+    wspZ FLOAT (10,5) ,
     stan               INTEGER NOT NULL ,
     Punkt_kontrolny_id INTEGER,
     PRIMARY KEY ( id )

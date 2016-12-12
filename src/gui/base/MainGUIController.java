@@ -1,5 +1,6 @@
 package gui.base;
 
+import gui.base.drone.DroneController;
 import gui.base.points.PointsController;
 import gui.base.profile.ProfileController;
 import javafx.fxml.FXML;
@@ -36,6 +37,8 @@ public class MainGUIController extends Controller {
     private Parent points;
     @FXML
     private PointsController pointsController;
+    @FXML
+    private DroneController droneController;
 
     public MainGUIController(){}
 
@@ -73,6 +76,7 @@ public class MainGUIController extends Controller {
 
     private void reloadPermissions(){
         this.pointsController.refreshPermissions(Main.authenticatedUser);
+        this.droneController.refreshPermissions(Main.authenticatedUser);
     }
 
     private void logout(){

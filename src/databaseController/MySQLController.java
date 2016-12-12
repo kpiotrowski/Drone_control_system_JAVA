@@ -15,10 +15,16 @@ import java.util.Properties;
  */
 public class MySQLController {
 
-    public Connection con;
+    private Connection con;
     public boolean valid = true;
     private String conUrl;
     private Properties props;
+
+    public Connection getCon() throws SQLException {
+        if (con!=null) return con;
+        else throw new SQLException("Nie można wykonać akcji, błąd połączenia z bazą danych");
+    }
+
 
     public MySQLController(String user, String password, String host, String port) throws SQLException {
         conUrl = "jdbc:mysql://"+host+":"+port+"/"+Consts.dbName;
@@ -53,16 +59,11 @@ public class MySQLController {
             try {
                 this.con.setAutoCommit(false);
                 this.con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            } catch (SQLException e1) {
-                refresh();
-            }
+            } catch (SQLException e1) {}
             pinger();
         });
         t.setOnFailed( (e) -> {
-            try {
-                Thread.sleep(5000);
-                refresh();
-            } catch (InterruptedException e1) { refresh(); }
+            pinger();
         });
         new Thread(t).start();
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
@@ -17,7 +18,7 @@
         </Pane>
       </bottom>
       <center>
-        <TabPane fx:id="mainTabPane" disable="false" focusTraversable="true" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" visible="false">
+        <TabPane fx:id="mainTabPane" disable="false" focusTraversable="true" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" visible="true">
           <tabs>
             <Tab text="Profile">
               <content>
@@ -26,7 +27,24 @@
             </Tab>
             <Tab text="Routes">
               <content>
-                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                  <left>
+                    <TabPane prefHeight="785.0" prefWidth="250.0" tabClosingPolicy="UNAVAILABLE">
+                      <tabs>
+                        <Tab text="List">
+                          <content>
+                            <ListView prefHeight="200.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                        <Tab text="New">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="749.0" prefWidth="236.0" />
+                          </content>
+                        </Tab>
+                      </tabs>
+                    </TabPane>
+                  </left>
+                </BorderPane>
               </content>
             </Tab>
             <Tab text="Jobs">
@@ -36,46 +54,7 @@
             </Tab>
             <Tab disable="false" text="Drones">
               <content>
-                <BorderPane prefHeight="200.0" prefWidth="200.0">
-                  <center>
-                    <TableView prefHeight="785.0" prefWidth="821.0">
-                      <columns>
-                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="56.0" text="ID" />
-                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="106.0" text="name" />
-                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="67.0" text="weight" />
-                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="51.0" text="rotors" />
-                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="96.0" text="max speed" />
-                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="120.0" text="max flight time" />
-                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="63.0" text="battery" />
-                        <TableColumn prefWidth="75.0" text="state" />
-                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="58.0" text="wspX" />
-                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="60.0" text="wspY" />
-                        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="60.0" text="wspZ" />
-                      </columns>
-                    </TableView>
-                  </center>
-                  <left>
-                    <TabPane prefHeight="785.0" prefWidth="363.0" tabClosingPolicy="UNAVAILABLE">
-                      <tabs>
-                        <Tab text="Find">
-                          <content>
-                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                          </content>
-                        </Tab>
-                        <Tab disable="true" text="Create">
-                          <content>
-                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                          </content>
-                        </Tab>
-                        <Tab disable="true" text="Edit">
-                          <content>
-                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                          </content>
-                        </Tab>
-                      </tabs>
-                    </TabPane>
-                  </left>
-                </BorderPane>
+                <fx:include fx:id="drone" source="drone/drone.fxml"/>
               </content>
             </Tab>
             <Tab disable="false" text="Drone Points">

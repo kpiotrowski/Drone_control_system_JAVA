@@ -5,6 +5,8 @@ import dataModels.Trasa;
 import databaseController.MySQLController;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by no-one on 18.11.16.
@@ -28,18 +30,18 @@ public class TrasaService extends Service implements ServiceInterface {
     }
 
     @Override
-    public void delete(DataModel data) {
-
-    }
-
-    @Override
-    public String validate(DataModel data) {
-
-        return "";
-    }
-
-    @Override
-    public Trasa parseToModel(ResultSet res) {
+    public Error delete(Integer id) {
         return null;
+    }
+
+    @Override
+    public Error validate(DataModel data) {
+
+        return null;
+    }
+
+    @Override
+    public List<DataModel> parseToModel(ResultSet res) {
+        return new ArrayList<>();
     }
 }

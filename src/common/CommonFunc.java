@@ -1,6 +1,7 @@
 package common;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
+import com.sun.org.apache.xerces.internal.impl.dv.xs.FloatDV;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -8,7 +9,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -53,4 +53,31 @@ public final class CommonFunc {
         if(str.length()==0) return null;
         return str;
     }
+
+    public static Long strToLong(String str){
+        try{
+            Long l = Long.parseLong(str);
+            return l;
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+    public static Integer strToInteger(String str){
+        try{
+            Integer l = Integer.parseInt(str);
+            return l;
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+    public static Float strToFloat(String str){
+        try {
+            Float f = Float.parseFloat(str);
+            return f;
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+
 }
