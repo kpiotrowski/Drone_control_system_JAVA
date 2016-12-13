@@ -111,7 +111,6 @@ public class UserService extends Service implements ServiceInterface{
 
     public Error changePassword(String newPass) {
         String newPassword = CommonFunc.hashPass(newPass);
-
         String sql = String.format("UPDATE %s SET haslo=? WHERE id=?", this.table);
         try ( PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);){
             pstmt.setString(1, newPassword);

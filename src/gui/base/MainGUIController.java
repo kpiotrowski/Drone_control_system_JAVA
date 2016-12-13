@@ -62,6 +62,7 @@ public class MainGUIController extends Controller {
         this.profileController.profileTabUpdate();
         this.reloadTopInfo();
         this.reloadPermissions();
+        this.droneController.afterLogin();
     }
 
     public void reloadTopInfo(){

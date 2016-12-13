@@ -16,54 +16,56 @@
         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
       </columnResizePolicy>
       <columns>
-        <TableColumn fx:id="tabDroneId" maxWidth="5000.0" minWidth="10.0" prefWidth="56.0" text="ID" />
-        <TableColumn fx:id="tabDroneName" maxWidth="5000.0" minWidth="10.0" prefWidth="106.0" text="name" />
-        <TableColumn fx:id="tabDroneWeight" maxWidth="5000.0" minWidth="10.0" prefWidth="67.0" text="weight" />
-        <TableColumn fx:id="tabDroneRotors" maxWidth="5000.0" minWidth="10.0" prefWidth="51.0" text="rotors" />
-        <TableColumn fx:id="tabDroneSpeed" maxWidth="5000.0" minWidth="10.0" prefWidth="96.0" text="max speed" />
-        <TableColumn fx:id="tabDroneFlightTime" maxWidth="5000.0" minWidth="10.0" prefWidth="120.0" text="max flight time" />
-        <TableColumn fx:id="tabDroneBattery" maxWidth="5000.0" minWidth="10.0" prefWidth="63.0" text="battery" />
-        <TableColumn fx:id="tabDroneState" prefWidth="75.0" text="state" />
-        <TableColumn fx:id="tabDroneKoorX" maxWidth="5000.0" minWidth="10.0" prefWidth="58.0" text="wspX" />
-        <TableColumn fx:id="tabDroneKoorY" maxWidth="5000.0" minWidth="10.0" prefWidth="60.0" text="wspY" />
-        <TableColumn fx:id="tabDroneKoorZ" maxWidth="5000.0" minWidth="10.0" prefWidth="60.0" text="wspZ" />
-        <TableColumn fx:id="tabDronePointId" prefWidth="75.0" text="Point id" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="56.0" text="ID" fx:id="tabDroneId" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="106.0" text="name" fx:id="tabDroneName" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="67.0" text="weight" fx:id="tabDroneWeight" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="51.0" text="rotors" fx:id="tabDroneRotors" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="96.0" text="max speed" fx:id="tabDroneSpeed" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="120.0" text="max flight time" fx:id="tabDroneFlightTime" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="63.0" text="battery" fx:id="tabDroneBattery" />
+        <TableColumn prefWidth="75.0" text="state" fx:id="tabDroneState" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="58.0" text="wspX" fx:id="tabDroneKoorX" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="60.0" text="wspY" fx:id="tabDroneKoorY" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="60.0" text="wspZ" fx:id="tabDroneKoorZ" />
+        <TableColumn prefWidth="75.0" text="Point id" fx:id="tabDronePointId" />
       </columns>
     </TableView>
   </center>
   <left>
     <TabPane fx:id="tabPane" prefHeight="785.0" prefWidth="363.0" tabClosingPolicy="UNAVAILABLE">
       <tabs>
-        <Tab text="Find">
+        <Tab fx:id="findTab" text="Find">
           <content>
             <Pane prefHeight="200.0" prefWidth="200.0">
               <children>
                 <Label id="droneCreateError" fx:id="droneFindError" layoutX="27.0" layoutY="28.0" prefHeight="32.1328125" prefWidth="309.0" text="" />
-                <TextField layoutX="249.0" layoutY="164.0" prefWidth="82.0" />
-                <TextField layoutX="131.0" layoutY="198.0" prefWidth="82.0" />
-                <TextField layoutX="249.0" layoutY="198.0" prefWidth="82.0" />
-                <TextField layoutX="131.0" layoutY="229.0" prefWidth="82.0" />
-                <TextField layoutX="249.0" layoutY="229.0" prefWidth="82.0" />
                 <Label layoutX="22.0" layoutY="235.0" text="koor Z" />
                 <Label layoutX="222.0" layoutY="167.0" text="TO" />
                 <Label layoutX="222.0" layoutY="201.0" text="TO" />
                 <Label layoutX="222.0" layoutY="232.0" text="TO" />
                 <Label layoutX="22.0" layoutY="201.0" text="koor Y" />
                 <Label layoutX="22.0" layoutY="167.0" text="koor X" />
-                <TextField layoutX="131.0" layoutY="164.0" prefWidth="82.0" />
-                <TextField layoutX="131.0" layoutY="129.0" prefWidth="200.0" />
                 <Label layoutX="169.0" layoutY="92.0" text="FIND" />
                 <Label layoutX="22.0" layoutY="132.0" text="name" />
                 <Label layoutX="23.0" layoutY="265.0" text="max flight time" />
-                <TextField layoutX="131.0" layoutY="262.0" prefWidth="120.0" />
-                <CheckBox layoutX="133.0" layoutY="353.0" mnemonicParsing="false" text="busy" />
                 <Label layoutX="23.0" layoutY="294.0" text="max speed" />
-                <TextField layoutX="131.0" layoutY="291.0" prefWidth="120.0" />
-                <TextField layoutX="132.0" layoutY="320.0" prefWidth="82.0" />
-                <TextField layoutX="250.0" layoutY="320.0" prefWidth="82.0" />
                 <Label layoutX="23.0" layoutY="326.0" text="weight" />
                 <Label layoutX="223.0" layoutY="323.0" text="TO" />
-                <Button fx:id="droneFindButton" layoutX="133.0" layoutY="392.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="60.0" text="FIND" />
+                <Label layoutX="25.0" layoutY="353.0" text="drone point" />
+                <TextField fx:id="droneFindName" layoutX="131.0" layoutY="129.0" prefWidth="200.0" />
+                <TextField fx:id="droneFindKoorXFrom" layoutX="131.0" layoutY="164.0" prefWidth="82.0" />
+                <TextField fx:id="droneFindKoorXTo" layoutX="249.0" layoutY="164.0" prefWidth="82.0" />
+                <TextField fx:id="droneFindKoorYFrom" layoutX="131.0" layoutY="198.0" prefWidth="82.0" />
+                <TextField fx:id="droneFindKoorYTo" layoutX="249.0" layoutY="198.0" prefWidth="82.0" />
+                <TextField fx:id="droneFindKoorZFrom" layoutX="131.0" layoutY="229.0" prefWidth="82.0" />
+                <TextField fx:id="droneFindKoorZTo" layoutX="249.0" layoutY="229.0" prefWidth="82.0" />
+                <TextField fx:id="droneFindFlightTime" layoutX="131.0" layoutY="262.0" prefWidth="120.0" />
+                <TextField fx:id="droneFindSpeed" layoutX="131.0" layoutY="291.0" prefWidth="120.0" />
+                <TextField fx:id="droneFindWeightFrom" layoutX="132.0" layoutY="320.0" prefWidth="82.0" />
+                <TextField fx:id="droneFindWeightTo" layoutX="250.0" layoutY="320.0" prefWidth="82.0" />
+                <ChoiceBox fx:id="droneFindDronePoint" layoutX="132.0" layoutY="351.0" prefWidth="200.0"/>
+                <CheckBox fx:id="droneFindFree" layoutX="135.0" layoutY="385.0" mnemonicParsing="false" text="free" />
+                <Button fx:id="droneFindButton" layoutX="133.0" layoutY="417.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="60.0" text="FIND" />
               </children>
             </Pane>
           </content>
@@ -87,15 +89,7 @@
                 <Label layoutX="29.0" layoutY="311.0" text="opis" />
                 <TextArea layoutX="140.0" layoutY="311.0" prefHeight="64.0" prefWidth="200.0" wrapText="true" />
                 <Label layoutX="27.0" layoutY="397.0" text="start point" />
-                <ChoiceBox layoutX="140.0" layoutY="395.0" prefWidth="196.5">
-                  <items>
-                    <FXCollections fx:factory="observableArrayList">
-                      <String fx:value="Item 1" />
-                      <String fx:value="Item 2" />
-                      <String fx:value="Item 3" />
-                    </FXCollections>
-                  </items>
-                </ChoiceBox>
+                <ChoiceBox fx:id="droneCreateDronePoint" layoutX="140.0" layoutY="395.0" prefWidth="196.5"/>
                 <Button fx:id="droneCreateButton" layoutX="129.0" layoutY="490.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.00009999999747" text="ADD" />
               </children>
             </Pane>

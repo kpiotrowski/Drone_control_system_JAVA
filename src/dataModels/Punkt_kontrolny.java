@@ -7,7 +7,7 @@ import jdk.nashorn.internal.objects.annotations.Property;
 
 public class Punkt_kontrolny extends DataModel{
   private Integer id;
-  private SimpleStringProperty nazwa;
+  private String nazwa;
   private Integer max_ilosc_dronow;
   private Integer obecna_ilosc_dronow;
   private Float wspx;
@@ -23,10 +23,10 @@ public class Punkt_kontrolny extends DataModel{
   }
 
   public String getNazwa() {
-    return nazwa.get();
+    return nazwa;
   }
 
-  public void setNazwa(String nazwa) {this.nazwa = new SimpleStringProperty(nazwa);}
+  public void setNazwa(String nazwa) {this.nazwa = nazwa;}
 
   public Integer getMax_ilosc_dronow() {
     return max_ilosc_dronow;
@@ -66,5 +66,9 @@ public class Punkt_kontrolny extends DataModel{
 
   public void setWspz(Float wspz) {
     this.wspz = wspz;
+  }
+
+  public String toString(){
+    return this.id.toString()+":"+this.nazwa;
   }
 }

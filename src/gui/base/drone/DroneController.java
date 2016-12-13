@@ -25,25 +25,40 @@ import static common.CommonFunc.strToInteger;
  */
 public class DroneController {
 
-    public Label droneEditError;
-    public TextField droneEditId;
-    public TextField droneEditName;
-    public TextField droneEditBattery;
-    public TextArea droneEditDesc;
-    public Label droneCreateError;
-    public Label droneFindError;
-    public TableColumn tabDronePointId;
-    public TableColumn tabDroneKoorZ;
-    public TableColumn tabDroneKoorY;
-    public TableColumn tabDroneKoorX;
-    public TableColumn tabDroneState;
-    public TableColumn tabDroneBattery;
-    public TableColumn tabDroneFlightTime;
-    public TableColumn tabDroneSpeed;
-    public TableColumn tabDroneRotors;
-    public TableColumn tabDroneWeight;
-    public TableColumn tabDroneName;
-    public TableColumn tabDroneId;
+    @FXML private TextField droneFindSpeed;
+    @FXML private ChoiceBox droneFindDronePoint;
+    @FXML private ChoiceBox droneCreateDronePoint;
+    @FXML private Tab findTab;
+    @FXML private TextField droneFindName;
+    @FXML private TextField droneFindKoorXFrom;
+    @FXML private TextField droneFindKoorXTo;
+    @FXML private TextField droneFindKoorYFrom;
+    @FXML private TextField droneFindKoorYTo;
+    @FXML private TextField droneFindKoorZFrom;
+    @FXML private TextField droneFindKoorZTo;
+    @FXML private TextField droneFindFlightTime;
+    @FXML private TextField droneFindWeightFrom;
+    @FXML private TextField droneFindWeightTo;
+    @FXML private CheckBox droneFindFree;
+    @FXML private Label droneEditError;
+    @FXML private TextField droneEditId;
+    @FXML private TextField droneEditName;
+    @FXML private TextField droneEditBattery;
+    @FXML private TextArea droneEditDesc;
+    @FXML private Label droneCreateError;
+    @FXML private Label droneFindError;
+    @FXML private TableColumn tabDronePointId;
+    @FXML private TableColumn tabDroneKoorZ;
+    @FXML private TableColumn tabDroneKoorY;
+    @FXML private TableColumn tabDroneKoorX;
+    @FXML private TableColumn tabDroneState;
+    @FXML private TableColumn tabDroneBattery;
+    @FXML private TableColumn tabDroneFlightTime;
+    @FXML private TableColumn tabDroneSpeed;
+    @FXML private TableColumn tabDroneRotors;
+    @FXML private TableColumn tabDroneWeight;
+    @FXML private TableColumn tabDroneName;
+    @FXML private TableColumn tabDroneId;
     @FXML private TableView tableView;
     @FXML private Button droneFindButton;
     @FXML private Button droneCreateButton;
@@ -54,6 +69,7 @@ public class DroneController {
     @FXML private Tab createTab;
 
     private List<DataModel> foundDrones;
+    private List<DataModel> freePoints;
 
     @FXML
     private void initialize() {
@@ -67,11 +83,15 @@ public class DroneController {
             });
             return row ;
         });
+        this.createTab.setOnSelectionChanged(event -> {
+            if(this.createTab.isSelected())this.getPoints(this.droneCreateDronePoint, true);});
+        this.findTab.setOnSelectionChanged(event -> {
+            if(this.findTab.isSelected())this.getPoints(this.droneFindDronePoint, false);});
         this.droneDeleteAction.setOnAction(event -> {this.deleteAction();});
         this.droneCreateButton.setOnAction(event -> {this.creteAction();});
         this.droneFindButton.setOnAction(event -> {this.findAction();});
         this.droneEdiButton.setOnAction(event -> {this.editAction();});
-        this.tabDronePointId.setCellValueFactory(new PropertyValueFactory<>("Punkt_Kontrolny_id"));
+        this.tabDronePointId.setCellValueFactory(new PropertyValueFactory<>("punkt_kontrolny_id"));
         this.tabDroneKoorZ.setCellValueFactory(new PropertyValueFactory<>("wspz"));
         this.tabDroneKoorY.setCellValueFactory(new PropertyValueFactory<>("wspy"));
         this.tabDroneKoorX.setCellValueFactory(new PropertyValueFactory<>("wspx"));
@@ -83,6 +103,10 @@ public class DroneController {
         this.tabDroneWeight.setCellValueFactory(new PropertyValueFactory<>("masa"));
         this.tabDroneName.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
         this.tabDroneId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    }
+
+    public void afterLogin(){
+        this.getPoints(this.droneFindDronePoint, false);
     }
 
     public void refreshPermissions(Uzytkownik uz) {
@@ -103,6 +127,31 @@ public class DroneController {
             data.add(d);
         }
         this.tableView.setItems(data);
+    }
+
+    private void getPoints(ChoiceBox box, boolean free){
+        ArrayList<FilterParam> filterList = new ArrayList<>();
+        if(free==true) filterList.add(FilterParam.newF("max_ilosc_dronow-obecna_ilosc_dronow", ">", 0));
+        Task t = new Task() {
+            protected List<DataModel> call() throws SQLException {
+                return Main.punktKontrolnyService.find(filterList);
+            }
+        };
+        t.setOnSucceeded(event -> {
+            List<DataModel> resultList = (List<DataModel>) t.getValue();
+            this.freePoints = resultList;
+            this.setSelectBoxValues(box, resultList);
+        });
+        new Thread(t).start();
+    }
+
+    private void setSelectBoxValues(ChoiceBox box, List<DataModel> dataList){
+        ObservableList<Punkt_kontrolny> data = FXCollections.observableArrayList();
+        for (DataModel m: dataList) {
+            Punkt_kontrolny d = (Punkt_kontrolny) m;
+            data.add(d);
+        }
+        box.setItems(data);
     }
 
     private void setDroneEditForm(Dron d){
@@ -138,9 +187,32 @@ public class DroneController {
         this.droneFindError.setText("");
         ArrayList<FilterParam> filterList = new ArrayList<>();
         try{
-
-            //TODO IMPLEMENT THIS
-
+            if(this.droneFindName.getText().length() > 0)
+                filterList.add(FilterParam.newF("nazwa", "LIKE", this.droneFindName.getText() ));
+            if(this.droneFindKoorXFrom.getText().length() > 0)
+                filterList.add(FilterParam.newF("wspx", ">=", strToFloat(this.droneFindKoorXFrom.getText()) ));
+            if(this.droneFindKoorXTo.getText().length() > 0)
+                filterList.add(FilterParam.newF("wspx", "<=", strToFloat(this.droneFindKoorXTo.getText()) ));
+            if(this.droneFindKoorYFrom.getText().length() > 0)
+                filterList.add(FilterParam.newF("wspy", ">=", strToFloat(this.droneFindKoorYFrom.getText()) ));
+            if(this.droneFindKoorYTo.getText().length() > 0)
+                filterList.add(FilterParam.newF("wspy", "<=", strToFloat(this.droneFindKoorYTo.getText()) ));
+            if(this.droneFindKoorZFrom.getText().length() > 0)
+                filterList.add(FilterParam.newF("wspz", ">=", strToFloat(this.droneFindKoorZFrom.getText()) ));
+            if(this.droneFindKoorZTo.getText().length() > 0)
+                filterList.add(FilterParam.newF("wspz", "<=", strToFloat(this.droneFindKoorZTo.getText()) ));
+            if(this.droneFindFlightTime.getText().length() > 0)
+                filterList.add(FilterParam.newF("max_czas_lotu", ">=", strToFloat(this.droneFindFlightTime.getText()) ));
+            if(this.droneFindSpeed.getText().length() > 0)
+                filterList.add(FilterParam.newF("max_predkosc", ">=", strToFloat(this.droneFindSpeed.getText()) ));
+            if(this.droneFindWeightFrom.getText().length() > 0)
+                filterList.add(FilterParam.newF("masa", ">=", strToFloat(this.droneFindWeightFrom.getText()) ));
+            if(this.droneFindWeightTo.getText().length() > 0)
+                filterList.add(FilterParam.newF("masa", "<=", strToFloat(this.droneFindWeightTo.getText()) ));
+            if(this.droneFindFree.isSelected())
+                filterList.add(FilterParam.newF("stan", "=", 0));
+            if(this.droneFindDronePoint.getValue() != null)
+                filterList.add(FilterParam.newF("Punkt_Kontrolny_id", "=", ((Punkt_kontrolny)(this.droneFindDronePoint.getValue())).getId()));
 
             Task t = new Task() {
                 protected List<DataModel> call() throws SQLException {
@@ -160,22 +232,51 @@ public class DroneController {
         }
     }
 
-    private void creteAction(){
-        this.droneCreateError.setText("");
-        //TODO IMPLEMENT THIS
-    }
-
     private void deleteAction(){
-        //TODO IMPLEMENT THIS
-
+        Integer id = strToInteger(this.droneEditId.getText());
+        Task t = new Task() {
+            protected Error call() { return Main.droneService.delete(id); }
+        };
+        t.setOnSucceeded(event -> {
+            Error e = (Error) t.getValue();
+            if(e!=null)  Main.gui.showDialog("Błąd","Niepowodzenie usuwania drona", e.toString(), Alert.AlertType.ERROR);
+            else Main.gui.showDialog("Info", "Pomyślnie usunięto drona", "", Alert.AlertType.INFORMATION);
+        });
+        new Thread(t).start();
     }
 
     private Dron parseCreateForm(){
         Dron d = new Dron();
-
-
         //TODO IMPLEMENT THIS
-        return null;
+        return d;
+    }
+    private void clearCreateForm(){
+        //TODO IMPLEMENT THIS
+    }
+
+    private void creteAction(){
+        this.droneCreateError.setText("");
+        Dron d = this.parseCreateForm();
+        Error valid = Main.droneService.validate(d);
+        if(valid!=null){
+            this.droneCreateError.setText(valid.toString());
+            return;
+        }
+        Task t = new Task() {
+            protected Error call() throws Exception {
+                return Main.droneService.insert(d);
+            }
+        };
+        t.setOnSucceeded(event -> {
+            Error e = (Error) t.getValue();
+            if(e != null)
+                Main.gui.showDialog("Błąd","Niepowodzenie dodawania nowego drona", e.toString(), Alert.AlertType.ERROR);
+            else {
+                this.clearCreateForm();
+                Main.gui.showDialog("INfo", "Pomyślnie dodano nowego drona", "", Alert.AlertType.INFORMATION);
+            }
+        });
+        new Thread(t).start();
     }
 
     private Dron parseEditForm(){
