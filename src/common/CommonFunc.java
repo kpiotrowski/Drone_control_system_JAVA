@@ -6,6 +6,9 @@ import com.sun.org.apache.xerces.internal.impl.dv.xs.FloatDV;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -77,6 +80,23 @@ public final class CommonFunc {
         } catch (NumberFormatException e) {
             return null;
         }
+    }
+
+    public static void statSetVarPar(PreparedStatement pstmt, int index, Float val) throws SQLException {
+        if(val==null) pstmt.setNull(index, Types.FLOAT);
+        else pstmt.setFloat(index, val);
+    }
+    public static void statSetVarPar(PreparedStatement pstmt, int index, Integer val) throws SQLException {
+        if(val==null) pstmt.setNull(index, Types.INTEGER);
+        else pstmt.setInt(index, val);
+    }
+    public static void statSetVarPar(PreparedStatement pstmt, int index, String val) throws SQLException {
+        if(val==null) pstmt.setNull(index, Types.VARCHAR);
+        else pstmt.setString(index, val);
+    }
+    public static void statSetVarPar(PreparedStatement pstmt, int index, java.sql.Date val) throws SQLException {
+        if(val==null) pstmt.setNull(index, Types.DATE);
+        else pstmt.setDate(index, val);
     }
 
 

@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static common.CommonFunc.statSetVarPar;
+
 /**
  * Created by no-one on 18.11.16.
  */
@@ -24,6 +26,7 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
     private final String insertStr="nazwa,max_ilosc_dronow,obecna_ilosc_dronow,wspX,wspY,wspZ";
     private final String selectStr="id,"+insertStr;
     private final String updateStr="nazwa=?,max_ilosc_dronow=?";
+    private final String incStr="obecna_ilosc_dronow=obecna_ilosc_dronow+1";
 
     public PunktKontrolnyService(MySQLController con) {
         super(con);
@@ -38,12 +41,12 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
         builder.append(") VALUES(?,?,?,?,?,?)");
         System.out.println(builder.toString());
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(builder.toString());){
-            pstmt.setString(1, p.getNazwa());
-            pstmt.setInt(2, p.getMax_ilosc_dronow());
-            pstmt.setInt(3, p.getObecna_ilosc_dronow());
-            pstmt.setFloat(4,p.getWspx());
-            pstmt.setFloat(5, p.getWspy());
-            pstmt.setFloat(6,p.getWspz());
+            statSetVarPar(pstmt, 1, p.getNazwa());
+            statSetVarPar(pstmt, 2, p.getMax_ilosc_dronow());
+            statSetVarPar(pstmt, 3, p.getObecna_ilosc_dronow());
+            statSetVarPar(pstmt, 4,p.getWspx());
+            statSetVarPar(pstmt, 5, p.getWspy());
+            statSetVarPar(pstmt, 6,p.getWspz());
             pstmt.executeUpdate();
             mysql.getCon().commit();
         } catch (SQLException e) {
@@ -52,17 +55,30 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
         return null;
     }
 
+
+
     @Override
     public Error update(DataModel data) {
         String sql = String.format("UPDATE %s SET %s WHERE id=?", this.table, updateStr);
         Punkt_kontrolny p = (Punkt_kontrolny) data;
 
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
-            pstmt.setString(1,p.getNazwa());
-            pstmt.setLong(2,p.getMax_ilosc_dronow());
-            pstmt.setInt(3, p.getId());
+            statSetVarPar(pstmt, 1,p.getNazwa());
+            statSetVarPar(pstmt, 2,p.getMax_ilosc_dronow());
+            statSetVarPar(pstmt, 3, p.getId());
             pstmt.executeUpdate();
             mysql.getCon().commit();
+        } catch (SQLException e) {
+            return new Error(e.toString());
+        }
+        return null;
+    }
+
+    public Error incCurrentDrones(int id){
+        String sql = String.format("UPDATE %s SET %s WHERE id=?", this.table, incStr);
+        try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
+            pstmt.setInt(1,id);
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             return new Error(e.toString());
         }

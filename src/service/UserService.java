@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static common.CommonFunc.statSetVarPar;
+
 /**
  * Created by no-one on 18.11.16.
  */
@@ -35,13 +37,13 @@ public class UserService extends Service implements ServiceInterface{
         builder.append(") VALUES(?,?,?,?,?,?,?)");
 
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(builder.toString());){
-            pstmt.setString(1, uz.getImie());
-            pstmt.setString(2, uz.getNazwisko());
-            pstmt.setDate(3, uz.getData_urodzenia());
-            pstmt.setString(4,uz.getLogin());
-            pstmt.setString(5, uz.getTelefon());
-            pstmt.setString(6,uz.getHaslo());
-            pstmt.setLong(7, uz.getPoziom_uprawnien());
+            statSetVarPar(pstmt, 1, uz.getImie());
+            statSetVarPar(pstmt, 2, uz.getNazwisko());
+            statSetVarPar(pstmt, 3, uz.getData_urodzenia());
+            statSetVarPar(pstmt, 4,uz.getLogin());
+            statSetVarPar(pstmt, 5, uz.getTelefon());
+            statSetVarPar(pstmt, 6,uz.getHaslo());
+            statSetVarPar(pstmt, 7, uz.getPoziom_uprawnien());
             pstmt.executeUpdate();
             mysql.getCon().commit();
             pstmt.close();
@@ -57,11 +59,11 @@ public class UserService extends Service implements ServiceInterface{
 
         String sql = String.format("UPDATE %s SET %s WHERE ID=?", this.table, updateStr);
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
-            pstmt.setString(1,uz.getImie());
-            pstmt.setString(2,uz.getNazwisko());
-            pstmt.setDate(3,uz.getData_urodzenia());
-            pstmt.setString(4,uz.getTelefon());
-            pstmt.setInt(5, Main.authenticatedUser.getId());
+            statSetVarPar(pstmt, 1,uz.getImie());
+            statSetVarPar(pstmt, 2,uz.getNazwisko());
+            statSetVarPar(pstmt, 3,uz.getData_urodzenia());
+            statSetVarPar(pstmt, 4,uz.getTelefon());
+            statSetVarPar(pstmt, 5, Main.authenticatedUser.getId());
             pstmt.executeUpdate();
             mysql.getCon().commit();
             Main.authenticatedUser = uz;
@@ -113,8 +115,8 @@ public class UserService extends Service implements ServiceInterface{
         String newPassword = CommonFunc.hashPass(newPass);
         String sql = String.format("UPDATE %s SET haslo=? WHERE id=?", this.table);
         try ( PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);){
-            pstmt.setString(1, newPassword);
-            pstmt.setInt(2, Main.authenticatedUser.getId());
+            statSetVarPar(pstmt, 1, newPassword);
+            statSetVarPar(pstmt, 2, Main.authenticatedUser.getId());
             pstmt.executeUpdate();
             mysql.getCon().commit();
             Main.authenticatedUser.setHaslo(newPassword);

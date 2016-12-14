@@ -5,21 +5,25 @@ import dataModels.DataModel;
 import dataModels.Dron;
 import dataModels.Punkt_kontrolny;
 import databaseController.MySQLController;
+import main.Main;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.List;
+
+import static common.CommonFunc.statSetVarPar;
 
 /**
  * Created by no-one on 18.11.16.
  */
 public class DroneService extends Service implements ServiceInterface{
-    private final String table = "Dron d";
-    private final String insertStr="d.nazwa,d.opis,d.masa,d.ilosc_wirnikow,d.max_predkosc,d.max_czas_lotu,d.poziom_baterii,d.wspX,d.wspY,d.wspZ,d.stan,d.Punkt_kontrolny_id";
-    private final String selectStr="d.id,"+insertStr;
-    private final String updateStr="d.nazwa=?,d.opis=?,d.poziom_baterii=?";
+    private final String table = "Dron";
+    private final String insertStr="nazwa,opis,masa,ilosc_wirnikow,max_predkosc,max_czas_lotu,poziom_baterii,wspX,wspY,wspZ,stan,Punkt_kontrolny_id";
+    private final String selectStr="id,"+insertStr;
+    private final String updateStr="nazwa=?,opis=?,poziom_baterii=?";
 
     public DroneService(MySQLController con) {
         super(con);
@@ -27,7 +31,46 @@ public class DroneService extends Service implements ServiceInterface{
 
     @Override
     public Error insert(DataModel data) {
-        //TODO IMPLEMENT THIS
+        Savepoint s;
+        try {
+            s = mysql.getCon().setSavepoint();
+        } catch (SQLException e) {
+            return new Error(e.getMessage());
+        }
+
+        Dron d = (Dron) data;
+        StringBuilder builder = new StringBuilder();
+        builder.append("INSERT INTO "+ this.table +" (");
+        builder.append(insertStr);
+        builder.append(") VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+        try (PreparedStatement pstmt = mysql.getCon().prepareStatement(builder.toString());){
+            statSetVarPar(pstmt,1, d.getNazwa());
+            statSetVarPar(pstmt,2, d.getOpis());
+            statSetVarPar(pstmt,3, d.getMasa());
+            statSetVarPar(pstmt,4,d.getIlosc_wirnikow());
+            statSetVarPar(pstmt,5, d.getMax_predkosc());
+            statSetVarPar(pstmt,6,d.getMax_czas_lotu());
+            statSetVarPar(pstmt,7,d.getPoziom_baterii());
+            statSetVarPar(pstmt,8,d.getWspx());
+            statSetVarPar(pstmt,9,d.getWspy());
+            statSetVarPar(pstmt,10,d.getWspz());
+            statSetVarPar(pstmt,11,d.getStan());
+            statSetVarPar(pstmt,12,d.getPunkt_kontrolny_id());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            return new Error(e.toString());
+        }
+        Error error = Main.punktKontrolnyService.incCurrentDrones(d.getPunkt_kontrolny_id());
+        try {
+            if (error != null) {
+                mysql.getCon().rollback(s);
+                return error;
+            } else {
+                mysql.getCon().commit();
+            }
+        } catch (SQLException e) {
+            return new Error(e.getMessage());
+        }
         return null;
     }
 
@@ -36,10 +79,10 @@ public class DroneService extends Service implements ServiceInterface{
         String sql = String.format("UPDATE %s SET %s WHERE id=?", this.table, updateStr);
         Dron d = (Dron) data;
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
-            pstmt.setString(1,d.getNazwa());
-            pstmt.setString(2,d.getOpis());
-            pstmt.setFloat(3, d.getPoziom_baterii());
-            pstmt.setInt(4,d.getId());
+            statSetVarPar(pstmt,1,d.getNazwa());
+            statSetVarPar(pstmt,2,d.getOpis());
+            statSetVarPar(pstmt,3, d.getPoziom_baterii());
+            statSetVarPar(pstmt,4,d.getId());
             pstmt.executeUpdate();
             mysql.getCon().commit();
         } catch (SQLException e) {

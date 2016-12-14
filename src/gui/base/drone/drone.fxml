@@ -81,15 +81,17 @@
                 <Label layoutX="29.0" layoutY="210.0" text="rotors" />
                 <Label layoutX="27.0" layoutY="241.0" text="max speed" />
                 <Label layoutX="27.0" layoutY="275.0" text="max flight time" />
-                <TextField layoutX="140.0" layoutY="173.0" prefWidth="200.0" />
-                <TextField layoutX="140.0" layoutY="207.0" prefWidth="200.0" />
-                <TextField layoutX="140.0" layoutY="238.0" prefWidth="200.0" />
-                <TextField layoutX="140.0" layoutY="272.0" prefWidth="200.0" />
-                <TextField layoutX="140.0" layoutY="136.0" prefWidth="200.0" />
                 <Label layoutX="29.0" layoutY="311.0" text="opis" />
-                <TextArea layoutX="140.0" layoutY="311.0" prefHeight="64.0" prefWidth="200.0" wrapText="true" />
                 <Label layoutX="27.0" layoutY="397.0" text="start point" />
+
+                <TextField fx:id="droneCreateName" layoutX="140.0" layoutY="136.0" prefWidth="200.0" />
+                <TextField fx:id="droneCreateWeight" layoutX="140.0" layoutY="173.0" prefWidth="200.0" />
+                <TextField fx:id="droneCreateRotors" layoutX="140.0" layoutY="207.0" prefWidth="200.0" />
+                <TextField fx:id="droneCreateSpeed" layoutX="140.0" layoutY="238.0" prefWidth="200.0" />
+                <TextField fx:id="droneCreateFlightTime" layoutX="140.0" layoutY="272.0" prefWidth="200.0" />
+                <TextArea fx:id="droneCreateDesc" layoutX="140.0" layoutY="311.0" prefHeight="64.0" prefWidth="200.0" wrapText="true" />
                 <ChoiceBox fx:id="droneCreateDronePoint" layoutX="140.0" layoutY="395.0" prefWidth="196.5"/>
+
                 <Button fx:id="droneCreateButton" layoutX="129.0" layoutY="490.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.00009999999747" text="ADD" />
               </children>
             </Pane>

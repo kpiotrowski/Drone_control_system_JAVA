@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static common.CommonFunc.emptyNullStr;
 import static common.CommonFunc.strToFloat;
 import static common.CommonFunc.strToInteger;
 
@@ -25,9 +26,16 @@ import static common.CommonFunc.strToInteger;
  */
 public class DroneController {
 
+    @FXML private TextField droneCreateName;
+    @FXML private TextField droneCreateWeight;
+    @FXML private TextField droneCreateRotors;
+    @FXML private TextField droneCreateSpeed;
+    @FXML private TextField droneCreateFlightTime;
+    @FXML private TextArea droneCreateDesc;
+    @FXML private ChoiceBox droneCreateDronePoint;
+
     @FXML private TextField droneFindSpeed;
     @FXML private ChoiceBox droneFindDronePoint;
-    @FXML private ChoiceBox droneCreateDronePoint;
     @FXML private Tab findTab;
     @FXML private TextField droneFindName;
     @FXML private TextField droneFindKoorXFrom;
@@ -247,11 +255,26 @@ public class DroneController {
 
     private Dron parseCreateForm(){
         Dron d = new Dron();
-        //TODO IMPLEMENT THIS
+        d.setNazwa(emptyNullStr(this.droneCreateName.getText()));
+        d.setMasa(strToFloat(this.droneCreateWeight.getText()));
+        d.setIlosc_wirnikow(strToInteger(this.droneCreateRotors.getText()));
+        d.setMax_predkosc(strToFloat(this.droneCreateSpeed.getText()));
+        d.setMax_czas_lotu(strToFloat(this.droneCreateFlightTime.getText()));
+        d.setOpis(emptyNullStr(this.droneCreateDesc.getText()));
+        if(this.droneCreateDronePoint.getValue() != null)
+            d.setPunkt_kontrolny_id(((Punkt_kontrolny)(this.droneCreateDronePoint.getValue())).getId());
+        d.setPoziom_baterii(100f);
+        d.setStan(0);
         return d;
     }
     private void clearCreateForm(){
-        //TODO IMPLEMENT THIS
+        this.droneCreateName.setText("");
+        this.droneCreateWeight.setText("");
+        this.droneCreateRotors.setText("");
+        this.droneCreateSpeed.setText("");
+        this.droneCreateFlightTime.setText("");
+        this.droneCreateDesc.setText("");
+        this.droneCreateDronePoint.setValue(null);
     }
 
     private void creteAction(){
@@ -276,14 +299,17 @@ public class DroneController {
                 Main.gui.showDialog("INfo", "Pomyślnie dodano nowego drona", "", Alert.AlertType.INFORMATION);
             }
         });
+        t.setOnFailed(event -> {
+            System.out.println();t.getException().toString();
+        });
         new Thread(t).start();
     }
 
     private Dron parseEditForm(){
         Dron d = new Dron();
         d.setId(strToInteger(this.droneEditId.getText()));
-        d.setNazwa(this.droneEditName.getText());
-        d.setOpis(this.droneEditDesc.getText());
+        d.setNazwa(emptyNullStr(this.droneEditName.getText()));
+        d.setOpis(emptyNullStr(this.droneEditDesc.getText()));
         d.setPoziom_baterii(strToFloat(this.droneEditBattery.getText()));
         return d;
     }
