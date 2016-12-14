@@ -18,21 +18,20 @@ import java.util.List;
 
 import static common.CommonFunc.strToFloat;
 import static common.CommonFunc.strToInteger;
-import static common.CommonFunc.strToLong;
 
 /**
  * Created by no-one on 20.11.16.
  */
 public class PointsController {
-    @FXML private TableColumn columnNazwa;
-    @FXML private TableColumn columnDronesNow;
-    @FXML private TableColumn columnMaxDrones;
-    @FXML private TableColumn columnKoorZ;
-    @FXML private TableColumn columnKoorY;
-    @FXML private TableColumn columnKoorX;
-    @FXML private TableColumn columnId;
+    @FXML private TableColumn<Object, Object> columnNazwa;
+    @FXML private TableColumn<Object, Object> columnDronesNow;
+    @FXML private TableColumn<Object, Object> columnMaxDrones;
+    @FXML private TableColumn<Object, Object> columnKoorZ;
+    @FXML private TableColumn<Object, Object> columnKoorY;
+    @FXML private TableColumn<Object, Object> columnKoorX;
+    @FXML private TableColumn<Object, Object> columnId;
     @FXML private Button pointEditButtonDelete;
-    @FXML private TableView tableView;
+    @FXML private TableView<Punkt_kontrolny> tableView;
     @FXML private Tab findTab;
     @FXML private Tab editTab;
     @FXML private Tab createTab;
@@ -66,8 +65,6 @@ public class PointsController {
     @FXML private TextField pointEditKoorY;
     @FXML private TextField pointEditKoorZ;
     @FXML private TextField pointEditMaxDrones;
-
-    private List<DataModel> foundPoints;
 
     public PointsController(){}
 
@@ -211,7 +208,6 @@ public class PointsController {
     }
 
     protected void updateTableView(List<DataModel> dataList){
-        foundPoints=dataList;
         ObservableList<Punkt_kontrolny> data = FXCollections.observableArrayList();
         for (DataModel m: dataList) {
             Punkt_kontrolny p = (Punkt_kontrolny)m;

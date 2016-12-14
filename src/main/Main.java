@@ -58,12 +58,12 @@ public class Main extends Application{
             con.pinger();
 
             userService = new UserService(con);
-            droneService = new DroneService(con);
             polozenieService = new PolozenieService(con);
             punktKontrolnyService = new PunktKontrolnyService(con);
             punktNaTrasieService = new PunktNaTrasieService(con);
             zadanieService = new ZadanieService(con);
             trasaService = new TrasaService(con);
+            droneService = new DroneService(con, punktKontrolnyService);
         });
         t.setOnFailed(e -> {
             if(t.getException() instanceof SQLException)
@@ -74,7 +74,6 @@ public class Main extends Application{
         });
         new Thread(t).start();
     }
-
     public static void main(String[] args) {
         launch(args);
     }

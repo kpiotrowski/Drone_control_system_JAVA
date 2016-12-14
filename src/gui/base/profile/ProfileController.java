@@ -17,8 +17,6 @@ import java.text.ParseException;
  * Created by no-one on 19.11.16.
  */
 public class ProfileController {
-
-
     @FXML private Label passwordErrorLabel;
     @FXML private TextField currentPas;
     @FXML private TextField profileId;

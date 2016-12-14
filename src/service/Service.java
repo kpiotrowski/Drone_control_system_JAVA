@@ -25,6 +25,12 @@ public abstract class Service {
         this.mysql = con;
     }
 
+    /**
+     *
+     * @param id Row id to delete
+     * @param table table name
+     * @return Error when failed
+     */
     public Error delete(Integer id, String table) {
         String sql = String.format("DELETE FROM %s WHERE id=?",table);
         try(PreparedStatement pstmt = mysql.getCon().prepareStatement(sql)){
@@ -37,6 +43,14 @@ public abstract class Service {
         return null;
     }
 
+    /**
+     *
+     * @param filterList List with filter parameters
+     * @param selectStr select SQL (ex. SELECT * FROM xxx WHERE id=?)
+     * @param table table name
+     * @return PreparedStatement to execute
+     * @throws SQLException Exception when failed
+     */
     public PreparedStatement find(ArrayList<FilterParam> filterList, String selectStr, String table) throws SQLException {
         StringBuilder builder = new StringBuilder();
         builder.append(String.format("SELECT %s FROM %s", selectStr, table));

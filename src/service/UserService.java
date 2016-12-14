@@ -149,5 +149,4 @@ public class UserService extends Service implements ServiceInterface{
         pstmt.close();
         return uz;
     }
-
 }

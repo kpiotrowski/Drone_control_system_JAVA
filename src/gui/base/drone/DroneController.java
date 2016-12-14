@@ -32,10 +32,10 @@ public class DroneController {
     @FXML private TextField droneCreateSpeed;
     @FXML private TextField droneCreateFlightTime;
     @FXML private TextArea droneCreateDesc;
-    @FXML private ChoiceBox droneCreateDronePoint;
+    @FXML private ChoiceBox<Punkt_kontrolny> droneCreateDronePoint;
 
     @FXML private TextField droneFindSpeed;
-    @FXML private ChoiceBox droneFindDronePoint;
+    @FXML private ChoiceBox<Punkt_kontrolny> droneFindDronePoint;
     @FXML private Tab findTab;
     @FXML private TextField droneFindName;
     @FXML private TextField droneFindKoorXFrom;
@@ -55,19 +55,19 @@ public class DroneController {
     @FXML private TextArea droneEditDesc;
     @FXML private Label droneCreateError;
     @FXML private Label droneFindError;
-    @FXML private TableColumn tabDronePointId;
-    @FXML private TableColumn tabDroneKoorZ;
-    @FXML private TableColumn tabDroneKoorY;
-    @FXML private TableColumn tabDroneKoorX;
-    @FXML private TableColumn tabDroneState;
-    @FXML private TableColumn tabDroneBattery;
-    @FXML private TableColumn tabDroneFlightTime;
-    @FXML private TableColumn tabDroneSpeed;
-    @FXML private TableColumn tabDroneRotors;
-    @FXML private TableColumn tabDroneWeight;
-    @FXML private TableColumn tabDroneName;
-    @FXML private TableColumn tabDroneId;
-    @FXML private TableView tableView;
+    @FXML private TableColumn<Object, Object> tabDronePointId;
+    @FXML private TableColumn<Object, Object> tabDroneKoorZ;
+    @FXML private TableColumn<Object, Object> tabDroneKoorY;
+    @FXML private TableColumn<Object, Object> tabDroneKoorX;
+    @FXML private TableColumn<Object, Object> tabDroneState;
+    @FXML private TableColumn<Object, Object> tabDroneBattery;
+    @FXML private TableColumn<Object, Object> tabDroneFlightTime;
+    @FXML private TableColumn<Object, Object> tabDroneSpeed;
+    @FXML private TableColumn<Object, Object> tabDroneRotors;
+    @FXML private TableColumn<Object, Object> tabDroneWeight;
+    @FXML private TableColumn<Object, Object> tabDroneName;
+    @FXML private TableColumn<Object, Object> tabDroneId;
+    @FXML private TableView<Dron> tableView;
     @FXML private Button droneFindButton;
     @FXML private Button droneCreateButton;
     @FXML private Button droneEdiButton;
@@ -75,9 +75,6 @@ public class DroneController {
     @FXML private Tab tabEdit;
     @FXML private TabPane tabPane;
     @FXML private Tab createTab;
-
-    private List<DataModel> foundDrones;
-    private List<DataModel> freePoints;
 
     @FXML
     private void initialize() {
@@ -128,7 +125,6 @@ public class DroneController {
         }
     }
     protected void updateTableView(List<DataModel> dataList){
-        foundDrones=dataList;
         ObservableList<Dron> data = FXCollections.observableArrayList();
         for (DataModel m: dataList) {
             Dron d = (Dron)m;
@@ -137,7 +133,7 @@ public class DroneController {
         this.tableView.setItems(data);
     }
 
-    private void getPoints(ChoiceBox box, boolean free){
+    private void getPoints(ChoiceBox<Punkt_kontrolny> box, boolean free){
         ArrayList<FilterParam> filterList = new ArrayList<>();
         if(free==true) filterList.add(FilterParam.newF("max_ilosc_dronow-obecna_ilosc_dronow", ">", 0));
         Task t = new Task() {
@@ -147,13 +143,12 @@ public class DroneController {
         };
         t.setOnSucceeded(event -> {
             List<DataModel> resultList = (List<DataModel>) t.getValue();
-            this.freePoints = resultList;
             this.setSelectBoxValues(box, resultList);
         });
         new Thread(t).start();
     }
 
-    private void setSelectBoxValues(ChoiceBox box, List<DataModel> dataList){
+    private void setSelectBoxValues(ChoiceBox<Punkt_kontrolny> box, List<DataModel> dataList){
         ObservableList<Punkt_kontrolny> data = FXCollections.observableArrayList();
         for (DataModel m: dataList) {
             Punkt_kontrolny d = (Punkt_kontrolny) m;
@@ -220,7 +215,7 @@ public class DroneController {
             if(this.droneFindFree.isSelected())
                 filterList.add(FilterParam.newF("stan", "=", 0));
             if(this.droneFindDronePoint.getValue() != null)
-                filterList.add(FilterParam.newF("Punkt_Kontrolny_id", "=", ((Punkt_kontrolny)(this.droneFindDronePoint.getValue())).getId()));
+                filterList.add(FilterParam.newF("Punkt_Kontrolny_id", "=", ((this.droneFindDronePoint.getValue())).getId()));
 
             Task t = new Task() {
                 protected List<DataModel> call() throws SQLException {
@@ -262,7 +257,7 @@ public class DroneController {
         d.setMax_czas_lotu(strToFloat(this.droneCreateFlightTime.getText()));
         d.setOpis(emptyNullStr(this.droneCreateDesc.getText()));
         if(this.droneCreateDronePoint.getValue() != null)
-            d.setPunkt_kontrolny_id(((Punkt_kontrolny)(this.droneCreateDronePoint.getValue())).getId());
+            d.setPunkt_kontrolny_id(((this.droneCreateDronePoint.getValue())).getId());
         d.setPoziom_baterii(100f);
         d.setStan(0);
         return d;

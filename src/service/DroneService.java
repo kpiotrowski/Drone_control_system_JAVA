@@ -24,9 +24,11 @@ public class DroneService extends Service implements ServiceInterface{
     private final String insertStr="nazwa,opis,masa,ilosc_wirnikow,max_predkosc,max_czas_lotu,poziom_baterii,wspX,wspY,wspZ,stan,Punkt_kontrolny_id";
     private final String selectStr="id,"+insertStr;
     private final String updateStr="nazwa=?,opis=?,poziom_baterii=?";
+    private PunktKontrolnyService punktKonService;
 
-    public DroneService(MySQLController con) {
+    public DroneService(MySQLController con, PunktKontrolnyService ser) {
         super(con);
+        this.punktKonService = ser;
     }
 
     @Override
@@ -60,7 +62,7 @@ public class DroneService extends Service implements ServiceInterface{
         } catch (SQLException e) {
             return new Error(e.toString());
         }
-        Error error = Main.punktKontrolnyService.incCurrentDrones(d.getPunkt_kontrolny_id());
+        Error error = this.punktKonService.incCurrentDrones(d.getPunkt_kontrolny_id());
         try {
             if (error != null) {
                 mysql.getCon().rollback(s);
