@@ -9,6 +9,6 @@ import main.Main;
  * Created by no-one on 14.12.16.
  */
 public final class CommonTask {
-
+    
 
 }

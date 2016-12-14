@@ -18,7 +18,7 @@ import java.util.Date;
 /**
  * Created by no-one on 19.11.16.
  */
-public final class CommonFunc {
+public abstract class CommonFunc {
 
     public static String hashPass(String pass) {
         if(pass.length()==0) return "";

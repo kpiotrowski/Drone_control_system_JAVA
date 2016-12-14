@@ -3,10 +3,7 @@ package common;
 /**
  * Created by no-one on 17.11.16.
  */
-public final class Consts {
-
-    private Consts(){}
-
+public interface Consts {
     public final static String dbPort = "3306";
 
     public final static String dbName = "droneDatabase";
