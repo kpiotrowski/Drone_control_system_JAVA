@@ -1,14 +1,23 @@
 package gui;
 
 import common.Consts;
+import common.FilterParam;
+import dataModels.DataModel;
+import dataModels.Punkt_kontrolny;
 import gui.base.MainGUIController;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
+import main.Main;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by no-one on 18.11.16.
@@ -79,4 +88,14 @@ public class GUI {
         this.mainCtrl.setDatabaseStatus(str, ok);
     }
 
+    public Task getDronePointsTask(boolean free){
+        ArrayList<FilterParam> filterList = new ArrayList<>();
+        if(free) filterList.add(FilterParam.newF("max_ilosc_dronow-obecna_ilosc_dronow", ">", 0));
+        Task t = new Task() {
+            protected List<DataModel> call() throws SQLException {
+                return Main.punktKontrolnyService.find(filterList);
+            }
+        };
+        return t;
+    }
 }

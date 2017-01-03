@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by no-one on 18.11.16.
  */
-public interface ServiceInterface {
+interface ServiceInterface {
 
     /**
      *
@@ -45,5 +45,4 @@ public interface ServiceInterface {
      * @throws SQLException Exception if getting data from resultSet failed
      */
     public List<DataModel> parseToModel(ResultSet res) throws SQLException;
-
 }

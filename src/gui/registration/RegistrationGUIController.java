@@ -54,7 +54,7 @@ public class RegistrationGUIController {
                     Main.gui.showDialog("sukces", "Pomyslnie zarejestrowano użytkownika.", "", Alert.AlertType.INFORMATION);
                     clearForm();
                 } else {
-                    Main.gui.showDialog("error", "Wystąpił błąd podczas rejestracji", e.toString(), Alert.AlertType.ERROR);
+                    Main.gui.showDialog("error", "Wystąpił błąd podczas rejestracji", e.getMessage(), Alert.AlertType.ERROR);
                 }
             } catch (ParseException e) {
                 errorLabel.setText("Niepoprawny format daty! (poprawny:dd-MM-yyyy)");

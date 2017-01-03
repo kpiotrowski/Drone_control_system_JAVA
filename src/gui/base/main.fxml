@@ -27,24 +27,7 @@
             </Tab>
             <Tab text="Routes">
               <content>
-                <BorderPane prefHeight="200.0" prefWidth="200.0">
-                  <left>
-                    <TabPane prefHeight="785.0" prefWidth="250.0" tabClosingPolicy="UNAVAILABLE">
-                      <tabs>
-                        <Tab text="List">
-                          <content>
-                            <ListView prefHeight="200.0" prefWidth="200.0" />
-                          </content>
-                        </Tab>
-                        <Tab text="New">
-                          <content>
-                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="749.0" prefWidth="236.0" />
-                          </content>
-                        </Tab>
-                      </tabs>
-                    </TabPane>
-                  </left>
-                </BorderPane>
+                <fx:include fx:id="route" source="route/routes.fxml" />
               </content>
             </Tab>
             <Tab text="Jobs">

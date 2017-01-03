@@ -19,10 +19,10 @@ import static common.CommonFunc.statSetVarPar;
  */
 public class UserService extends Service implements ServiceInterface{
 
-    private final String table = "Uzytkownik";
-    private final String insertStr="imie,nazwisko,data_urodzenia,login,telefon,haslo,poziom_uprawnien";
-    private final String selectStr="id,"+insertStr;
-    private final String updateStr="imie=?,nazwisko=?,data_urodzenia=?,telefon=?";
+    private static final String table = "Uzytkownik";
+    private static final String insertStr="imie,nazwisko,data_urodzenia,login,telefon,haslo,poziom_uprawnien";
+    private static final String selectStr="id,"+insertStr;
+    private static final String updateStr="imie=?,nazwisko=?,data_urodzenia=?,telefon=?";
 
     public UserService(MySQLController con){
         super(con);
@@ -32,7 +32,7 @@ public class UserService extends Service implements ServiceInterface{
     public Error insert(DataModel data) {
         Uzytkownik uz = (Uzytkownik) data;
         StringBuilder builder = new StringBuilder();
-        builder.append("INSERT INTO "+ this.table +"(");
+        builder.append("INSERT INTO "+ table +"(");
         builder.append(insertStr);
         builder.append(") VALUES(?,?,?,?,?,?,?)");
 
@@ -49,7 +49,7 @@ public class UserService extends Service implements ServiceInterface{
             pstmt.close();
             return null;
         } catch (SQLException e) {
-            return new Error(e.toString());
+            return new Error(e.getMessage());
         }
     }
 
@@ -57,7 +57,7 @@ public class UserService extends Service implements ServiceInterface{
     public Error update(DataModel data) {
         Uzytkownik uz = (Uzytkownik) data;
 
-        String sql = String.format("UPDATE %s SET %s WHERE ID=?", this.table, updateStr);
+        String sql = String.format("UPDATE %s SET %s WHERE ID=?", table, updateStr);
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
             statSetVarPar(pstmt, 1,uz.getImie());
             statSetVarPar(pstmt, 2,uz.getNazwisko());
@@ -68,7 +68,7 @@ public class UserService extends Service implements ServiceInterface{
             mysql.getCon().commit();
             Main.authenticatedUser = uz;
         } catch (SQLException e) {
-            return new Error(e.toString());
+            return new Error(e.getMessage());
         }
         return null;
     }
@@ -103,17 +103,15 @@ public class UserService extends Service implements ServiceInterface{
             uz.setTelefon(res.getString(6));
             uz.setHaslo(res.getString(7));
             uz.setPoziom_uprawnien(res.getInt(8));
-            res.close();
             list.add(uz);
-            return list;
         }
         res.close();
-        return null;
+        return list;
     }
 
     public Error changePassword(String newPass) {
         String newPassword = CommonFunc.hashPass(newPass);
-        String sql = String.format("UPDATE %s SET haslo=? WHERE id=?", this.table);
+        String sql = String.format("UPDATE %s SET haslo=? WHERE id=?", table);
         try ( PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);){
             statSetVarPar(pstmt, 1, newPassword);
             statSetVarPar(pstmt, 2, Main.authenticatedUser.getId());
@@ -121,7 +119,7 @@ public class UserService extends Service implements ServiceInterface{
             mysql.getCon().commit();
             Main.authenticatedUser.setHaslo(newPassword);
         } catch (SQLException e) {
-            return new Error(e.toString());
+            return new Error(e.getMessage());
         }
         return null;
     }
@@ -140,9 +138,7 @@ public class UserService extends Service implements ServiceInterface{
     }
 
     private Uzytkownik getUser(String login) throws SQLException {
-        StringBuilder builder = new StringBuilder();
-        builder.append(String.format("SELECT %s FROM %s WHERE login=?", selectStr, this.table));
-        PreparedStatement pstmt = mysql.getCon().prepareStatement(builder.toString());
+        PreparedStatement pstmt = mysql.getCon().prepareStatement(String.format("SELECT %s FROM %s WHERE login=?", selectStr, table));
         pstmt.setString(1, login);
         ResultSet rs = pstmt.executeQuery();
         Uzytkownik uz = (Uzytkownik) parseToModel(rs).get(0);

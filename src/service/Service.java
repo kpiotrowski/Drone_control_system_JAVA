@@ -17,11 +17,11 @@ import static common.CommonFunc.statSetVarPar;
 /**
  * Created by no-one on 18.11.16.
  */
-public abstract class Service {
+abstract class Service {
 
-    protected MySQLController mysql;
+    MySQLController mysql;
 
-    public Service(MySQLController con){
+    Service(MySQLController con){
         this.mysql = con;
     }
 
@@ -38,7 +38,7 @@ public abstract class Service {
             pstmt.execute();
             mysql.getCon().commit();
         } catch (SQLException e) {
-            return new Error(e.toString());
+            return new Error(e.getMessage());
         }
         return null;
     }
@@ -51,7 +51,7 @@ public abstract class Service {
      * @return PreparedStatement to execute
      * @throws SQLException Exception when failed
      */
-    public PreparedStatement find(ArrayList<FilterParam> filterList, String selectStr, String table) throws SQLException {
+    PreparedStatement find(ArrayList<FilterParam> filterList, String selectStr, String table) throws SQLException {
         StringBuilder builder = new StringBuilder();
         builder.append(String.format("SELECT %s FROM %s", selectStr, table));
 

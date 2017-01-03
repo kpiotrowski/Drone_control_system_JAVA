@@ -20,6 +20,7 @@ import java.util.List;
 import static common.CommonFunc.emptyNullStr;
 import static common.CommonFunc.strToFloat;
 import static common.CommonFunc.strToInteger;
+import static common.CommonTask.onSuccessSimpleError;
 
 /**
  * Created by no-one on 19.11.16.
@@ -124,7 +125,7 @@ public class DroneController {
             this.createTab.setDisable(false);
         }
     }
-    protected void updateTableView(List<DataModel> dataList){
+    private void updateTableView(List<DataModel> dataList){
         ObservableList<Dron> data = FXCollections.observableArrayList();
         for (DataModel m: dataList) {
             Dron d = (Dron)m;
@@ -134,13 +135,7 @@ public class DroneController {
     }
 
     private void getPoints(ChoiceBox<Punkt_kontrolny> box, boolean free){
-        ArrayList<FilterParam> filterList = new ArrayList<>();
-        if(free==true) filterList.add(FilterParam.newF("max_ilosc_dronow-obecna_ilosc_dronow", ">", 0));
-        Task t = new Task() {
-            protected List<DataModel> call() throws SQLException {
-                return Main.punktKontrolnyService.find(filterList);
-            }
-        };
+        Task t = Main.gui.getDronePointsTask(free);
         t.setOnSucceeded(event -> {
             List<DataModel> resultList = (List<DataModel>) t.getValue();
             this.setSelectBoxValues(box, resultList);
@@ -176,13 +171,9 @@ public class DroneController {
         Task t = new Task() {
             protected Error call() throws Exception { return Main.droneService.update(d); }
         };
-        t.setOnSucceeded(event -> {
-            Error e = (Error) t.getValue();
-            if(e != null)
-                Main.gui.showDialog("Błąd","Niepowodzenie aktualizacji informacji o dronie", e.toString(), Alert.AlertType.ERROR);
-            else
-                Main.gui.showDialog("Info","Pomyśłnie zaktualizowano informacje o dronie","", Alert.AlertType.INFORMATION);
-        });
+        t.setOnSucceeded(
+                onSuccessSimpleError(t,"Niepowodzenie aktualizacji informacji o dronie","Pomyśłnie zaktualizowano informacje o dronie")
+        );
         new Thread(t).start();
     }
 
@@ -242,7 +233,7 @@ public class DroneController {
         };
         t.setOnSucceeded(event -> {
             Error e = (Error) t.getValue();
-            if(e!=null)  Main.gui.showDialog("Błąd","Niepowodzenie usuwania drona", e.toString(), Alert.AlertType.ERROR);
+            if(e!=null)  Main.gui.showDialog("Błąd","Niepowodzenie usuwania drona", e.getMessage(), Alert.AlertType.ERROR);
             else Main.gui.showDialog("Info", "Pomyślnie usunięto drona", "", Alert.AlertType.INFORMATION);
         });
         new Thread(t).start();
@@ -288,7 +279,7 @@ public class DroneController {
         t.setOnSucceeded(event -> {
             Error e = (Error) t.getValue();
             if(e != null)
-                Main.gui.showDialog("Błąd","Niepowodzenie dodawania nowego drona", e.toString(), Alert.AlertType.ERROR);
+                Main.gui.showDialog("Błąd","Niepowodzenie dodawania nowego drona", e.getMessage(), Alert.AlertType.ERROR);
             else {
                 this.clearCreateForm();
                 Main.gui.showDialog("INfo", "Pomyślnie dodano nowego drona", "", Alert.AlertType.INFORMATION);
@@ -314,6 +305,4 @@ public class DroneController {
         if(d.getPoziom_baterii()==null) return new Error("Nieprawodłowy poziom baterii");
         return null;
     }
-
-
 }

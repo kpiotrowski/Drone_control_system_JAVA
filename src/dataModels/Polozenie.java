@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Polozenie extends DataModel{
-  @Getter @Setter private Long wspx;
-  @Getter @Setter private Long wspy;
-  @Getter @Setter private Long wspz;
-  @Getter @Setter private Long id;
+  @Getter @Setter private Float wspx;
+  @Getter @Setter private Float wspy;
+  @Getter @Setter private Float wspz;
+  @Getter @Setter private Integer id;
 }

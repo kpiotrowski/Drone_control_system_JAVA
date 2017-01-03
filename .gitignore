@@ -3,3 +3,4 @@
 out
 target
 config.conf
+/src/gui/base/route/routes.fxml

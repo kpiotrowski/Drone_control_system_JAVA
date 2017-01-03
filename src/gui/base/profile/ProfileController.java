@@ -8,15 +8,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import main.Main;
 
 import java.sql.SQLException;
 import java.text.ParseException;
 
+import static common.CommonTask.onSuccessSimpleError;
+
 /**
  * Created by no-one on 19.11.16.
  */
 public class ProfileController {
+    @FXML private Color x2;
     @FXML private Label passwordErrorLabel;
     @FXML private TextField currentPas;
     @FXML private TextField profileId;
@@ -31,7 +35,7 @@ public class ProfileController {
     @FXML private Label profileErrorLabel;
     @FXML private TextField newPass;
 
-    public void ProfileController(){}
+    public ProfileController(){}
 
     @FXML
     private void initialize() {
@@ -72,13 +76,9 @@ public class ProfileController {
                 return Main.userService.changePassword(newP);
             }
         };
-        t.setOnSucceeded(event -> {
-            Error e = (Error) t.getValue();
-            if(e != null)
-                Main.gui.showDialog("error",e.toString(), "", Alert.AlertType.ERROR);
-            else
-                Main.gui.showDialog("success","Pomyslnie zmieniono hasło", "", Alert.AlertType.INFORMATION);
-        });
+        t.setOnSucceeded(
+                onSuccessSimpleError(t,"Niepowodzenie zmiany hasła","Pomyslnie zmieniono hasło")
+        );
         new Thread(t).start();
     }
 
@@ -87,12 +87,12 @@ public class ProfileController {
             Main.authenticatedUser = Main.userService.authUserReload();
             profileTabUpdate();
         } catch (SQLException e) {
-            Main.gui.showDialog("error","Niepowodzenie podczas pobiedania danych użytkownika", e.toString(), Alert.AlertType.ERROR);
+            Main.gui.showDialog("error","Niepowodzenie podczas pobiedania danych użytkownika", e.getMessage(), Alert.AlertType.ERROR);
 
         }
     }
 
-    protected void updateProfile(){
+    private void updateProfile(){
         profileErrorLabel.setText("");
         try {
             Uzytkownik uz = parseUpdateForm();
@@ -106,7 +106,7 @@ public class ProfileController {
             };
             t.setOnSucceeded(event -> {
                 Error e = (Error) t.getValue();
-                if(e != null) Main.gui.showDialog("error",e.toString(), "", Alert.AlertType.ERROR);
+                if(e != null) Main.gui.showDialog("error",e.getMessage(), "", Alert.AlertType.ERROR);
                 else {
                     Main.gui.showDialog("success", "Pomyslnie zaktualizowano dane", "", Alert.AlertType.INFORMATION);
                     profileTabUpdate();
@@ -119,7 +119,7 @@ public class ProfileController {
         }
     }
 
-    protected void setProfileError(String err, int error){
+    private void setProfileError(String err, int error){
         if(error == 0 ) this.profileErrorLabel.setText(err);
         else this.passwordErrorLabel.setText(err);
     }

@@ -22,11 +22,11 @@ import static common.CommonFunc.statSetVarPar;
  */
 public class PunktKontrolnyService extends Service implements ServiceInterface {
 
-    private final String table = "Punkt_kontrolny";
-    private final String insertStr="nazwa,max_ilosc_dronow,obecna_ilosc_dronow,wspX,wspY,wspZ";
-    private final String selectStr="id,"+insertStr;
-    private final String updateStr="nazwa=?,max_ilosc_dronow=?";
-    private final String incStr="obecna_ilosc_dronow=obecna_ilosc_dronow+1";
+    private static final String table = "Punkt_kontrolny";
+    private static final String insertStr="nazwa,max_ilosc_dronow,obecna_ilosc_dronow,wspX,wspY,wspZ";
+    private static final String selectStr="id,"+insertStr;
+    private static final String updateStr="nazwa=?,max_ilosc_dronow=?";
+    private static final String incStr="obecna_ilosc_dronow=obecna_ilosc_dronow+1";
 
     public PunktKontrolnyService(MySQLController con) {
         super(con);
@@ -36,7 +36,7 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
     public Error insert(DataModel data) {
         Punkt_kontrolny p = (Punkt_kontrolny) data;
         StringBuilder builder = new StringBuilder();
-        builder.append("INSERT INTO "+ this.table +" (");
+        builder.append("INSERT INTO "+ table +" (");
         builder.append(insertStr);
         builder.append(") VALUES(?,?,?,?,?,?)");
         System.out.println(builder.toString());
@@ -50,7 +50,7 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
             pstmt.executeUpdate();
             mysql.getCon().commit();
         } catch (SQLException e) {
-            return new Error(e.toString());
+            return new Error(e.getMessage());
         }
         return null;
     }
@@ -59,7 +59,7 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
 
     @Override
     public Error update(DataModel data) {
-        String sql = String.format("UPDATE %s SET %s WHERE id=?", this.table, updateStr);
+        String sql = String.format("UPDATE %s SET %s WHERE id=?", table, updateStr);
         Punkt_kontrolny p = (Punkt_kontrolny) data;
 
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
@@ -69,25 +69,26 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
             pstmt.executeUpdate();
             mysql.getCon().commit();
         } catch (SQLException e) {
-            return new Error(e.toString());
+            return new Error(e.getMessage());
         }
         return null;
     }
 
     public Error incCurrentDrones(int id){
-        String sql = String.format("UPDATE %s SET %s WHERE id=?", this.table, incStr);
+        String sql = String.format("UPDATE %s SET %s WHERE id=? AND obecna_ilosc_dronow < max_ilosc_dronow", table, incStr);
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
             pstmt.setInt(1,id);
-            pstmt.executeUpdate();
+            int updated = pstmt.executeUpdate();
+            if (updated!=1) return new Error("Nie udało się przypisać drona do punktu kontrolnego");
         } catch (SQLException e) {
-            return new Error(e.toString());
+            return new Error(e.getMessage());
         }
         return null;
     }
 
     @Override
     public Error delete(Integer id) {
-        return super.delete(id,this.table);
+        return super.delete(id,table);
     }
 
 
@@ -104,7 +105,7 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
     }
 
     public List<DataModel> find(ArrayList<FilterParam> filterList) throws SQLException {
-        try (PreparedStatement pstmt = super.find(filterList,this.selectStr,this.table);){
+        try (PreparedStatement pstmt = super.find(filterList,selectStr,table);){
             ResultSet rs = pstmt.executeQuery();
             return  this.parseToModel(rs);
         } catch (SQLException e) {

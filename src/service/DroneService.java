@@ -20,10 +20,10 @@ import static common.CommonFunc.statSetVarPar;
  * Created by no-one on 18.11.16.
  */
 public class DroneService extends Service implements ServiceInterface{
-    private final String table = "Dron";
-    private final String insertStr="nazwa,opis,masa,ilosc_wirnikow,max_predkosc,max_czas_lotu,poziom_baterii,wspX,wspY,wspZ,stan,Punkt_kontrolny_id";
-    private final String selectStr="id,"+insertStr;
-    private final String updateStr="nazwa=?,opis=?,poziom_baterii=?";
+    private static final String table = "Dron";
+    private static final String insertStr="nazwa,opis,masa,ilosc_wirnikow,max_predkosc,max_czas_lotu,poziom_baterii,wspX,wspY,wspZ,stan,Punkt_kontrolny_id";
+    private static final String selectStr="id,"+insertStr;
+    private static final String updateStr="nazwa=?,opis=?,poziom_baterii=?";
     private PunktKontrolnyService punktKonService;
 
     public DroneService(MySQLController con, PunktKontrolnyService ser) {
@@ -41,16 +41,15 @@ public class DroneService extends Service implements ServiceInterface{
         }
 
         Dron d = (Dron) data;
-        StringBuilder builder = new StringBuilder();
-        builder.append("INSERT INTO "+ this.table +" (");
-        builder.append(insertStr);
-        builder.append(") VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
-        try (PreparedStatement pstmt = mysql.getCon().prepareStatement(builder.toString());){
-            statSetVarPar(pstmt,1, d.getNazwa());
-            statSetVarPar(pstmt,2, d.getOpis());
-            statSetVarPar(pstmt,3, d.getMasa());
+        String builder = ("INSERT INTO " + table + " (") +
+                insertStr +
+                ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+        try (PreparedStatement pstmt = mysql.getCon().prepareStatement(builder);){
+            statSetVarPar(pstmt,1,d.getNazwa());
+            statSetVarPar(pstmt,2,d.getOpis());
+            statSetVarPar(pstmt,3,d.getMasa());
             statSetVarPar(pstmt,4,d.getIlosc_wirnikow());
-            statSetVarPar(pstmt,5, d.getMax_predkosc());
+            statSetVarPar(pstmt,5,d.getMax_predkosc());
             statSetVarPar(pstmt,6,d.getMax_czas_lotu());
             statSetVarPar(pstmt,7,d.getPoziom_baterii());
             statSetVarPar(pstmt,8,d.getWspx());
@@ -60,16 +59,14 @@ public class DroneService extends Service implements ServiceInterface{
             statSetVarPar(pstmt,12,d.getPunkt_kontrolny_id());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            return new Error(e.toString());
+            return new Error(e.getMessage());
         }
         Error error = this.punktKonService.incCurrentDrones(d.getPunkt_kontrolny_id());
         try {
             if (error != null) {
                 mysql.getCon().rollback(s);
                 return error;
-            } else {
-                mysql.getCon().commit();
-            }
+            } else mysql.getCon().commit();
         } catch (SQLException e) {
             return new Error(e.getMessage());
         }
@@ -78,7 +75,7 @@ public class DroneService extends Service implements ServiceInterface{
 
     @Override
     public Error update(DataModel data) {
-        String sql = String.format("UPDATE %s SET %s WHERE id=?", this.table, updateStr);
+        String sql = String.format("UPDATE %s SET %s WHERE id=?", table, updateStr);
         Dron d = (Dron) data;
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
             statSetVarPar(pstmt,1,d.getNazwa());
@@ -88,14 +85,14 @@ public class DroneService extends Service implements ServiceInterface{
             pstmt.executeUpdate();
             mysql.getCon().commit();
         } catch (SQLException e) {
-            return new Error(e.toString());
+            return new Error(e.getMessage());
         }
         return null;
     }
 
     @Override
     public Error delete(Integer id) {
-        return super.delete(id,this.table);
+        return super.delete(id,table);
     }
 
     @Override
@@ -143,7 +140,7 @@ public class DroneService extends Service implements ServiceInterface{
    }
 
     public List<DataModel> find(ArrayList<FilterParam> filterList) throws SQLException {
-        try (PreparedStatement pstmt = super.find(filterList,this.selectStr,this.table);){
+        try (PreparedStatement pstmt = super.find(filterList,selectStr,table);){
             ResultSet rs = pstmt.executeQuery();
             return  this.parseToModel(rs);
         } catch (SQLException e) {

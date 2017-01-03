@@ -55,7 +55,7 @@ public class LoginGUIController {
                     this.showError("Niepowodzenie podczas autoryzacji użytkownika");
                 }
             } catch (SQLException e) {
-                this.showError(e.toString());
+                this.showError(e.getMessage());
             }
         });
     }

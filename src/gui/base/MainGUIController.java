@@ -3,6 +3,7 @@ package gui.base;
 import gui.base.drone.DroneController;
 import gui.base.points.PointsController;
 import gui.base.profile.ProfileController;
+import gui.base.route.RouteController;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -15,37 +16,23 @@ import main.Main;
  */
 public class MainGUIController extends Controller {
 
-    @FXML
-    private Button reload;
-    @FXML
-    private TabPane mainTabPane;
-    @FXML
-    private Button registerButton;
-    @FXML
-    private Button loginButton;
-    @FXML
-    private Button logoutButton;
-    @FXML
-    private Label usernameLabel;
-    @FXML
-    private Label databaseLabel;
-    @FXML
-    private Parent profile;
-    @FXML
-    private ProfileController profileController;
-    @FXML
-    private Parent points;
-    @FXML
-    private PointsController pointsController;
-    @FXML
-    private DroneController droneController;
-
-    public MainGUIController(){}
+    @FXML private Button reload;
+    @FXML private TabPane mainTabPane;
+    @FXML private Button registerButton;
+    @FXML private Button loginButton;
+    @FXML private Button logoutButton;
+    @FXML private Label usernameLabel;
+    @FXML private Label databaseLabel;
+    @FXML private Parent profile;
+    @FXML private ProfileController profileController;
+    @FXML private Parent points;
+    @FXML private PointsController pointsController;
+    @FXML private DroneController droneController;
+    @FXML private RouteController routeController;
 
     @FXML
     private void initialize() {
         Main.gui.mainCtrl = this;
-
         registerButton.setOnAction((e) -> {Main.gui.showRegForm();});
         loginButton.setOnAction((e) -> {Main.gui.showLogForm();});
         logoutButton.setOnAction((e) -> {this.logout();});
@@ -78,6 +65,7 @@ public class MainGUIController extends Controller {
     private void reloadPermissions(){
         this.pointsController.refreshPermissions(Main.authenticatedUser);
         this.droneController.refreshPermissions(Main.authenticatedUser);
+        this.routeController.refreshPermissions(Main.authenticatedUser);
     }
 
     private void logout(){

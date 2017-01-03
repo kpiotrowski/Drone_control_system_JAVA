@@ -10,6 +10,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import main.Main;
 
 import java.sql.SQLException;
@@ -18,11 +19,13 @@ import java.util.List;
 
 import static common.CommonFunc.strToFloat;
 import static common.CommonFunc.strToInteger;
+import static common.CommonTask.onSuccessSimpleError;
 
 /**
  * Created by no-one on 20.11.16.
  */
 public class PointsController {
+    @FXML private Color x1;
     @FXML private TableColumn<Object, Object> columnNazwa;
     @FXML private TableColumn<Object, Object> columnDronesNow;
     @FXML private TableColumn<Object, Object> columnMaxDrones;
@@ -157,13 +160,9 @@ public class PointsController {
         Task t = new Task() {
             protected Error call() { return Main.punktKontrolnyService.delete(id); }
         };
-        t.setOnSucceeded(event -> {
-            Error e = (Error) t.getValue();
-            if(e!=null)
-                Main.gui.showDialog("Błąd","Niepowodzenie usuwania punktu kontrolnego", e.toString(), Alert.AlertType.ERROR);
-            else
-                Main.gui.showDialog("Info", "Pomyślnie usunięto punkt kontrolny", "", Alert.AlertType.INFORMATION);
-        });
+        t.setOnSucceeded(
+                onSuccessSimpleError(t,"Niepowodzenie usuwania punktu kontrolnego","PomysPomyślnie usunięto punkt kontrolnyo")
+        );
         new Thread(t).start();
     }
 
@@ -232,7 +231,7 @@ public class PointsController {
         t.setOnSucceeded(event -> {
             Error e = (Error) t.getValue();
             if(e != null)
-                Main.gui.showDialog("Błąd","Niepowodzenie dodawania nowego punktu kontrolnego", e.toString(), Alert.AlertType.ERROR);
+                Main.gui.showDialog("Błąd","Niepowodzenie dodawania nowego punktu kontrolnego", e.getMessage(), Alert.AlertType.ERROR);
             else {
                 this.clearCreateForm();
                 Main.gui.showDialog("INfo", "Pomyślnie dodano nowy punkt kontrolny", "", Alert.AlertType.INFORMATION);
@@ -255,13 +254,9 @@ public class PointsController {
                 return Main.punktKontrolnyService.update(p);
             }
         };
-        t.setOnSucceeded(event -> {
-            Error e = (Error) t.getValue();
-            if(e != null)
-                Main.gui.showDialog("Błąd","Niepowodzenie aktualizacji punktu kontrolnego", e.toString(), Alert.AlertType.ERROR);
-            else
-                Main.gui.showDialog("Info","Pomyśłnie zaktualizowano punkt kontrolny","", Alert.AlertType.INFORMATION);
-        });
+        t.setOnSucceeded(
+                onSuccessSimpleError(t,"Pomyśłnie zaktualizowano punkt kontrolny","Niepowodzenie aktualizacji punktu kontrolnego")
+        );
         new Thread(t).start();
     }
 

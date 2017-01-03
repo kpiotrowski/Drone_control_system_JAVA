@@ -15,4 +15,8 @@ public class Punkt_kontrolny extends DataModel{
   @Getter @Setter Float wspx;
   @Getter @Setter Float wspy;
   @Getter @Setter Float wspz;
+
+  public String toString(){
+    return "#"+this.id+"_"+this.nazwa;
+  }
 }
