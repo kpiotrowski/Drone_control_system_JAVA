@@ -141,7 +141,12 @@ public class UserService extends Service implements ServiceInterface{
         PreparedStatement pstmt = mysql.getCon().prepareStatement(String.format("SELECT %s FROM %s WHERE login=?", selectStr, table));
         pstmt.setString(1, login);
         ResultSet rs = pstmt.executeQuery();
-        Uzytkownik uz = (Uzytkownik) parseToModel(rs).get(0);
+        List<DataModel> data = parseToModel(rs);
+        if(data.size()==0) {
+            pstmt.close();
+            return null;
+        }
+        Uzytkownik uz = (Uzytkownik) data.get(0);
         pstmt.close();
         return uz;
     }

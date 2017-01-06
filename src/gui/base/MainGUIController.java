@@ -1,6 +1,7 @@
 package gui.base;
 
 import gui.base.drone.DroneController;
+import gui.base.job.JobsController;
 import gui.base.points.PointsController;
 import gui.base.profile.ProfileController;
 import gui.base.route.RouteController;
@@ -29,6 +30,7 @@ public class MainGUIController extends Controller {
     @FXML private PointsController pointsController;
     @FXML private DroneController droneController;
     @FXML private RouteController routeController;
+    @FXML private JobsController jobsController;
 
     @FXML
     private void initialize() {
@@ -66,6 +68,7 @@ public class MainGUIController extends Controller {
         this.pointsController.refreshPermissions(Main.authenticatedUser);
         this.droneController.refreshPermissions(Main.authenticatedUser);
         this.routeController.refreshPermissions(Main.authenticatedUser);
+        this.jobsController.refreshPermissions(Main.authenticatedUser);
     }
 
     private void logout(){

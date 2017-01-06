@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="731.0" prefWidth="1094.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="gui.base.job.JobsController">
+  <center>
+    <TableView fx:id="tableView" prefHeight="420.0">
+      <columnResizePolicy>
+        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+      </columnResizePolicy>
+      <columns>
+        <TableColumn prefWidth="75.0" text="id" fx:id="columnId" />
+        <TableColumn prefWidth="75.0" text="start date" fx:id="columnDataStart" />
+        <TableColumn prefWidth="75.0" text="typ" fx:id="columnType" />
+        <TableColumn prefWidth="75.0" text="route" fx:id="columnRouteName" />
+        <TableColumn prefWidth="113.0" text="user name" fx:id="columnUserName" />
+        <TableColumn prefWidth="113.0" text="drone" fx:id="columnDrone" />
+        <TableColumn prefWidth="311.0" text="finish point" fx:id="columnFinishPoint" />
+      </columns>
+    </TableView>
+  </center>
+  <left>
+    <TabPane fx:id="tabPane" prefHeight="785.0" prefWidth="355.0000999999975" tabClosingPolicy="UNAVAILABLE">
+      <Tab fx:id="findTab" text="Find">
+        <Pane prefHeight="200.0" prefWidth="200.0">
+          <Label layoutX="29.0" layoutY="264.0" text="start date" />
+          <Label layoutX="29.0" layoutY="231.0" text="drone" />
+          <Label fx:id="pointFindError" layoutX="29.0" layoutY="22.0" prefHeight="40.1328125" prefWidth="295.0">
+            <textFill>
+              <Color blue="0.000" green="0.000" red="0.800" fx:id="x1" />
+            </textFill>
+          </Label>
+          <Label layoutX="29.0" layoutY="197.0" text="finish point" />
+          <Label layoutX="29.0" layoutY="163.0" text="route" />
+          <Label layoutX="160.0" layoutY="88.0" text="FIND" />
+          <Label layoutX="29.0" layoutY="128.0" prefWidth="40.999908447265625" text="type" />
+          <TextField id="pointFindFreePlaces" layoutX="122.0" layoutY="261.0" prefWidth="200.0" />
+          <Button fx:id="pointFindButton" layoutX="122.0" layoutY="338.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="60.0" text="FIND" />
+          <ChoiceBox layoutX="122.0" layoutY="126.0" prefWidth="200.0">
+            <items>
+              <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Item 1" />
+                <String fx:value="Item 2" />
+                <String fx:value="Item 3" />
+              </FXCollections>
+            </items>
+          </ChoiceBox>
+          <Label layoutX="29.0" layoutY="300.0" text="user" visible="false" />
+          <TextField id="pointFindFreePlaces" layoutX="122.0" layoutY="297.0" prefWidth="200.0" visible="false" />
+          <ChoiceBox layoutX="122.0" layoutY="161.0" prefWidth="200.0">
+            <items>
+              <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Item 1" />
+                <String fx:value="Item 2" />
+                <String fx:value="Item 3" />
+              </FXCollections>
+            </items>
+          </ChoiceBox>
+          <ChoiceBox layoutX="122.0" layoutY="195.0" prefWidth="200.0">
+            <items>
+              <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Item 1" />
+                <String fx:value="Item 2" />
+                <String fx:value="Item 3" />
+              </FXCollections>
+            </items>
+          </ChoiceBox>
+          <ChoiceBox layoutX="122.0" layoutY="229.0" prefWidth="200.0">
+            <items>
+              <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Item 1" />
+                <String fx:value="Item 2" />
+                <String fx:value="Item 3" />
+              </FXCollections>
+            </items>
+          </ChoiceBox>
+        </Pane>
+      </Tab>
+      <Tab fx:id="createTab" disable="false" text="Create">
+        <Pane prefHeight="401.0" prefWidth="354.0">
+          <Label layoutX="116.0" layoutY="82.0" text="ADD NEW JOB" />
+          <Label layoutX="25.0" layoutY="147.0" text="type" />
+          <Label fx:id="pointCreateError" layoutX="23.0" layoutY="29.0" prefHeight="32.1328125" prefWidth="309.0" textFill="$x1" />
+          <Label layoutX="25.0" layoutY="186.0" text="start date" />
+          <Label layoutX="24.0" layoutY="223.0" text="route" />
+          <Label layoutX="25.0" layoutY="259.0" text="drone" />
+          <Label layoutX="25.0" layoutY="293.0" prefWidth="73.00018310546875" text="finish point" />
+          <TextField id="pointCreateKoorX" layoutX="136.0" layoutY="183.0" prefWidth="200.0" />
+          <Button fx:id="pointCreateButton" layoutX="125.0" layoutY="335.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.00009999999747" text="ADD" />
+          <ChoiceBox layoutX="136.0" layoutY="145.0" prefWidth="200.0">
+            <items>
+              <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Item 1" />
+                <String fx:value="Item 2" />
+                <String fx:value="Item 3" />
+              </FXCollections>
+            </items>
+          </ChoiceBox>
+          <ChoiceBox layoutX="136.0" layoutY="221.0" prefWidth="200.0">
+            <items>
+              <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Item 1" />
+                <String fx:value="Item 2" />
+                <String fx:value="Item 3" />
+              </FXCollections>
+            </items>
+          </ChoiceBox>
+          <ChoiceBox disable="true" layoutX="136.0" layoutY="257.0" prefWidth="200.0">
+            <items>
+              <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Item 1" />
+                <String fx:value="Item 2" />
+                <String fx:value="Item 3" />
+              </FXCollections>
+            </items>
+          </ChoiceBox>
+          <ChoiceBox disable="true" layoutX="136.0" layoutY="291.0" prefWidth="200.0">
+            <items>
+              <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Item 1" />
+                <String fx:value="Item 2" />
+                <String fx:value="Item 3" />
+              </FXCollections>
+            </items>
+          </ChoiceBox>
+        </Pane>
+      </Tab>
+      <Tab fx:id="infoTab" disable="false" text="Info">
+        <Pane prefHeight="200.0" prefWidth="200.0" />
+      </Tab>
+    </TabPane>
+  </left>
+</BorderPane>
