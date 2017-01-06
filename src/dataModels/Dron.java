@@ -8,6 +8,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Dron extends DataModel {
+    static final int STATUS_WOLNY = 0;
+    static final int STATUS_PRZYDZIELONY_DO_ZADANIA = 1;
+    static final int STATUS_WYKONUJE_ZADANIE = 2;
+    static final int STATUS_WYŁĄCZONY = 3;
+
     @Getter @Setter private Integer id;
     @Getter @Setter private String nazwa;
     @Getter @Setter private String opis;
@@ -19,6 +24,15 @@ public class Dron extends DataModel {
     @Getter @Setter private Float wspx;
     @Getter @Setter private Float wspy;
     @Getter @Setter private Float wspz;
-    @Getter @Setter private Integer stan;
+    @Setter @Getter private Integer stan;
     @Getter @Setter private Integer punkt_kontrolny_id;
+    private String stanString;
+
+    public String getStanString(){
+        //Zawsze chciałem to zrobić :)
+        return this.stan==STATUS_WOLNY ? "free" :
+                (this.stan==STATUS_PRZYDZIELONY_DO_ZADANIA ? "assigned to job" :
+                        (this.stan==STATUS_WYKONUJE_ZADANIE ? "job in progress" :
+                                (this.stan==STATUS_WYŁĄCZONY ? "not available" : "other")));
+    }
 }

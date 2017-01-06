@@ -58,7 +58,7 @@ public class MainGUIController extends Controller {
         this.usernameLabel.setText(Main.authenticatedUser.getImie()+" "+Main.authenticatedUser.getNazwisko());
     }
 
-    public void reload(){
+    private void reload(){
         this.profileController.refresh();
         reloadTopInfo();
         reloadPermissions();

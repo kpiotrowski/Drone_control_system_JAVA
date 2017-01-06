@@ -7,69 +7,61 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="CENTER" hgap="10.0" prefHeight="900.0" prefWidth="1200.0" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="gui.base.MainGUIController">
-  <children>
-    <BorderPane prefHeight="900.0" prefWidth="1200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
-      <bottom>
-        <Pane id="footer" disable="false" focusTraversable="false" prefHeight="26.0" prefWidth="1300.0" style="-fx-background-color:#363636;">
-          <children>
-            <Label layoutX="14.0" layoutY="5.0" prefWidth="413.0" text="Author: Kamil Piotrowski Poznan University of Technology" textFill="WHITE" />
-          </children>
-        </Pane>
-      </bottom>
-      <center>
-        <TabPane fx:id="mainTabPane" disable="false" focusTraversable="true" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" visible="false">
-          <tabs>
-            <Tab text="Profile">
-              <content>
-                <fx:include fx:id="profile" source="profile/profile.fxml" />
-              </content>
-            </Tab>
-            <Tab text="Routes">
-              <content>
-                <fx:include fx:id="route" source="route/routes.fxml" />
-              </content>
-            </Tab>
-            <Tab text="Jobs">
-              <content>
-                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
-            <Tab disable="false" text="Drones">
-              <content>
-                <fx:include fx:id="drone" source="drone/drone.fxml" />
-              </content>
-            </Tab>
-            <Tab disable="false" text="Drone Points">
-              <content>
-                <fx:include fx:id="points" source="points/points.fxml" />
-              </content>
-            </Tab>
-          </tabs>
-        </TabPane>
-      </center>
-      <top>
-        <Pane prefHeight="53.0" prefWidth="1200.0" style="-fx-background-color:#444444;">
-          <children>
-            <Button fx:id="registerButton" layoutX="23.0" layoutY="13.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.00009999999747" text="Register" />
-            <Button fx:id="loginButton" layoutX="132.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.0" text="Login" />
-            <Button fx:id="logoutButton" layoutX="1071.0" layoutY="13.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="104.0" text="Logout" visible="false" />
-            <Label fx:id="usernameLabel" alignment="CENTER_RIGHT" layoutX="858.0" layoutY="12.0" prefHeight="26.0" prefWidth="191.0" text="username" textAlignment="JUSTIFY" textFill="WHITE" visible="false">
-              <font>
-                <Font size="15.0" />
-              </font>
-            </Label>
-            <Label fx:id="databaseLabel" layoutX="250.0" layoutY="19.0" prefWidth="478.0" text="" textFill="#99daff" />
-            <Button fx:id="reload" layoutX="23.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.00009155273438" text="Reload" visible="false" />
-          </children>
-        </Pane>
-      </top>
-    </BorderPane>
-  </children>
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="900.0" prefWidth="1200.0" vgap="10.0"
+          xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
+          fx:controller="gui.base.MainGUIController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
   </rowConstraints>
+  <BorderPane prefHeight="900.0" prefWidth="1200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+    <bottom>
+      <Pane id="footer" prefHeight="26.0" prefWidth="1300.0"
+            style="-fx-background-color:#363636;">
+        <Label layoutX="14.0" layoutY="5.0" prefWidth="413.0"
+               text="Author: Kamil Piotrowski Poznan University of Technology" textFill="WHITE"/>
+      </Pane>
+    </bottom>
+    <center>
+      <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0"
+               tabClosingPolicy="UNAVAILABLE" visible="false">
+        <Tab text="Profile">
+          <fx:include fx:id="profile" source="profile/profile.fxml"/>
+        </Tab>
+        <Tab text="Routes">
+          <fx:include fx:id="route" source="route/routes.fxml"/>
+        </Tab>
+        <Tab text="Jobs">
+          <fx:include fx:id="job" source="job/jobs.fxml"/>
+        </Tab>
+        <Tab text="Drones">
+          <fx:include fx:id="drone" source="drone/drone.fxml"/>
+        </Tab>
+        <Tab text="Drone Points">
+          <fx:include fx:id="points" source="points/points.fxml"/>
+        </Tab>
+      </TabPane>
+    </center>
+    <top>
+      <Pane prefHeight="53.0" prefWidth="1200.0" style="-fx-background-color:#444444;">
+        <Button fx:id="registerButton" layoutX="23.0" layoutY="13.0" mnemonicParsing="false" prefHeight="26.0"
+                prefWidth="88.00009999999747" text="Register"/>
+        <Button fx:id="loginButton" layoutX="132.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0"
+                prefWidth="88.0" text="Login"/>
+        <Button fx:id="logoutButton" layoutX="1071.0" layoutY="13.0" mnemonicParsing="false" prefHeight="26.0"
+                prefWidth="104.0" text="Logout" visible="false"/>
+        <Label fx:id="usernameLabel" alignment="CENTER_RIGHT" layoutX="858.0" layoutY="12.0" prefHeight="26.0"
+               prefWidth="191.0" text="username" textAlignment="JUSTIFY" textFill="WHITE" visible="false">
+          <font>
+            <Font size="15.0"/>
+          </font>
+        </Label>
+        <Label fx:id="databaseLabel" layoutX="250.0" layoutY="19.0" prefWidth="478.0" text="" textFill="#99daff"/>
+        <Button fx:id="reload" layoutX="23.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0"
+                prefWidth="88.00009155273438" text="Reload" visible="false"/>
+      </Pane>
+    </top>
+  </BorderPane>
 </GridPane>

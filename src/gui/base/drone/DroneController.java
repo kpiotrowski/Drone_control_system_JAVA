@@ -101,7 +101,7 @@ public class DroneController {
         this.tabDroneKoorZ.setCellValueFactory(new PropertyValueFactory<>("wspz"));
         this.tabDroneKoorY.setCellValueFactory(new PropertyValueFactory<>("wspy"));
         this.tabDroneKoorX.setCellValueFactory(new PropertyValueFactory<>("wspx"));
-        this.tabDroneState.setCellValueFactory(new PropertyValueFactory<>("stan"));
+        this.tabDroneState.setCellValueFactory(new PropertyValueFactory<>("stanString"));
         this.tabDroneBattery.setCellValueFactory(new PropertyValueFactory<>("poziom_baterii"));
         this.tabDroneFlightTime.setCellValueFactory(new PropertyValueFactory<>("max_czas_lotu"));
         this.tabDroneSpeed.setCellValueFactory(new PropertyValueFactory<>("max_predkosc"));
