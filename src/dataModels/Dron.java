@@ -26,7 +26,6 @@ public class Dron extends DataModel {
     @Getter @Setter private Float wspz;
     @Setter @Getter private Integer stan;
     @Getter @Setter private Integer punkt_kontrolny_id;
-    private String stanString;
 
     public String getStanString(){
         //Zawsze chciałem to zrobić :)

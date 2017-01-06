@@ -20,9 +20,10 @@
         <TableColumn prefWidth="75.0" text="start date" fx:id="columnDataStart" />
         <TableColumn prefWidth="75.0" text="typ" fx:id="columnType" />
         <TableColumn prefWidth="75.0" text="route" fx:id="columnRouteName" />
-        <TableColumn prefWidth="113.0" text="user name" fx:id="columnUserName" />
-        <TableColumn prefWidth="113.0" text="drone" fx:id="columnDrone" />
-        <TableColumn prefWidth="311.0" text="finish point" fx:id="columnFinishPoint" />
+        <TableColumn prefWidth="113.0" text="user id" fx:id="columnUserId" />
+        <TableColumn prefWidth="113.0" text="drone id" fx:id="columnDrone" />
+        <TableColumn prefWidth="240.0" text="finish point id" fx:id="columnFinishPoint" />
+        <TableColumn prefWidth="75.0" text="status" fx:id="columnStatus" />
       </columns>
     </TableView>
   </center>
