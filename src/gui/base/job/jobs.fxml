@@ -16,13 +16,13 @@
         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
       </columnResizePolicy>
       <columns>
-        <TableColumn prefWidth="75.0" text="id" fx:id="columnId" />
-        <TableColumn prefWidth="75.0" text="start date" fx:id="columnDataStart" />
-        <TableColumn prefWidth="75.0" text="typ" fx:id="columnType" />
-        <TableColumn prefWidth="75.0" text="route" fx:id="columnRouteName" />
-        <TableColumn prefWidth="113.0" text="user id" fx:id="columnUserId" />
-        <TableColumn prefWidth="113.0" text="drone id" fx:id="columnDrone" />
-        <TableColumn prefWidth="240.0" text="finish point id" fx:id="columnFinishPoint" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="55.0" text="id" fx:id="columnId" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="126.0" text="start date" fx:id="columnDataStart" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="98.0" text="type" fx:id="columnType" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="43.0" text="route" fx:id="columnRouteName" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="28.0" text="user id" fx:id="columnUserId" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="20.0" text="drone id" fx:id="columnDrone" />
+        <TableColumn maxWidth="5000.0" minWidth="0.0" prefWidth="103.0" text="finish point id" fx:id="columnFinishPoint" />
         <TableColumn prefWidth="75.0" text="status" fx:id="columnStatus" />
       </columns>
     </TableView>
@@ -31,9 +31,9 @@
     <TabPane fx:id="tabPane" prefHeight="785.0" prefWidth="355.0000999999975" tabClosingPolicy="UNAVAILABLE">
       <Tab fx:id="findTab" text="Find">
         <Pane prefHeight="200.0" prefWidth="200.0">
-          <Label layoutX="29.0" layoutY="264.0" text="start date" />
-          <Label layoutX="29.0" layoutY="231.0" text="drone" />
-          <Label fx:id="pointFindError" layoutX="29.0" layoutY="22.0" prefHeight="40.1328125" prefWidth="295.0">
+          <Label layoutX="30.0" layoutY="296.0" text="start date" />
+          <Label layoutX="30.0" layoutY="263.0" text="drone" />
+          <Label fx:id="jobFindError" layoutX="29.0" layoutY="22.0" prefHeight="40.1328125" prefWidth="295.0">
             <textFill>
               <Color blue="0.000" green="0.000" red="0.800" fx:id="x1" />
             </textFill>
@@ -42,46 +42,16 @@
           <Label layoutX="29.0" layoutY="163.0" text="route" />
           <Label layoutX="160.0" layoutY="88.0" text="FIND" />
           <Label layoutX="29.0" layoutY="128.0" prefWidth="40.999908447265625" text="type" />
-          <TextField id="pointFindFreePlaces" layoutX="122.0" layoutY="261.0" prefWidth="200.0" />
-          <Button fx:id="pointFindButton" layoutX="122.0" layoutY="338.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="60.0" text="FIND" />
-          <ChoiceBox layoutX="122.0" layoutY="126.0" prefWidth="200.0">
-            <items>
-              <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Item 1" />
-                <String fx:value="Item 2" />
-                <String fx:value="Item 3" />
-              </FXCollections>
-            </items>
-          </ChoiceBox>
-          <Label layoutX="29.0" layoutY="300.0" text="user" visible="false" />
-          <TextField id="pointFindFreePlaces" layoutX="122.0" layoutY="297.0" prefWidth="200.0" visible="false" />
-          <ChoiceBox layoutX="122.0" layoutY="161.0" prefWidth="200.0">
-            <items>
-              <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Item 1" />
-                <String fx:value="Item 2" />
-                <String fx:value="Item 3" />
-              </FXCollections>
-            </items>
-          </ChoiceBox>
-          <ChoiceBox layoutX="122.0" layoutY="195.0" prefWidth="200.0">
-            <items>
-              <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Item 1" />
-                <String fx:value="Item 2" />
-                <String fx:value="Item 3" />
-              </FXCollections>
-            </items>
-          </ChoiceBox>
-          <ChoiceBox layoutX="122.0" layoutY="229.0" prefWidth="200.0">
-            <items>
-              <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Item 1" />
-                <String fx:value="Item 2" />
-                <String fx:value="Item 3" />
-              </FXCollections>
-            </items>
-          </ChoiceBox>
+          <Label fx:id="jobFindUserLabel" layoutX="30.0" layoutY="332.0" text="user" visible="false" />
+          <ChoiceBox fx:id="jobFindType" layoutX="122.0" layoutY="126.0" prefWidth="200.0" />
+          <ChoiceBox fx:id="jobFindRoute" layoutX="122.0" layoutY="161.0" prefWidth="200.0" />
+          <ChoiceBox fx:id="jobFindFinishPoint" layoutX="122.0" layoutY="195.0" prefWidth="200.0" />
+          <ChoiceBox fx:id="jobFindStatus" layoutX="122.0" layoutY="228.0" prefWidth="200.0" />
+          <TextField fx:id="jobFindDrone" layoutX="123.0" layoutY="261.0" prefWidth="200.0" />
+          <TextField fx:id="jobFindStartDate" layoutX="123.0" layoutY="293.0" prefWidth="200.0" />
+          <TextField fx:id="jobFindUser" layoutX="123.0" layoutY="329.0" prefWidth="200.0" visible="false" />
+          <Button fx:id="jobFindButton" layoutX="123.0" layoutY="370.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="60.0" text="FIND" />
+          <Label layoutX="29.0" layoutY="231.0" text="status" />
         </Pane>
       </Tab>
       <Tab fx:id="createTab" disable="false" text="Create">

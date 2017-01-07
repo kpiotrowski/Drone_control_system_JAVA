@@ -29,6 +29,7 @@ public class Dron extends DataModel {
 
     public String getStanString(){
         //Zawsze chciałem to zrobić :)
+        if(this.stan==null) return "other";
         return this.stan==STATUS_WOLNY ? "free" :
                 (this.stan==STATUS_PRZYDZIELONY_DO_ZADANIA ? "assigned to job" :
                         (this.stan==STATUS_WYKONUJE_ZADANIE ? "job in progress" :

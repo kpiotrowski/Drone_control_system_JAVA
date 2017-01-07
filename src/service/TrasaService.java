@@ -63,7 +63,8 @@ public class TrasaService extends Service implements ServiceInterface {
 
     public List<DataModel> find(Integer userId) throws SQLException {
         ArrayList<FilterParam> param = new ArrayList<>();
-        param.add(FilterParam.newF("Uzytkownik_id","=",userId));
+        if(userId!=null) param.add(FilterParam.newF("Uzytkownik_id", "=", userId));
+
         try (PreparedStatement pstmt = super.find(param, selectStr, table);){
             ResultSet rs = pstmt.executeQuery();
             return  this.parseToModel(rs);
@@ -76,7 +77,7 @@ public class TrasaService extends Service implements ServiceInterface {
     public List<DataModel> parseToModel(ResultSet res) throws SQLException {
         ArrayList<DataModel> list = new ArrayList<>();
 
-        if(res.next() ){
+        while(res.next() ){
             Trasa tr = new Trasa();
             tr.setNazwa(res.getString(1));
             tr.setUzytkownik_id(res.getInt(2));

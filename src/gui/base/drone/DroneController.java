@@ -101,7 +101,7 @@ public class DroneController {
         this.tabDroneKoorZ.setCellValueFactory(new PropertyValueFactory<>("wspz"));
         this.tabDroneKoorY.setCellValueFactory(new PropertyValueFactory<>("wspy"));
         this.tabDroneKoorX.setCellValueFactory(new PropertyValueFactory<>("wspx"));
-        this.tabDroneState.setCellValueFactory(new PropertyValueFactory<>("stanString"));
+        this.tabDroneState.setCellValueFactory(new PropertyValueFactory<>("stan"));
         this.tabDroneBattery.setCellValueFactory(new PropertyValueFactory<>("poziom_baterii"));
         this.tabDroneFlightTime.setCellValueFactory(new PropertyValueFactory<>("max_czas_lotu"));
         this.tabDroneSpeed.setCellValueFactory(new PropertyValueFactory<>("max_predkosc"));
@@ -177,6 +177,23 @@ public class DroneController {
         new Thread(t).start();
     }
 
+    private void clearFindForm(){
+        this.droneFindError.setText("");
+        this.droneFindName.setText("");
+        this.droneFindKoorXFrom.setText("");
+        this.droneFindKoorXTo.setText("");
+        this.droneFindKoorYFrom.setText("");
+        this.droneFindKoorYTo.setText("");
+        this.droneFindKoorZFrom.setText("");
+        this.droneFindKoorZTo.setText("");
+        this.droneFindFlightTime.setText("");
+        this.droneFindSpeed.setText("");
+        this.droneFindWeightFrom.setText("");
+        this.droneFindWeightTo.setText("");
+        this.droneFindFree.setSelected(false);
+        this.droneFindDronePoint.setValue(null);
+    }
+
     private void findAction(){
         this.droneFindError.setText("");
         ArrayList<FilterParam> filterList = new ArrayList<>();
@@ -219,6 +236,7 @@ public class DroneController {
             t.setOnSucceeded(event -> {
                 List<DataModel> resultList = (List<DataModel>) t.getValue();
                 this.updateTableView(resultList);
+                this.clearFindForm();
             });
             new Thread(t).start();
         } catch (NullPointerException e){

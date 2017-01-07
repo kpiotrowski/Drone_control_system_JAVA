@@ -45,6 +45,12 @@ public abstract class CommonFunc {
         java.sql.Date sql = new java.sql.Date(parsed.getTime());
         return sql;
     }
+    public static java.sql.Timestamp parseDateTimeToSQL(String datetime) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        Date parsed = format.parse(datetime);
+        java.sql.Timestamp sql = new java.sql.Timestamp(parsed.getTime());
+        return sql;
+    }
 
     public static String sqlDateToString(java.sql.Date date){
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");

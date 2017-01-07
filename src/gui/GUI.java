@@ -79,7 +79,7 @@ public class GUI {
         alert.setTitle(tit);
         alert.setHeaderText(mes);
         alert.setResizable(true);
-        if(lmes!="") alert.setContentText(lmes);
+        if(!lmes.equals("")) alert.setContentText(lmes);
         alert.show();
         return alert;
     }
@@ -94,6 +94,14 @@ public class GUI {
         Task t = new Task() {
             protected List<DataModel> call() throws SQLException {
                 return Main.punktKontrolnyService.find(filterList);
+            }
+        };
+        return t;
+    }
+    public Task getRoutesTask(Integer userId){
+        Task t = new Task() {
+            protected List<DataModel> call() throws SQLException {
+                return Main.trasaService.find(Main.authenticatedUser.getId());
             }
         };
         return t;

@@ -34,7 +34,7 @@
           <fx:include fx:id="route" source="route/routes.fxml"/>
         </Tab>
         <Tab text="Jobs">
-          <fx:include fx:id="job" source="job/jobs.fxml"/>
+          <fx:include fx:id="jobs" source="job/jobs.fxml"/>
         </Tab>
         <Tab text="Drones">
           <fx:include fx:id="drone" source="drone/drone.fxml"/>

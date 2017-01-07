@@ -167,11 +167,7 @@ public class RouteController {
     }
 
     private void findRoutes(){
-        Task t = new Task() {
-            protected List<DataModel> call() throws SQLException {
-                return Main.trasaService.find(Main.authenticatedUser.getId());
-            }
-        };
+        Task t = Main.gui.getRoutesTask(Main.authenticatedUser.getId());
         t.setOnFailed(event -> {
             Main.gui.showDialog("Błąd","Błąd podczas wyszukiwania danych",t.getException().getMessage(), Alert.AlertType.ERROR);
         });
@@ -184,8 +180,8 @@ public class RouteController {
     private void updateListView(List<Trasa> dataList){
         ObservableList<Trasa> data = FXCollections.observableArrayList();
         for (Trasa m: dataList) data.add(m);
-
         this.listView.setItems(data);
+        this.listView.refresh();
     }
 
     private void refreshNewRouteView(){

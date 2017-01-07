@@ -128,11 +128,11 @@ public class DroneService extends Service implements ServiceInterface{
             d.setMax_predkosc(res.getFloat(6));
             d.setMax_czas_lotu(res.getFloat(7));
             d.setPoziom_baterii(res.getFloat(8));
-            d.setWspx(res.getFloat(9));
-            d.setWspy(res.getFloat(10));
-            d.setWspz(res.getFloat(11));
+            d.setWspx((Float)res.getObject(9));
+            d.setWspy((Float)res.getObject(10));
+            d.setWspz((Float)res.getObject(11));
             d.setStan(res.getInt(12));
-            d.setPunkt_kontrolny_id(res.getInt(13));
+            d.setPunkt_kontrolny_id((Integer) res.getObject(13));
             list.add(d);
         }
         res.close();
