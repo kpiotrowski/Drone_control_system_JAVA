@@ -4,16 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Zadanie extends DataModel{
-  private static final int STATUS_NOWE_ZADANIE = 0;
-  private static final int STATUS_PRZYDZIELONO_DRONA = 1;
+  public static final int STATUS_NOWE_ZADANIE = 0;
+  public static final int STATUS_PRZYDZIELONO_DRONA = 1;
   private static final int STATUS_W_REALIZACJI = 2;
   private static final int STATUS_NIEUDANE = 3;
-  private static final int STATUS_ZAKONCZONE = 4;
+  public static final int STATUS_ZAKONCZONE = 4;
   public static final String[] statusStr= new String[]{"new","drone assigned","in progress","failed","finished"};
 
   private static final int TYPE_VIDEO = 0;
   private static final int TYPE_PHOTOS = 1;
-  private static final int TYPE_MOVE_TO_POINT = 2;
+  public static final int TYPE_MOVE_TO_POINT = 2;
   public static final String[] typesStr = new String[]{"make video","take_photos","move to point"};
 
   @Getter @Setter Integer id;

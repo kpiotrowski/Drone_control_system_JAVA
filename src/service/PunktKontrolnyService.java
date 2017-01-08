@@ -88,7 +88,7 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
 
     @Override
     public Error delete(Integer id) {
-        return super.delete(id,table);
+        return super.delete(id,table,true);
     }
 
 

@@ -90,9 +90,23 @@ public class DroneService extends Service implements ServiceInterface{
         return null;
     }
 
+
+    Error setStatus(Integer id, Integer status) {
+        String sql = String.format("UPDATE %s SET stan = ? WHERE id=? AND stan <=?",table);
+        try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
+            statSetVarPar(pstmt,1,status);
+            statSetVarPar(pstmt,2,id);
+            statSetVarPar(pstmt,3,Dron.STATUS_PRZYDZIELONY_DO_ZADANIA);
+            if(pstmt.executeUpdate()==0) return new Error("Unable to change drone status");
+        } catch (SQLException e) {
+            return new Error(e);
+        }
+        return null;
+    }
+
     @Override
     public Error delete(Integer id) {
-        return super.delete(id,table);
+        return super.delete(id,table,true);
     }
 
     @Override

@@ -31,12 +31,12 @@ abstract class Service {
      * @param table table name
      * @return Error when failed
      */
-    public Error delete(Integer id, String table) {
+    public Error delete(Integer id, String table, boolean commit) {
         String sql = String.format("DELETE FROM %s WHERE id=?",table);
         try(PreparedStatement pstmt = mysql.getCon().prepareStatement(sql)){
             pstmt.setInt(1,id);
             pstmt.execute();
-            mysql.getCon().commit();
+            if(commit)mysql.getCon().commit();
         } catch (SQLException e) {
             return new Error(e.getMessage());
         }

@@ -8,8 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Dron extends DataModel {
-    static final int STATUS_WOLNY = 0;
-    static final int STATUS_PRZYDZIELONY_DO_ZADANIA = 1;
+    public static final int STATUS_WOLNY = 0;
+    public static final int STATUS_PRZYDZIELONY_DO_ZADANIA = 1;
     static final int STATUS_WYKONUJE_ZADANIE = 2;
     static final int STATUS_WYŁĄCZONY = 3;
 
