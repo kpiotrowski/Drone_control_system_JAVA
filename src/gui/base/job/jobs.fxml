@@ -54,57 +54,38 @@
           <Label layoutX="29.0" layoutY="231.0" text="status" />
         </Pane>
       </Tab>
-      <Tab fx:id="createTab" disable="false" text="Create">
+      <Tab fx:id="createTab" text="Create">
         <Pane prefHeight="401.0" prefWidth="354.0">
+          <Label fx:id="jobCreateError" layoutX="23.0" layoutY="29.0" prefHeight="32.1328125" prefWidth="309.0" textFill="$x1" />
           <Label layoutX="116.0" layoutY="82.0" text="ADD NEW JOB" />
           <Label layoutX="25.0" layoutY="147.0" text="type" />
-          <Label fx:id="pointCreateError" layoutX="23.0" layoutY="29.0" prefHeight="32.1328125" prefWidth="309.0" textFill="$x1" />
           <Label layoutX="25.0" layoutY="186.0" text="start date" />
           <Label layoutX="24.0" layoutY="223.0" text="route" />
           <Label layoutX="25.0" layoutY="259.0" text="drone" />
           <Label layoutX="25.0" layoutY="293.0" prefWidth="73.00018310546875" text="finish point" />
-          <TextField id="pointCreateKoorX" layoutX="136.0" layoutY="183.0" prefWidth="200.0" />
-          <Button fx:id="pointCreateButton" layoutX="125.0" layoutY="335.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.00009999999747" text="ADD" />
-          <ChoiceBox layoutX="136.0" layoutY="145.0" prefWidth="200.0">
-            <items>
-              <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Item 1" />
-                <String fx:value="Item 2" />
-                <String fx:value="Item 3" />
-              </FXCollections>
-            </items>
-          </ChoiceBox>
-          <ChoiceBox layoutX="136.0" layoutY="221.0" prefWidth="200.0">
-            <items>
-              <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Item 1" />
-                <String fx:value="Item 2" />
-                <String fx:value="Item 3" />
-              </FXCollections>
-            </items>
-          </ChoiceBox>
-          <ChoiceBox disable="true" layoutX="136.0" layoutY="257.0" prefWidth="200.0">
-            <items>
-              <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Item 1" />
-                <String fx:value="Item 2" />
-                <String fx:value="Item 3" />
-              </FXCollections>
-            </items>
-          </ChoiceBox>
-          <ChoiceBox disable="true" layoutX="136.0" layoutY="291.0" prefWidth="200.0">
-            <items>
-              <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Item 1" />
-                <String fx:value="Item 2" />
-                <String fx:value="Item 3" />
-              </FXCollections>
-            </items>
-          </ChoiceBox>
+          <ChoiceBox fx:id="jobCreateType" layoutX="136.0" layoutY="145.0" prefWidth="200.0" />
+          <TextField fx:id="jobCreateStartDate" layoutX="136.0" layoutY="183.0" prefWidth="200.0" />
+          <ChoiceBox fx:id="jobCreateRoute" layoutX="136.0" layoutY="221.0" prefWidth="200.0" />
+          <TextField fx:id="jobCreateDrone" disable="true" layoutX="136.0" layoutY="257.0" prefWidth="200.0" />
+          <ChoiceBox fx:id="jobCreateFinishPoint" disable="true" layoutX="136.0" layoutY="291.0" prefWidth="200.0" />
+          <Button fx:id="jobCreateButton" layoutX="136.0" layoutY="335.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.00009999999747" text="ADD" />
         </Pane>
       </Tab>
-      <Tab fx:id="infoTab" disable="false" text="Info">
-        <Pane prefHeight="200.0" prefWidth="200.0" />
+      <Tab fx:id="infoTab" text="Info">
+        <Pane prefHeight="200.0" prefWidth="200.0">
+          <Label layoutX="32.0" layoutY="90.0" text="id"/>
+          <Label layoutX="32.0" layoutY="123.0" text="start date"/>
+          <Label fx:id="jobInfoError" layoutX="30.0" layoutY="26.0" prefHeight="40.1328125" prefWidth="295.0"
+                 textFill="$x1"/>
+          <TextField fx:id="jobInfoId" editable="false" layoutX="125.0" layoutY="88.0" prefWidth="200.0"/>
+          <TextField fx:id="jobInfoStartDate" layoutX="125.0" layoutY="121.0" prefWidth="200.0"/>
+          <Button fx:id="jobInfoUpdate" disable="true" layoutX="125.0" layoutY="172.0" mnemonicParsing="false"
+                  prefHeight="31.1328125" text="UPDATE"/>
+          <Button fx:id="jobInfoDelete" disable="true" layoutX="253.0" layoutY="173.0" mnemonicParsing="false"
+                  prefHeight="31.1328125" text="DELETE" textFill="$x1"/>
+          <Button fx:id="jobInfoDownloadResults" disable="true" layoutX="30.0" layoutY="247.0" mnemonicParsing="false"
+                  prefHeight="31.1328125" prefWidth="295.0" text="DOWNLOAD RESULTS" textFill="#006610"/>
+        </Pane>
       </Tab>
     </TabPane>
   </left>
