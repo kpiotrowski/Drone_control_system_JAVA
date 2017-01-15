@@ -35,6 +35,11 @@ public class GUI {
 
     public GUI(){}
 
+    public Stage getStage(){
+        return this.primaryStage;
+    }
+
+
     public void initialize(Stage primaryStage) throws IOException {
         Parent mainScene = FXMLLoader.load(getClass().getResource("base/main.fxml"));
         this.primaryScene = new Scene(mainScene);

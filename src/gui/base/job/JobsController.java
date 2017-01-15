@@ -5,13 +5,22 @@ import dataModels.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.util.Pair;
 import main.Main;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageOutputStream;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -241,9 +250,34 @@ public class JobsController {
         });
         new Thread(t).start();
     }
+
     private void downloadResults(){
-        Main.gui.showDialog("RESULT","Now you should download your results.","", Alert.AlertType.INFORMATION);
-        //TODO IMEPLEMENT THIS
+        Integer id = this.selectedJob.getId();
+        Task t = new Task() {
+            @Override
+            protected dataModels.File call() throws Exception {
+                return Main.zadanieService.downloadFile(id);
+            }
+        };
+        t.setOnFailed(event -> {
+            Main.gui.showDialog("RESULT","Failed to download results.","", Alert.AlertType.ERROR);
+        });
+        t.setOnSucceeded(event -> {
+            dataModels.File data = (dataModels.File) t.getValue();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save file");
+            fileChooser.setInitialFileName(data.getName()+"."+data.getType());
+            File file = fileChooser.showSaveDialog(Main.gui.getStage());
+            if (file != null) {
+                try {
+                    FileOutputStream fos = new FileOutputStream(file);
+                    fos.write(data.getData());
+                } catch (IOException ex) {
+                    Main.gui.showDialog("RESULT","Failed save file.",ex.getMessage(), Alert.AlertType.ERROR);
+                }
+            }
+        });
+        new Thread(t).start();
     }
 
     public void refreshPermissions(Uzytkownik uz){

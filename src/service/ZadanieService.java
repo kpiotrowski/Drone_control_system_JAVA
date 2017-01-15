@@ -3,6 +3,7 @@ package service;
 import common.FilterParam;
 import dataModels.DataModel;
 import dataModels.Dron;
+import dataModels.File;
 import dataModels.Zadanie;
 import databaseController.MySQLController;
 import main.Main;
@@ -150,6 +151,23 @@ public class ZadanieService extends Service implements ServiceInterface{
             return  this.parseToModel(rs);
         } catch (SQLException e) {
             throw new SQLException(e);
+        }
+    }
+
+    public File downloadFile(Integer id) throws SQLException {
+        String sql = String.format("SELECT jobResultFile FROM %s WHERE id=?",table);
+        ResultSet rs = null;
+        try(PreparedStatement pstmt = mysql.getCon().prepareStatement(sql)) {
+            pstmt.setInt(1,id);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                File f = new File();
+                Blob blob = rs.getBlob(1);
+                f.setData(blob.getBytes(1, (int) blob.length()));
+                return f;
+            } else throw new SQLException("Failed to get file");
+        } finally {
+            if (rs != null) rs.close();
         }
     }
 }
