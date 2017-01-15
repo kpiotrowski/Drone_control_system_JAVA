@@ -77,6 +77,8 @@ public class DroneController {
     @FXML private TabPane tabPane;
     @FXML private Tab createTab;
 
+    private Dron selectedDrone;
+
     @FXML
     private void initialize() {
         this.tableView.setRowFactory( tv -> {
@@ -153,6 +155,7 @@ public class DroneController {
     }
 
     private void setDroneEditForm(Dron d){
+        selectedDrone=d;
         this.droneEditId.setText(String.valueOf(d.getId()));
         this.droneEditName.setText(d.getNazwa());
         this.droneEditBattery.setText(String.valueOf(d.getPoziom_baterii()));
@@ -162,6 +165,7 @@ public class DroneController {
         this.droneEdiButton.setDisable(false);
     }
     private void clearEditForm(){
+        selectedDrone=null;
         this.droneEditId.setText("");
         this.droneEditName.setText("");
         this.droneEditBattery.setText("");
@@ -255,9 +259,8 @@ public class DroneController {
     }
 
     private void deleteAction(){
-        Integer id = strToInteger(this.droneEditId.getText());
         Task t = new Task() {
-            protected Error call() { return Main.droneService.delete(id); }
+            protected Error call() { return Main.droneService.delete(selectedDrone.getId(),selectedDrone.getPunkt_kontrolny_id()); }
         };
         t.setOnSucceeded(event -> {
             Error e = (Error) t.getValue();

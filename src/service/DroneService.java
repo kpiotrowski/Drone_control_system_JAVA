@@ -90,6 +90,9 @@ public class DroneService extends Service implements ServiceInterface{
         return null;
     }
 
+    @Override
+    public Error delete(Integer id) {return new Error("You should use different method");}
+
     /**
      * Method change drone status. Used in job flow.
      * @param id drone id
@@ -109,9 +112,26 @@ public class DroneService extends Service implements ServiceInterface{
         return null;
     }
 
-    @Override
-    public Error delete(Integer id) {
-        return super.delete(id,table,true);
+    public Error delete(Integer id, Integer pointId) {
+        Savepoint s;
+        try {
+            s = mysql.getCon().setSavepoint();
+        } catch (SQLException e) {
+            return new Error(e.getMessage());
+        }
+
+        Error error = super.delete(id,table,false);
+        if(error!=null) return error;
+        try {
+            error = this.punktKonService.incCurrentDrones(pointId,false);
+            if (error != null) {
+                mysql.getCon().rollback(s);
+                return error;
+            } else mysql.getCon().commit();
+        } catch (SQLException e) {
+            return new Error(e.getMessage());
+        }
+        return null;
     }
 
     @Override
