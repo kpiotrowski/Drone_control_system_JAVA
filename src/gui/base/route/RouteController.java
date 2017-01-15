@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.ErrorManager;
 
 import static common.CommonFunc.emptyNullStr;
@@ -27,6 +28,8 @@ import static java.lang.Math.abs;
  * Created by no-one on 24.12.16.
  */
 public class RouteController {
+
+    private static final int routeMargin = 120;
 
     @FXML private Button routeDeleteButton;
     @FXML private Label newRouteError;
@@ -82,11 +85,11 @@ public class RouteController {
         t.setOnSucceeded(event -> {
             Error e = (Error) t.getValue();
             if(e != null)
-                Main.gui.showDialog("Błąd","Nie udało się usunąć trasy", e.getMessage(), Alert.AlertType.ERROR);
+                Main.gui.showDialog("Error","Failed to delete route", e.getMessage(), Alert.AlertType.ERROR);
             else {
                 routeGraph.getChildren().clear();
                 findRoutes();
-                Main.gui.showDialog("Info", "Pomyślnie usunięto trasę", "", Alert.AlertType.INFORMATION);
+                Main.gui.showDialog("Info", "Successfully deleted route", "", Alert.AlertType.INFORMATION);
             }
         });
         new Thread(t).start();
@@ -99,7 +102,7 @@ public class RouteController {
             }
         };
         t.setOnFailed(event -> {
-            Main.gui.showDialog("Błąd","Błąd podczas pobierania danych dotyczących trasy",t.getException().getMessage(), Alert.AlertType.ERROR);
+            Main.gui.showDialog("Error","Failed to get route info",t.getException().getMessage(), Alert.AlertType.ERROR);
         });
         t.setOnSucceeded(event -> {
             ArrayList<Punkt_na_trasie> tPoints = (ArrayList<Punkt_na_trasie>)t.getValue();
@@ -128,26 +131,27 @@ public class RouteController {
         for (int i=0; i< dataList.size() ; i++) {
             Punkt_na_trasie pnt = dataList.get(i);
             Circle point = new Circle();
-            double pointX = 15+(pnt.getWspX()-routeArea[0])*((routeGraph.getWidth()-30)/(routeArea[1]-routeArea[0]));
-            double pointY = abs(routeGraph.getHeight()-15-(pnt.getWspY()-routeArea[2])*((routeGraph.getHeight()-30)/(routeArea[3]-routeArea[2])));
+            double pointX = routeMargin/2+(pnt.getWspX()-routeArea[0])*((routeGraph.getWidth()-routeMargin)/(routeArea[1]-routeArea[0]));
+            double pointY = abs(routeGraph.getHeight()-routeMargin/2-(pnt.getWspY()-routeArea[2])*((routeGraph.getHeight()-routeMargin)/(routeArea[3]-routeArea[2])));
             point.setCenterX(pointX);
             point.setCenterY(pointY);
 
-            point.setRadius(15);
+            point.setRadius(12);
             Tooltip t = new Tooltip(pnt.getNumer_kolejny()+":   X:"+pnt.getWspX()+" Y:"+pnt.getWspY()+" Z:"+pnt.getWspZ());
             Tooltip.install(point, t);
-            if (pnt.getPunkt_kontrolny_id()!=null) point.setFill(Paint.valueOf("#00ff00"));
-            else point.setFill(Paint.valueOf("#cc0000"));
+            if (pnt.getPunkt_kontrolny_id()!=null) point.setFill(Paint.valueOf("#6ca850"));
+            else point.setFill(Paint.valueOf("#1d1e24"));
             if(i<dataList.size()-1){
                 Punkt_na_trasie ii = dataList.get(i+1);
                 Line l = new Line();
-                double point2X = 15+(ii.getWspX()-routeArea[0])*((routeGraph.getWidth()-30)/(routeArea[1]-routeArea[0]));
-                double point2Y = abs(routeGraph.getHeight()-15-(ii.getWspY()-routeArea[2])*((routeGraph.getHeight()-30)/(routeArea[3]-routeArea[2])));
+                double point2X = routeMargin/2+(ii.getWspX()-routeArea[0])*((routeGraph.getWidth()-routeMargin)/(routeArea[1]-routeArea[0]));
+                double point2Y = abs(routeGraph.getHeight()-routeMargin/2-(ii.getWspY()-routeArea[2])*((routeGraph.getHeight()-routeMargin)/(routeArea[3]-routeArea[2])));
                 l.setStartX(pointX);
                 l.setStartY(pointY);
                 l.setEndX(point2X);
                 l.setEndY(point2Y);
-                l.setStrokeWidth(4);
+                l.setStrokeWidth(3);
+                l.setStroke(Paint.valueOf("#447eb0"));
                 routeGraph.getChildren().add(l);
             }
             routeGraph.getChildren().add(point);
@@ -161,11 +165,11 @@ public class RouteController {
             if(p.getWspY()<result[2]) result[2]=p.getWspY();
             if(p.getWspY()>result[3]) result[3]=p.getWspY();
         }
-        if(result[0]==result[1]){
+        if(Objects.equals(result[0], result[1])){
             result[0]-=15;
             result[1]+=15;
         }
-        if(result[2]==result[3]){
+        if(Objects.equals(result[2], result[3])){
             result[2]-=15;
             result[3]+=15;
         }
@@ -180,7 +184,7 @@ public class RouteController {
     private void findRoutes(){
         Task t = Main.gui.getRoutesTask(Main.authenticatedUser.getId());
         t.setOnFailed(event -> {
-            Main.gui.showDialog("Błąd","Błąd podczas wyszukiwania danych",t.getException().getMessage(), Alert.AlertType.ERROR);
+            Main.gui.showDialog("Error","Failed to get data",t.getException().getMessage(), Alert.AlertType.ERROR);
         });
         t.setOnSucceeded(event -> {
             List<Trasa> resultList = (List<Trasa>) t.getValue();
@@ -225,7 +229,7 @@ public class RouteController {
             return;
         }
         if(list.size()<2){
-            this.newRouteError.setText("Trasa musi składać się z >= 2 punktów");
+            this.newRouteError.setText("Route must have at least 2 points");
             return;
         }
         for (Punkt_na_trasie punkt: list) {
@@ -245,10 +249,10 @@ public class RouteController {
         task.setOnSucceeded(event -> {
             Error e = (Error) task.getValue();
             if(e != null)
-                Main.gui.showDialog("Błąd","Niepowodzenie tworzenia nowej trasy", e.getMessage(), Alert.AlertType.ERROR);
+                Main.gui.showDialog("Error","Failed to create route", e.getMessage(), Alert.AlertType.ERROR);
             else {
                 clearNewRouteForm();
-                Main.gui.showDialog("Info", "Pomyślnie utworzono nową trasę", "", Alert.AlertType.INFORMATION);
+                Main.gui.showDialog("Info", "Successfully created route", "", Alert.AlertType.INFORMATION);
             }
         });
         new Thread(task).start();
@@ -271,8 +275,7 @@ public class RouteController {
     }
     private void redrawFieldRouteBox(){
         this.newRouteFieldsBox.getChildren().clear();
-        for (int i=0;i<this.newRouteFields.size();i++)
-            addNewFieldToRouteBox(this.newRouteFields.get(i));
+        this.newRouteFields.forEach(this::addNewFieldToRouteBox);
     }
     private void getAndSetDronePoints(){
         this.dronePoints.clear();

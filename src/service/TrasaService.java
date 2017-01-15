@@ -56,8 +56,8 @@ public class TrasaService extends Service implements ServiceInterface {
     @Override
     public Error validate(DataModel data) {
         Trasa t = (Trasa)data;
-        if(t.getNazwa()==null) return new Error("Nazwa trasy nie może być pusta");
-        if(t.getUzytkownik_id()==null) return new Error("Id użytkownika nie może być puste");
+        if(t.getNazwa()==null) return new Error("Route name is required");
+        if(t.getUzytkownik_id()==null) return new Error("User id is required");
         return null;
     }
 
