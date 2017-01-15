@@ -4,6 +4,8 @@ import common.CommonFunc;
 import dataModels.Uzytkownik;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import main.Main;
 
 import java.security.MessageDigest;
@@ -16,10 +18,13 @@ import java.text.ParseException;
  * Created by no-one on 18.11.16.
  */
 public class RegistrationGUIController {
+    public Color x2;
+    public Font x1;
     @FXML private TextField name;
     @FXML private TextField surname;
     @FXML private TextField birthdate;
-    @FXML private TextField phone;
+    @FXML
+    private TextField phone;
     @FXML private TextField login;
     @FXML private PasswordField password;
     @FXML private Button submitButton;

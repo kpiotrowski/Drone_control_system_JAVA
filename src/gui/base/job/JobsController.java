@@ -8,6 +8,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.util.Pair;
 import main.Main;
 
@@ -67,6 +68,7 @@ public class JobsController {
     public TextField jobCreateDrone;
     public ChoiceBox<Punkt_kontrolny> jobCreateFinishPoint;
     public Label jobInfoError;
+    public Color x1;
 
     private Zadanie selectedJob;
 

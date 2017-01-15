@@ -27,6 +27,8 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
     private static final String selectStr="id,"+insertStr;
     private static final String updateStr="nazwa=?,max_ilosc_dronow=?";
     private static final String incStr="obecna_ilosc_dronow=obecna_ilosc_dronow+1";
+    private static final String decStr="obecna_ilosc_dronow=obecna_ilosc_dronow-1";
+
 
     public PunktKontrolnyService(MySQLController con) {
         super(con);
@@ -55,8 +57,6 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
         return null;
     }
 
-
-
     @Override
     public Error update(DataModel data) {
         String sql = String.format("UPDATE %s SET %s WHERE id=?", table, updateStr);
@@ -74,8 +74,16 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
         return null;
     }
 
-    public Error incCurrentDrones(int id){
-        String sql = String.format("UPDATE %s SET %s WHERE id=? AND obecna_ilosc_dronow < max_ilosc_dronow", table, incStr);
+    /**
+     * Increment or decrement current drones in drone point
+     * @param id point id
+     * @param inc if true increment number
+     * @return Error id failed, null in other case
+     */
+    Error incCurrentDrones(int id, boolean inc){
+        String sql;
+        if(inc) sql = String.format("UPDATE %s SET %s WHERE id=? AND obecna_ilosc_dronow < max_ilosc_dronow", table, incStr);
+        else sql = String.format("UPDATE %s SET %s WHERE id=? AND obecna_ilosc_dronow > 0", table, decStr);
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
             pstmt.setInt(1,id);
             int updated = pstmt.executeUpdate();
@@ -90,7 +98,6 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
     public Error delete(Integer id) {
         return super.delete(id,table,true);
     }
-
 
     @Override
     public Error validate(DataModel data) {

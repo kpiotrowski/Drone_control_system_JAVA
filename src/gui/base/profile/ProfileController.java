@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import main.Main;
 
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ import static common.CommonTask.onSuccessSimpleError;
  * Created by no-one on 19.11.16.
  */
 public class ProfileController {
+    public Font x1;
     @FXML private Color x2;
     @FXML private Label passwordErrorLabel;
     @FXML private TextField currentPas;

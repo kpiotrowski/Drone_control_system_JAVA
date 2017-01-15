@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.text.Font?>
-
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import java.net.URL?>
 <BorderPane prefHeight="731.0" prefWidth="1094.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="gui.base.points.PointsController">
   <center>
     <TableView fx:id="tableView" prefHeight="420.0">
@@ -40,7 +36,7 @@
           <Label layoutX="216.0" layoutY="236.0" text="TO" />
           <Label fx:id="pointFindError" layoutX="31.0" layoutY="22.0" prefHeight="40.1328125" prefWidth="295.0" styleClass="label-error">
             <textFill>
-              <Color blue="0.000" green="0.000" red="0.800" fx:id="x1" />
+              <Color red="0.800" fx:id="x1" />
             </textFill>
           </Label>
           <Label layoutX="20.0" layoutY="202.0" text="koor Y" />
@@ -84,7 +80,8 @@
           <Label layoutX="19.0" layoutY="245.0" text="max drones" />
           <Label layoutX="19.0" layoutY="279.0" text="drones now" />
           <Label layoutX="19.0" layoutY="76.0" text="ID" />
-          <Label fx:id="pointEditError" layoutX="20.0" layoutY="23.0" prefHeight="34.0" prefWidth="311.0" styleClass="label-error" text="" textFill="$x1" />
+          <Label fx:id="pointEditError" layoutX="20.0" layoutY="23.0" prefHeight="34.0" prefWidth="311.0" styleClass="label-error"
+                 textFill="$x1" />
           <TextField fx:id="pointEditID" editable="false" layoutX="116.0" layoutY="68.0" prefHeight="32.0" prefWidth="220.0" />
           <TextField fx:id="pointEditName" layoutX="116.0" layoutY="102.0" prefHeight="32.0" prefWidth="220.0" />
           <TextField fx:id="pointEditKoorX" editable="false" layoutX="116.0" layoutY="136.0" prefHeight="32.0" prefWidth="220.0" />
@@ -92,7 +89,7 @@
           <TextField fx:id="pointEditKoorZ" editable="false" layoutX="116.0" layoutY="204.0" prefHeight="32.0" prefWidth="220.0" />
           <TextField fx:id="pointEditMaxDrones" layoutX="116.0" layoutY="238.0" prefHeight="32.0" prefWidth="220.0" />
           <TextField fx:id="pointEditDronesNow" editable="false" layoutX="116.0" layoutY="272.0" prefHeight="32.0" prefWidth="220.0" />
-          <Button fx:id="pointEditButton" disable="true" layoutX="20.0" layoutY="330.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="311.0" text="SAVE" visible="true" />
+          <Button fx:id="pointEditButton" disable="true" layoutX="20.0" layoutY="330.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="311.0" text="SAVE"/>
           <Button fx:id="pointEditButtonDelete" disable="true" layoutX="20.0" layoutY="374.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="311.0" styleClass="black-button" text="DELETE" textFill="#990000" />
         </Pane>
       </Tab>

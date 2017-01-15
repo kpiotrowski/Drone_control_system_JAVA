@@ -34,19 +34,13 @@ public class PunktNaTrasieService extends Service implements ServiceInterface {
     }
 
     @Override
-    public Error insert(DataModel data) {
-        return null;
-    }
+    public Error insert(DataModel data) {return new Error("not to use");}
 
     @Override
-    public Error update(DataModel data) {
-        return new Error("You can't update route point");
-    }
+    public Error update(DataModel data) {return new Error("You can't update route point");}
 
     @Override
-    public Error delete(Integer id) {
-        return null;
-    }
+    public Error delete(Integer id) {return new Error("Not tu use!");}
 
     @Override
     public Error validate(DataModel data) {
@@ -90,7 +84,7 @@ public class PunktNaTrasieService extends Service implements ServiceInterface {
         return list;
     }
 
-    public Error insertRoutePoints(List<Punkt_na_trasie> list){
+    Error insertRoutePoints(List<Punkt_na_trasie> list){
         String values="";
         int loop = 0;
         for (Punkt_na_trasie p :list) {

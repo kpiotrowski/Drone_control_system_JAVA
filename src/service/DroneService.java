@@ -61,7 +61,7 @@ public class DroneService extends Service implements ServiceInterface{
         } catch (SQLException e) {
             return new Error(e.getMessage());
         }
-        Error error = this.punktKonService.incCurrentDrones(d.getPunkt_kontrolny_id());
+        Error error = this.punktKonService.incCurrentDrones(d.getPunkt_kontrolny_id(),true);
         try {
             if (error != null) {
                 mysql.getCon().rollback(s);
@@ -90,7 +90,12 @@ public class DroneService extends Service implements ServiceInterface{
         return null;
     }
 
-
+    /**
+     * Method change drone status. Used in job flow.
+     * @param id drone id
+     * @param status drone status to set
+     * @return Error if failed, null it ither case
+     */
     Error setStatus(Integer id, Integer status) {
         String sql = String.format("UPDATE %s SET stan = ? WHERE id=? AND stan <=?",table);
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {

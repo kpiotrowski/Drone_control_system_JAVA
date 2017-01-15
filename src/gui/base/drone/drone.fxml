@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.collections.*?>
-<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.text.Font?>
-
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import java.net.URL?>
 <BorderPane prefHeight="764.0" prefWidth="1252.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="gui.base.drone.DroneController">
   <center>
     <TableView fx:id="tableView" prefHeight="785.0" prefWidth="821.0">

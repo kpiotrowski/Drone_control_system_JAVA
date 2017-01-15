@@ -22,14 +22,11 @@ public class PolozenieService extends Service implements ServiceInterface {
     }
 
     @Override
-    public Error insert(DataModel data) {
-        return null;
-    }
+    public Error insert(DataModel data) {return new Error("Not to user");}
 
     @Override
-    public Error update(DataModel data) {
-        return new Error("You can't modify polozenie");
-    }
+    public Error update(DataModel data) {return new Error("You can't modify polozenie");}
+
     @Override
     public Error delete(Integer id) {
         String sql = String.format("DELETE FROM %s WHERE NOT EXISTS(SELECT NULL From Punkt_na_trasie pp WHERE id=pp.Polozenie_id)",table);
@@ -41,13 +38,11 @@ public class PolozenieService extends Service implements ServiceInterface {
         return null;
     }
     @Override
-    public Error validate(DataModel data) {
-        return null;
-    }
+    public Error validate(DataModel data) {return new Error("Not to user");}
 
     @Override
-    public List<DataModel> parseToModel(ResultSet res) {
-        return new ArrayList<>();
+    public List<DataModel> parseToModel(ResultSet res) throws SQLException {
+        throw new SQLException("not implemented");
     }
 
     Error insertPolozenieAndSetIds(List<Punkt_na_trasie> list){

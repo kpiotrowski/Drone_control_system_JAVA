@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import java.net.*?>
 <GridPane alignment="CENTER" hgap="10.0" prefHeight="431.0" prefWidth="450.0" vgap="10.0"
           xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
           fx:controller="gui.registration.RegistrationGUIController">
@@ -48,8 +45,8 @@
         <URL value="@../style.css"/>
       </stylesheets>
     </TextField>
-    <PasswordField fx:id="password" layoutX="191.0" layoutY="257.0" prefHeight="32.0" prefWidth="220.0" style=""
-                   text="">
+    <PasswordField fx:id="password" layoutX="191.0" layoutY="257.0" prefHeight="32.0" prefWidth="220.0"
+    >
       <stylesheets>
         <URL value="@../style.css"/>
       </stylesheets>

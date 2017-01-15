@@ -60,7 +60,7 @@ abstract class Service {
             if(i==0) builder.append(" WHERE ");
             else builder.append(" AND ");
             builder.append(f.getName());
-            builder.append(" "+f.getSign()+" ");
+            builder.append(" ").append(f.getSign()).append(" ");
             builder.append("?");
         }
         PreparedStatement pstmt = mysql.getCon().prepareStatement(builder.toString());

@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
-
+<?import java.net.URL?>
 <GridPane prefHeight="672.0" prefWidth="423.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="gui.base.profile.ProfileController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -51,7 +47,7 @@
         </Button>
         <Label id="pro" fx:id="profileErrorLabel" layoutX="28.0" layoutY="36.0" prefHeight="29.1328125" prefWidth="362.0" styleClass="label-error">
           <textFill>
-            <Color blue="0.000" green="0.000" red="0.800" fx:id="x2" />
+            <Color red="0.800" fx:id="x2" />
           </textFill>
         </Label>
         <Label id="pro" fx:id="passwordErrorLabel" layoutX="22.0" layoutY="461.0" prefHeight="29.1328125" prefWidth="362.0" styleClass="label-error" textFill="$x2" />

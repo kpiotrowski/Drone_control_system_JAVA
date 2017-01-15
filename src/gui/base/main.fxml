@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.text.*?>
-
+<?import javafx.scene.text.Font?>
+<?import java.net.URL?>
 <GridPane alignment="CENTER" hgap="10.0" prefHeight="900.0" prefWidth="1200.0" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="gui.base.MainGUIController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -47,7 +43,7 @@
       <URL value="@../style.css" />
     </stylesheets>
     <top>
-      <Pane prefHeight="53.0" prefWidth="1200.0" style="-fx-background-color: rgba(80, 80, 80, 0.6);" visible="true">
+      <Pane prefHeight="53.0" prefWidth="1200.0" style="-fx-background-color: rgba(80, 80, 80, 0.6);">
         <Button fx:id="registerButton" layoutX="23.0" layoutY="13.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="105.00009999999747" styleClass="register-button" text="+ Register" />
         <Button fx:id="loginButton" layoutX="145.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.999900000002526" prefWidth="105.00009155273438" styleClass="login-button" text="Login" />
         <Button fx:id="logoutButton" layoutX="1071.0" layoutY="13.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="104.0" text="Logout" visible="false" />
@@ -56,7 +52,7 @@
             <Font size="15.0" />
           </font>
         </Label>
-        <Label fx:id="databaseLabel" layoutX="264.0" layoutY="17.0" prefWidth="478.0" styleClass="white-label" text="" textFill="#99daff" />
+        <Label fx:id="databaseLabel" layoutX="264.0" layoutY="17.0" prefWidth="478.0" styleClass="white-label" textFill="#99daff" />
         <Button fx:id="reload" layoutX="23.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.00009155273438" text="Reload" visible="false" />
       </Pane>
     </top>
