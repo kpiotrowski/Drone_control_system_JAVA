@@ -178,9 +178,9 @@ public class JobsController {
         t.setOnSucceeded(event -> {
             Error e = (Error) t.getValue();
             if(e != null)
-                Main.gui.showDialog("Błąd", "Niepowodzenie podczas dodawania zadania", e.getMessage(), Alert.AlertType.ERROR);
+                Main.gui.showDialog("Error", "Failed to create job.", e.getMessage(), Alert.AlertType.ERROR);
             else {
-                Main.gui.showDialog("Info", "Pomyślnie dodano nowe zadanie", "", Alert.AlertType.INFORMATION);
+                Main.gui.showDialog("Info", "Successfully created job.", "", Alert.AlertType.INFORMATION);
                 this.clearCreateForm();
             }
         });
@@ -203,7 +203,7 @@ public class JobsController {
                 }
             };
             t.setOnSucceeded(
-                    onSuccessSimpleError(t,"Pomyślnie zaktualizowano zadanie o dronie","Niepowodzenie podzczas aktualizacji zadania")
+                    onSuccessSimpleError(t,"Successfully updated job info","Failed to update drone info")
             );
             new Thread(t).start();
         } catch (ParseException e) {
@@ -220,9 +220,9 @@ public class JobsController {
         t.setOnSucceeded(event -> {
                 Error e = (Error) t.getValue();
                 if(e != null)
-                    Main.gui.showDialog("Błąd", "Niepowodzenie usuwania zadania", e.getMessage(), Alert.AlertType.ERROR);
+                    Main.gui.showDialog("Error", "Failed to delete job", e.getMessage(), Alert.AlertType.ERROR);
                 else {
-                    Main.gui.showDialog("Info", "Pomyślnie usunięto zadanie", "", Alert.AlertType.INFORMATION);
+                    Main.gui.showDialog("Info", "Successfully deleted job", "", Alert.AlertType.INFORMATION);
                     this.clearInfoForm();
                 }
         });
@@ -317,8 +317,11 @@ public class JobsController {
         this.jobFindError.setText("");
         ArrayList<FilterParam> filterList = new ArrayList<>();
         try {
-            if(jobFindUser.getText().length()>0)
+            if (Main.authenticatedUser.getPoziom_uprawnien()==0)
+                filterList.add(FilterParam.newF("Uzytkownik_id","=",Main.authenticatedUser.getId()));
+            else if(jobFindUser.getText().length()>0)
                 filterList.add(FilterParam.newF("Uzytkownik_id","=",strToInteger(jobFindUser.getText())));
+
             if(jobFindType.getValue()!=null)
                 filterList.add(FilterParam.newF("typ","=",jobFindType.getValue().getKey()));
             if(jobFindStartDate.getText().length()>0)
@@ -340,7 +343,7 @@ public class JobsController {
                 }
             };
             t.setOnFailed(event -> {
-                Main.gui.showDialog("Błąd","Błąd podczas wyszukiwania danych",t.getException().getMessage(), Alert.AlertType.ERROR);
+                Main.gui.showDialog("Error","Failed to get jobs",t.getException().getMessage(), Alert.AlertType.ERROR);
             });
             t.setOnSucceeded(event -> {
                 List<Zadanie> resultList = (List<Zadanie>) t.getValue();

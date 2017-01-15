@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
@@ -8,54 +9,56 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.text.Font?>
 
-<GridPane prefHeight="672.0" prefWidth="423.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
-          fx:controller="gui.base.profile.ProfileController">
+<GridPane prefHeight="672.0" prefWidth="423.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="gui.base.profile.ProfileController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
   </rowConstraints>
   <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
-    <top>
-      <Pane prefHeight="785.0" prefWidth="375.0">
-        <Label layoutX="121.0" layoutY="87.0" text="YOUR PROFILE">
+    <center>
+      <Pane prefHeight="672.0" prefWidth="409.0">
+        <Label layoutX="134.0" layoutY="83.0" styleClass="title-tabel" text="YOUR PROFILE">
           <font>
-            <Font size="14.0" fx:id="x1"/>
+            <Font size="14.0" fx:id="x1" />
           </font>
         </Label>
-        <Label layoutX="34.0" layoutY="163.0" text="Name"/>
-        <Label layoutX="34.0" layoutY="196.0" text="Surname"/>
-        <Label layoutX="34.0" layoutY="227.0" text="Born"/>
-        <Label layoutX="34.0" layoutY="257.0" text="Login"/>
-        <Label layoutX="34.0" layoutY="129.0" text="ID"/>
-        <Label layoutX="34.0" layoutY="289.0" text="Phone"/>
-        <Label layoutX="34.0" layoutY="318.0" text="Permissions"/>
-        <TextField fx:id="profileId" editable="false" layoutX="143.0" layoutY="126.0" prefWidth="200.0"/>
-        <TextField fx:id="profileName" layoutX="143.0" layoutY="160.0" prefWidth="200.0"/>
-        <TextField fx:id="profileSurname" layoutX="143.0" layoutY="193.0" prefWidth="200.0"/>
-        <TextField fx:id="profileDate" layoutX="143.0" layoutY="224.0" prefWidth="200.0"/>
-        <TextField fx:id="profileLogin" editable="false" layoutX="143.0" layoutY="254.0" prefWidth="200.0"/>
-        <TextField fx:id="profilePhone" layoutX="143.0" layoutY="286.0" prefWidth="200.0"/>
-        <TextField fx:id="profilePermis" editable="false" layoutX="143.0" layoutY="315.0" prefWidth="200.0"/>
-        <Label font="$x1" layoutX="106.0" layoutY="496.0" text="CHANGE PASSWORD"/>
-        <Button fx:id="updateProfileButton" layoutX="140.0" layoutY="367.0" mnemonicParsing="false"
-                prefHeight="29.1328125" prefWidth="77.0" text="Update"/>
-        <Label layoutX="34.0" layoutY="545.0" text="Current"/>
-        <Label layoutX="36.0" layoutY="577.0" text="New"/>
-        <PasswordField fx:id="currentPas" layoutX="140.0" layoutY="542.0" prefWidth="200.0"/>
-        <PasswordField fx:id="newPass" layoutX="140.0" layoutY="574.0" prefWidth="200.0"/>
-        <Button fx:id="changePassButton" layoutX="98.0" layoutY="621.0" mnemonicParsing="false"
-                prefHeight="29.1328125" prefWidth="161.0" text="Change password"/>
-        <Label id="pro" fx:id="profileErrorLabel" layoutX="28.0" layoutY="36.0" prefHeight="29.1328125"
-               prefWidth="362.0">
+        <Label layoutX="22.0" layoutY="166.0" text="Name" />
+        <Label layoutX="23.0" layoutY="199.0" text="Surname" />
+        <Label layoutX="22.0" layoutY="232.0" text="Born" />
+        <Label layoutX="22.0" layoutY="265.0" text="Login" />
+        <Label layoutX="22.0" layoutY="134.0" text="ID" />
+        <Label layoutX="22.0" layoutY="298.0" text="Phone" />
+        <Label layoutX="22.0" layoutY="331.0" text="Permissions" />
+        <TextField fx:id="profileId" editable="false" layoutX="150.0" layoutY="126.0" prefHeight="32.0" prefWidth="220.0" />
+        <TextField fx:id="profileName" layoutX="150.0" layoutY="159.0" prefHeight="32.0" prefWidth="220.0" />
+        <TextField fx:id="profileSurname" layoutX="150.0" layoutY="192.0" prefHeight="32.0" prefWidth="220.0" />
+        <TextField fx:id="profileDate" layoutX="150.0" layoutY="225.0" prefHeight="32.0" prefWidth="220.0" />
+        <TextField fx:id="profileLogin" editable="false" layoutX="150.0" layoutY="258.0" prefHeight="32.0" prefWidth="220.0" />
+        <TextField fx:id="profilePhone" layoutX="150.0" layoutY="291.0" prefHeight="32.0" prefWidth="220.0" />
+        <TextField fx:id="profilePermis" editable="false" layoutX="150.0" layoutY="324.0" prefHeight="32.0" prefWidth="220.0" />
+        <Label font="$x1" layoutX="117.0" layoutY="503.0" styleClass="title-tabel" text="CHANGE PASSWORD" />
+        <Button fx:id="updateProfileButton" layoutX="22.0" layoutY="367.0" mnemonicParsing="false" prefHeight="29.1328125" prefWidth="348.0" text="Update" />
+        <Label layoutX="22.0" layoutY="549.0" text="Current" />
+        <Label layoutX="22.0" layoutY="582.0" text="New" />
+        <PasswordField fx:id="currentPas" layoutX="150.0" layoutY="542.0" prefHeight="32.0" prefWidth="220.0" />
+        <PasswordField fx:id="newPass" layoutX="150.0" layoutY="576.0" prefHeight="32.0" prefWidth="220.0" />
+        <Button fx:id="changePassButton" layoutX="19.0" layoutY="621.0" mnemonicParsing="false" prefHeight="29.1328125" prefWidth="348.0" text="Change password">
+          <stylesheets>
+            <URL value="@../../style.css" />
+          </stylesheets>
+        </Button>
+        <Label id="pro" fx:id="profileErrorLabel" layoutX="28.0" layoutY="36.0" prefHeight="29.1328125" prefWidth="362.0" styleClass="label-error">
           <textFill>
-            <Color red="0.800" fx:id="x2"/>
+            <Color blue="0.000" green="0.000" red="0.800" fx:id="x2" />
           </textFill>
         </Label>
-        <Label id="pro" fx:id="passwordErrorLabel" layoutX="28.0" layoutY="436.0" prefHeight="29.1328125"
-               prefWidth="362.0" textFill="$x2"/>
+        <Label id="pro" fx:id="passwordErrorLabel" layoutX="22.0" layoutY="461.0" prefHeight="29.1328125" prefWidth="362.0" styleClass="label-error" textFill="$x2" />
       </Pane>
-    </top>
+    </center>
+    <stylesheets>
+      <URL value="@../../style.css" />
+    </stylesheets>
   </BorderPane>
 </GridPane>

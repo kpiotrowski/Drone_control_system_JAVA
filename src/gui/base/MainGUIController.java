@@ -9,13 +9,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
-import main.Controller;
 import main.Main;
 
 /**
  * Created by no-one on 17.11.16.
  */
-public class MainGUIController extends Controller {
+public class MainGUIController{
 
     @FXML private Button reload;
     @FXML private TabPane mainTabPane;
@@ -82,9 +81,9 @@ public class MainGUIController extends Controller {
     }
 
     public void setDatabaseStatus(String str, boolean ok){
-        this.databaseLabel.setText(str);
         if (ok)this.databaseLabel.setTextFill(Color.web("#99daff"));
         else this.databaseLabel.setTextFill(Color.RED);
+        this.databaseLabel.setText(str);
     }
 
 }

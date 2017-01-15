@@ -1,0 +1,90 @@
+.label{
+    -fx-font-size: 15px;
+    -fx-text-fill: #222222;
+}
+.text-field, .choice-box{
+    -fx-pref-width: 220px;
+    -fx-max-width: 220px;
+    -fx-min-height: 32px;
+    -fx-pref-height: 32px;
+    -fx-max-height: 32px;
+    -fx-border-color: #999999;
+    -fx-border-radius: 4px;
+}
+.choice-box{
+    -fx-pref-width: 220px;
+    -fx-cursor: hand;
+}
+.text-area{
+    -fx-pref-width: 220px;
+}
+.text-field-short{
+    -fx-pref-width: 85px;
+}
+.title-tabel{
+    -fx-font-weight: bold;
+    -fx-text-fill: #447eb0;
+}
+.text-field:focused{
+    -fx-border-color: #447eb0;
+}
+.label-error{
+    -fx-font-size: 12px;
+    -fx-text-fill: RED;
+}
+.wrapper{
+    -fx-background-color: eeeeee;
+}
+.button{
+    -fx-background-color: #447eb0;
+    -fx-font-weight: bold;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+}
+.button:hover{
+    -fx-background-color: #647eb0;
+}
+.register-button, .green-button{
+    -fx-background-color: #6ca850;
+}
+.register-button:hover, .green-button:hover{
+    -fx-background-color: #8ca850;
+}
+.black-button{
+    -fx-background-color: #1d1e24;
+}
+.black-button:hover{
+    -fx-background-color: #272930;
+}
+.white-label{
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
+}
+.carbon-bac{
+    -fx-background-image: url("img/carbon2.jpg");
+}
+.tab{
+    -fx-background-color: #555555;
+    -fx-font-weight: bold;
+    -fx-border-width:1px;
+}
+.tab-label{
+    -fx-text-fill: #fff !important;
+    -fx-label-padding: 5px;
+}
+.tab:selected{
+    -fx-background-color: #447eb0;
+}
+.table-view .column-header-background, .column-header-background .column-header{
+    -fx-text-alignment: center;
+    -fx-background-color: #555555;
+    -fx-text-fill: #fff !important;
+}
+.table-view .column-header-background .label{
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+}
+.table-view .arrow{
+    -fx-text-fill: #fff;
+    -fx-background-color: #fff;
+}

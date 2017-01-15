@@ -112,19 +112,19 @@ public class DroneService extends Service implements ServiceInterface{
     @Override
     public Error validate(DataModel data) {
         Dron d = (Dron) data;
-        if(d.getMasa()==null) return new Error("Waga drona jest wymagana");
-        if(d.getIlosc_wirnikow()==null) return new Error("Ilość wirników jest wymagana");
-        if(d.getMax_predkosc()==null) return new Error("Maksymalna prędkość jest wymagana");
-        if(d.getMax_czas_lotu()==null) return new Error("Maksymalny czas lotu jest wymaganay");
-        if(d.getPoziom_baterii()==null) return new Error("Poziom baterii jest wymagany");
-        if(d.getStan()==null) return new Error("Stan jest wymaganay");
+        if(d.getMasa()==null) return new Error("Weight is required");
+        if(d.getIlosc_wirnikow()==null) return new Error("Rotors number is required");
+        if(d.getMax_predkosc()==null) return new Error("Max speed is required");
+        if(d.getMax_czas_lotu()==null) return new Error("Max flight time is required");
+        if(d.getPoziom_baterii()==null) return new Error("Battery level is required");
+        if(d.getStan()==null) return new Error("State is required");
         if(d.getStan()<=0) {
             if (d.getPunkt_kontrolny_id() == null)
-                return new Error("Przynalezność do punktu kontrolnego jest wymagana");
+                return new Error("Drone point is required");
         } else {
-            if(d.getWspx()==null) return new Error("Współrzędna X drona jest wymagana");
-            if(d.getWspy()==null) return new Error("Wspołrzędna Y drona jest wymagana");
-            if(d.getWspz()==null) return new Error("Wspołrzędna Z drona jest wymagana");
+            if(d.getWspx()==null) return new Error("X coordinate is required");
+            if(d.getWspy()==null) return new Error("Y coordinate is required");
+            if(d.getWspz()==null) return new Error("Z coordinate is required");
         }
         return null;
     }

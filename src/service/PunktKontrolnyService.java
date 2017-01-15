@@ -79,7 +79,7 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
             pstmt.setInt(1,id);
             int updated = pstmt.executeUpdate();
-            if (updated!=1) return new Error("Nie udało się przypisać drona do punktu kontrolnego");
+            if (updated!=1) return new Error("Failed to assign drone to drone point.");
         } catch (SQLException e) {
             return new Error(e.getMessage());
         }
@@ -95,12 +95,12 @@ public class PunktKontrolnyService extends Service implements ServiceInterface {
     @Override
     public Error validate(DataModel data) {
         Punkt_kontrolny p =  (Punkt_kontrolny) data;
-        if(p.getMax_ilosc_dronow()==null) return new Error("Ilość dronów jest wymagana");
-        if(p.getWspx()==null) return new Error("Współrzędna X jest wymagana");
-        if(p.getWspy()==null) return new Error("Współrzędna Y jest wymagana");
-        if(p.getWspz()==null) return new Error("Współrzędna Z jest wymagana");
-        if(p.getObecna_ilosc_dronow()==null) return new Error("Obenca ilość dronów jest wymagana");
-        if(p.getObecna_ilosc_dronow()>p.getMax_ilosc_dronow()) return new Error("Obecna ilość dronów nie może być większa od maksymalnej");
+        if(p.getMax_ilosc_dronow()==null) return new Error("Drone places number is required");
+        if(p.getWspx()==null) return new Error("X coordinate is required");
+        if(p.getWspy()==null) return new Error("Y coordinate is required");
+        if(p.getWspz()==null) return new Error("Z coordinate is required");
+        if(p.getObecna_ilosc_dronow()==null) return new Error("Current drone number is required");
+        if(p.getObecna_ilosc_dronow()>p.getMax_ilosc_dronow()) return new Error("Current drone number cannot be greater than max drones number");
         return null;
     }
 

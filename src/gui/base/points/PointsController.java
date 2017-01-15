@@ -148,25 +148,25 @@ public class PointsController {
         return p;
     }
     private Error validateEditForm(Punkt_kontrolny p){
-        if(p.getId()==null) return new Error("ID nie może być puste");
-        if(p.getMax_ilosc_dronow()==null) return new Error("Błędna maksymlana ilość dronów");
-        if(p.getObecna_ilosc_dronow()==null) return new Error("Błędna obecna ilość dronów");
-        if(p.getMax_ilosc_dronow()<p.getObecna_ilosc_dronow()) return new Error("Maksymalna ilość dronów nie może być mniejsza niż obecna");
+        if(p.getId()==null) return new Error("ID is required");
+        if(p.getMax_ilosc_dronow()==null) return new Error("Incorrect max drones number");
+        if(p.getObecna_ilosc_dronow()==null) return new Error("incorrect current drones number");
+        if(p.getMax_ilosc_dronow()<p.getObecna_ilosc_dronow()) return new Error("Max drones number cannot be less than current drones number");
         return null;
     }
 
-    protected void deleteAction(){
+    private void deleteAction(){
         Integer id = strToInteger(this.pointEditID.getText());
         Task t = new Task() {
             protected Error call() { return Main.punktKontrolnyService.delete(id); }
         };
         t.setOnSucceeded(
-                onSuccessSimpleError(t,"Niepowodzenie usuwania punktu kontrolnego","PomysPomyślnie usunięto punkt kontrolnyo")
+                onSuccessSimpleError(t,"Successfully deleted drone point","Failed to delete drone point.")
         );
         new Thread(t).start();
     }
 
-    protected void findAction(){
+    private void findAction(){
         ArrayList<FilterParam> filterList = new ArrayList<>();
         this.pointFindError.setText("");
         try {
@@ -193,7 +193,7 @@ public class PointsController {
                 }
             };
             t.setOnFailed(event -> {
-                Main.gui.showDialog("Błąd","Błąd podczas wyszukiwania danych",t.getException().getMessage(), Alert.AlertType.ERROR);
+                Main.gui.showDialog("Error","Failed to get data.",t.getException().getMessage(), Alert.AlertType.ERROR);
             });
             t.setOnSucceeded(event -> {
                 List<DataModel> resultList = (List<DataModel>) t.getValue();
@@ -206,7 +206,7 @@ public class PointsController {
         }
     }
 
-    protected void updateTableView(List<DataModel> dataList){
+    private void updateTableView(List<DataModel> dataList){
         ObservableList<Punkt_kontrolny> data = FXCollections.observableArrayList();
         for (DataModel m: dataList) {
             Punkt_kontrolny p = (Punkt_kontrolny)m;
@@ -215,12 +215,12 @@ public class PointsController {
         this.tableView.setItems(data);
     }
 
-    protected void createAction(){
+    private void createAction(){
         this.pointCreateError.setText("");
         Punkt_kontrolny p = this.parseCreateForm();
         Error valid = Main.punktKontrolnyService.validate(p);
         if(valid!=null){
-            this.setPointError(this.pointCreateError, valid.toString());
+            this.setPointError(this.pointCreateError, valid.getMessage());
             return;
         }
         Task t = new Task() {
@@ -231,21 +231,21 @@ public class PointsController {
         t.setOnSucceeded(event -> {
             Error e = (Error) t.getValue();
             if(e != null)
-                Main.gui.showDialog("Błąd","Niepowodzenie dodawania nowego punktu kontrolnego", e.getMessage(), Alert.AlertType.ERROR);
+                Main.gui.showDialog("Error","Failed to add new drone point.", e.getMessage(), Alert.AlertType.ERROR);
             else {
                 this.clearCreateForm();
-                Main.gui.showDialog("INfo", "Pomyślnie dodano nowy punkt kontrolny", "", Alert.AlertType.INFORMATION);
+                Main.gui.showDialog("Info", "Successfully created drone point.", "", Alert.AlertType.INFORMATION);
             }
         });
         new Thread(t).start();
     }
 
-    protected void editAction(){
+    private void editAction(){
         this.pointEditError.setText("");
         Punkt_kontrolny p = this.parseEditForm();
         Error valid = this.validateEditForm(p);
         if(valid!=null){
-            this.setPointError(this.pointEditError, valid.toString());
+            this.setPointError(this.pointEditError, valid.getMessage());
             return;
         }
 
@@ -255,7 +255,7 @@ public class PointsController {
             }
         };
         t.setOnSucceeded(
-                onSuccessSimpleError(t,"Pomyśłnie zaktualizowano punkt kontrolny","Niepowodzenie aktualizacji punktu kontrolnego")
+                onSuccessSimpleError(t,"Successfully updated drone point.","Failed to update drone point.")
         );
         new Thread(t).start();
     }

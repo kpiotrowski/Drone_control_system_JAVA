@@ -16,13 +16,13 @@ import java.util.Properties;
 public class MySQLController {
 
     private Connection con;
-    public boolean valid = true;
+    public boolean valid = false;
     private String conUrl;
     private Properties props;
 
     public Connection getCon() throws SQLException {
-        if (con!=null) return con;
-        else throw new SQLException("Nie można wykonać akcji, błąd połączenia z bazą danych");
+        if (this.valid) return con;
+        else throw new SQLException("Nie można wykonać akcji, błąd połączenia z bazą danych. Poczekaj na nawiązanie połączenia.");
     }
 
 
@@ -38,6 +38,7 @@ public class MySQLController {
         System.out.println("Pomyślnie połączono się z bazą danych");
         con.setAutoCommit(false);
         con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+        Main.gui.setDatabaseStatus("Połączono z bazą danych", true);
         this.valid = true;
     }
 
@@ -48,7 +49,7 @@ public class MySQLController {
         Task t = new Task() {
             @Override
             protected Connection call() throws Exception {
-                if(!con.isClosed()) con.close();
+                if(con!=null && !con.isClosed()) con.close();
                 DriverManager.setLoginTimeout(5);
                 System.out.println("refreshing connection");
                 return DriverManager.getConnection(conUrl, props);
@@ -59,7 +60,7 @@ public class MySQLController {
             try {
                 this.con.setAutoCommit(false);
                 this.con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            } catch (SQLException e1) {}
+            } catch (SQLException e1) {System.out.print(e1.getMessage());}
             pinger();
         });
         t.setOnFailed( (e) -> {

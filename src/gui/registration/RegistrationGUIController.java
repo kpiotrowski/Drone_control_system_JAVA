@@ -16,25 +16,16 @@ import java.text.ParseException;
  * Created by no-one on 18.11.16.
  */
 public class RegistrationGUIController {
-    @FXML
-    private TextField name;
-    @FXML
-    private TextField surname;
-    @FXML
-    private TextField birthdate;
-    @FXML
-    private TextField phone;
-    @FXML
-    private TextField login;
-    @FXML
-    private PasswordField password;
-    @FXML
-    private Button submitButton;
-    @FXML
-    private Label errorLabel;
+    @FXML private TextField name;
+    @FXML private TextField surname;
+    @FXML private TextField birthdate;
+    @FXML private TextField phone;
+    @FXML private TextField login;
+    @FXML private PasswordField password;
+    @FXML private Button submitButton;
+    @FXML private Label errorLabel;
 
-    public RegistrationGUIController() {
-    }
+    public RegistrationGUIController() {}
 
     @FXML
     private void initialize() {
@@ -44,20 +35,19 @@ public class RegistrationGUIController {
                 Uzytkownik uz = parseForm();
                 Error ifValid = Main.userService.validate(uz);
                 if(ifValid!=null){
-                    errorLabel.setText(ifValid.toString());
+                    errorLabel.setText(ifValid.getMessage());
                     errorLabel.setVisible(true);
                     return;
                 }
                 Main.gui.hideRegForm();
                 Error e = Main.userService.insert(uz);
                 if(e==null) {
-                    Main.gui.showDialog("sukces", "Pomyslnie zarejestrowano użytkownika.", "", Alert.AlertType.INFORMATION);
+                    Main.gui.showDialog("success", "Successfully registered user.", "", Alert.AlertType.INFORMATION);
                     clearForm();
-                } else {
-                    Main.gui.showDialog("error", "Wystąpił błąd podczas rejestracji", e.getMessage(), Alert.AlertType.ERROR);
-                }
+                } else
+                    Main.gui.showDialog("error", "Failed to register user.", e.getMessage(), Alert.AlertType.ERROR);
             } catch (ParseException e) {
-                errorLabel.setText("Niepoprawny format daty! (poprawny:dd-MM-yyyy)");
+                errorLabel.setText("Incorrect date format! (correct:dd-MM-yyyy)");
                 errorLabel.setVisible(true);
             }
         });
@@ -86,6 +76,7 @@ public class RegistrationGUIController {
         phone.setText("");
         password.setText("");
         birthdate.setText("");
+        errorLabel.setVisible(false);
     }
 
 }

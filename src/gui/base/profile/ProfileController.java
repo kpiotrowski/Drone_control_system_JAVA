@@ -41,7 +41,6 @@ public class ProfileController {
     private void initialize() {
         this.changePassButton.setOnAction(event -> { this.changePassword();});
         this.updateProfileButton.setOnAction(event -> {this.updateProfile();});
-
     }
 
     public void profileTabUpdate(){
@@ -55,20 +54,20 @@ public class ProfileController {
         this.profileDate.setText(CommonFunc.sqlDateToString(Main.authenticatedUser.getData_urodzenia()));
     }
 
-    protected void changePassword(){
+    private void changePassword(){
         this.passwordErrorLabel.setText("");
         String curP = this.currentPas.getText();
         String newP = this.newPass.getText();
         this.currentPas.setText("");
         this.newPass.setText("");
         if(curP.length()==0) {
-            setProfileError("Nie podano obecnego hasła",1); return;
+            setProfileError("Current password is required",1); return;
         }
         if(newP.length()==0) {
-            setProfileError("Nie podano nowego hasła",1); return;
+            setProfileError("New password is required",1); return;
         }
         if(!CommonFunc.comparePass(curP, Main.authenticatedUser.getHaslo())) {
-            setProfileError("Wprowadzone hasło jest nieprawidłowe",1);
+            setProfileError("Incorrect password",1);
             return;
         }
         Task t = new Task() {
@@ -77,7 +76,7 @@ public class ProfileController {
             }
         };
         t.setOnSucceeded(
-                onSuccessSimpleError(t,"Niepowodzenie zmiany hasła","Pomyslnie zmieniono hasło")
+                onSuccessSimpleError(t,"Successfully changed password.","Failed to change password.")
         );
         new Thread(t).start();
     }
@@ -87,7 +86,7 @@ public class ProfileController {
             Main.authenticatedUser = Main.userService.authUserReload();
             profileTabUpdate();
         } catch (SQLException e) {
-            Main.gui.showDialog("error","Niepowodzenie podczas pobiedania danych użytkownika", e.getMessage(), Alert.AlertType.ERROR);
+            Main.gui.showDialog("error","Failed to get user data.", e.getMessage(), Alert.AlertType.ERROR);
 
         }
     }
@@ -98,7 +97,7 @@ public class ProfileController {
             Uzytkownik uz = parseUpdateForm();
             Error valid = Main.userService.validate(uz);
             if(valid!=null){
-                setProfileError(valid.toString(),0);
+                setProfileError(valid.getMessage(),0);
                 return;
             }
             Task t = new Task() {
@@ -108,14 +107,14 @@ public class ProfileController {
                 Error e = (Error) t.getValue();
                 if(e != null) Main.gui.showDialog("error",e.getMessage(), "", Alert.AlertType.ERROR);
                 else {
-                    Main.gui.showDialog("success", "Pomyslnie zaktualizowano dane", "", Alert.AlertType.INFORMATION);
+                    Main.gui.showDialog("success", "Successfully updated user data.", "", Alert.AlertType.INFORMATION);
                     profileTabUpdate();
                     Main.gui.mainCtrl.reloadTopInfo();
                 }
             });
             new Thread(t).start();
         } catch (ParseException e) {
-            setProfileError("Niepoprawny format daty! (poprawny:dd-MM-yyyy)",0);
+            setProfileError("Incorrect date format! (correct:dd-MM-yyyy)",0);
         }
     }
 

@@ -20,14 +20,10 @@ import java.sql.SQLException;
  * Created by no-one on 18.11.16.
  */
 public class LoginGUIController {
-    @FXML
-    private TextField login;
-    @FXML
-    private PasswordField password;
-    @FXML
-    private Button submitButton;
-    @FXML
-    private Label errorLabel;
+    @FXML private TextField login;
+    @FXML private PasswordField password;
+    @FXML private Button submitButton;
+    @FXML private Label errorLabel;
 
     public LoginGUIController(){}
 
@@ -38,11 +34,11 @@ public class LoginGUIController {
             String passS = password.getText();
 
             if(loginS.length()==0) {
-                this.showError("Login jest wymagany");
+                this.showError("Login is required");
                 return;
             }
             if(passS.length()==0){
-                this.showError("Hasło jest wymagane");
+                this.showError("Password is required");
                 return;
             }
             Uzytkownik auth = null;
@@ -51,9 +47,8 @@ public class LoginGUIController {
                 if(auth!=null) {
                     actionAfterLogin(auth);
                     clearForm();
-                } else{
-                    this.showError("Niepowodzenie podczas autoryzacji użytkownika");
-                }
+                } else this.showError("Failed to authorize user.");
+
             } catch (SQLException e) {
                 this.showError(e.getMessage());
             }
@@ -63,12 +58,12 @@ public class LoginGUIController {
     private void showError(String err) {
         errorLabel.setText(err);
         errorLabel.setVisible(true);
-        return;
     }
 
     private void clearForm(){
         login.setText("");
         password.setText("");
+        errorLabel.setVisible(false);
     }
 
     private void actionAfterLogin(Uzytkownik auth){

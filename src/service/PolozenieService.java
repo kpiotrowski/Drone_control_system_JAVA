@@ -50,7 +50,7 @@ public class PolozenieService extends Service implements ServiceInterface {
         return new ArrayList<>();
     }
 
-    public Error insertPolozenieAndSetIds(List<Punkt_na_trasie> list){
+    Error insertPolozenieAndSetIds(List<Punkt_na_trasie> list){
         String values = "";
         int loop=0;
         for (Punkt_na_trasie p: list)

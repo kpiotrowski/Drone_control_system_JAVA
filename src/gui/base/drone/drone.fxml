@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.collections.*?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
@@ -32,87 +33,79 @@
     </TableView>
   </center>
   <left>
-    <TabPane fx:id="tabPane" prefHeight="785.0" prefWidth="363.0" tabClosingPolicy="UNAVAILABLE">
+    <TabPane fx:id="tabPane" prefHeight="764.0" prefWidth="370.0" tabClosingPolicy="UNAVAILABLE">
       <Tab fx:id="findTab" text="Find">
-        <Pane prefHeight="200.0" prefWidth="200.0">
-          <Label id="droneCreateError" fx:id="droneFindError" layoutX="27.0" layoutY="28.0" prefHeight="32.1328125"
-                 prefWidth="309.0"/>
-          <Label layoutX="22.0" layoutY="235.0" text="koor Z"/>
-          <Label layoutX="222.0" layoutY="167.0" text="TO"/>
-          <Label layoutX="222.0" layoutY="201.0" text="TO"/>
-          <Label layoutX="222.0" layoutY="232.0" text="TO"/>
-          <Label layoutX="22.0" layoutY="201.0" text="koor Y"/>
-          <Label layoutX="22.0" layoutY="167.0" text="koor X"/>
-          <Label layoutX="169.0" layoutY="92.0" text="FIND"/>
-          <Label layoutX="22.0" layoutY="132.0" text="name"/>
-          <Label layoutX="23.0" layoutY="265.0" text="max flight time"/>
-          <Label layoutX="23.0" layoutY="294.0" text="max speed"/>
-          <Label layoutX="23.0" layoutY="326.0" text="weight"/>
-          <Label layoutX="223.0" layoutY="323.0" text="TO"/>
-          <Label layoutX="25.0" layoutY="353.0" text="drone point"/>
-          <TextField fx:id="droneFindName" layoutX="131.0" layoutY="129.0" prefWidth="200.0"/>
-          <TextField fx:id="droneFindKoorXFrom" layoutX="131.0" layoutY="164.0" prefWidth="82.0"/>
-          <TextField fx:id="droneFindKoorXTo" layoutX="249.0" layoutY="164.0" prefWidth="82.0"/>
-          <TextField fx:id="droneFindKoorYFrom" layoutX="131.0" layoutY="198.0" prefWidth="82.0"/>
-          <TextField fx:id="droneFindKoorYTo" layoutX="249.0" layoutY="198.0" prefWidth="82.0"/>
-          <TextField fx:id="droneFindKoorZFrom" layoutX="131.0" layoutY="229.0" prefWidth="82.0"/>
-          <TextField fx:id="droneFindKoorZTo" layoutX="249.0" layoutY="229.0" prefWidth="82.0"/>
-          <TextField fx:id="droneFindFlightTime" layoutX="131.0" layoutY="262.0" prefWidth="120.0"/>
-          <TextField fx:id="droneFindSpeed" layoutX="131.0" layoutY="291.0" prefWidth="120.0"/>
-          <TextField fx:id="droneFindWeightFrom" layoutX="132.0" layoutY="320.0" prefWidth="82.0"/>
-          <TextField fx:id="droneFindWeightTo" layoutX="250.0" layoutY="320.0" prefWidth="82.0"/>
-          <ChoiceBox fx:id="droneFindDronePoint" layoutX="132.0" layoutY="351.0" prefWidth="200.0"/>
-          <CheckBox fx:id="droneFindFree" layoutX="135.0" layoutY="385.0" mnemonicParsing="false" text="free"/>
-          <Button fx:id="droneFindButton" layoutX="133.0" layoutY="417.0" mnemonicParsing="false" prefHeight="28.0"
-                  prefWidth="60.0" text="FIND"/>
+        <Pane prefHeight="728.0" prefWidth="377.0">
+          <Label id="droneCreateError" fx:id="droneFindError" layoutX="28.0" layoutY="28.0" prefHeight="32.1328125" prefWidth="309.0" styleClass="label-error" />
+          <Label layoutX="18.0" layoutY="231.0" text="koor Z" />
+          <Label layoutX="238.0" layoutY="162.0" text="TO" />
+          <Label layoutX="238.0" layoutY="195.0" text="TO" />
+          <Label layoutX="237.0" layoutY="231.0" text="TO" />
+          <Label layoutX="19.0" layoutY="196.0" text="koor Y" />
+          <Label layoutX="19.0" layoutY="161.0" text="koor X" />
+          <Label layoutX="163.0" layoutY="83.0" styleClass="title-tabel" text="FIND" />
+          <Label layoutX="18.0" layoutY="126.0" text="name" />
+          <Label layoutX="19.0" layoutY="266.0" text="max flight time" />
+          <Label layoutX="19.0" layoutY="301.0" text="max speed" />
+          <Label layoutX="19.0" layoutY="332.0" text="weight" />
+          <Label layoutX="239.0" layoutY="336.0" text="TO" />
+          <Label layoutX="19.0" layoutY="371.0" text="drone point" />
+          <TextField fx:id="droneFindName" layoutX="138.0" layoutY="119.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="droneFindKoorXFrom" layoutX="138.0" layoutY="154.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="droneFindKoorXTo" layoutX="273.0" layoutY="154.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="droneFindKoorYFrom" layoutX="138.0" layoutY="189.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="droneFindKoorYTo" layoutX="272.0" layoutY="189.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="droneFindKoorZFrom" layoutX="138.0" layoutY="224.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="droneFindKoorZTo" layoutX="272.0" layoutY="224.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="droneFindFlightTime" layoutX="138.0" layoutY="259.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="droneFindSpeed" layoutX="138.0" layoutY="294.0" prefHeight="32.1328125" prefWidth="220.0" />
+          <TextField fx:id="droneFindWeightFrom" layoutX="138.0" layoutY="329.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="droneFindWeightTo" layoutX="273.0" layoutY="329.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <ChoiceBox fx:id="droneFindDronePoint" layoutX="138.0" layoutY="364.0" prefHeight="32.0" prefWidth="220.0" />
+          <CheckBox fx:id="droneFindFree" layoutX="141.0" layoutY="404.0" mnemonicParsing="false" text="free" />
+          <Button fx:id="droneFindButton" layoutX="21.0" layoutY="433.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="335.0" text="FIND" />
         </Pane>
       </Tab>
       <Tab fx:id="createTab" disable="true" text="Create">
         <Pane prefHeight="200.0" prefWidth="200.0">
-          <Label layoutX="108.0" layoutY="74.0" text="ADD NEW DRONE"/>
-          <Label layoutX="29.0" layoutY="139.0" text="name"/>
-          <Label fx:id="droneCreateError" layoutX="27.0" layoutY="21.0" prefHeight="32.1328125" prefWidth="309.0"
-          />
-          <Label layoutX="27.0" layoutY="176.0" text="weight"/>
-          <Label layoutX="29.0" layoutY="210.0" text="rotors"/>
-          <Label layoutX="27.0" layoutY="241.0" text="max speed"/>
-          <Label layoutX="27.0" layoutY="275.0" text="max flight time"/>
-          <Label layoutX="29.0" layoutY="311.0" text="opis"/>
-          <Label layoutX="27.0" layoutY="397.0" text="start point"/>
-
-          <TextField fx:id="droneCreateName" layoutX="140.0" layoutY="136.0" prefWidth="200.0"/>
-          <TextField fx:id="droneCreateWeight" layoutX="140.0" layoutY="173.0" prefWidth="200.0"/>
-          <TextField fx:id="droneCreateRotors" layoutX="140.0" layoutY="207.0" prefWidth="200.0"/>
-          <TextField fx:id="droneCreateSpeed" layoutX="140.0" layoutY="238.0" prefWidth="200.0"/>
-          <TextField fx:id="droneCreateFlightTime" layoutX="140.0" layoutY="272.0" prefWidth="200.0"/>
-          <TextArea fx:id="droneCreateDesc" layoutX="140.0" layoutY="311.0" prefHeight="64.0" prefWidth="200.0"
-                    wrapText="true"/>
-          <ChoiceBox fx:id="droneCreateDronePoint" layoutX="140.0" layoutY="395.0" prefWidth="196.5"/>
-
-          <Button fx:id="droneCreateButton" layoutX="129.0" layoutY="490.0" mnemonicParsing="false"
-                  prefHeight="26.0" prefWidth="73.00009999999747" text="ADD"/>
+          <Label layoutX="112.0" layoutY="74.0" styleClass="title-tabel" text="ADD NEW DRONE" />
+          <Label layoutX="23.0" layoutY="118.0" text="name" />
+          <Label fx:id="droneCreateError" layoutX="27.0" layoutY="21.0" prefHeight="32.1328125" prefWidth="309.0" styleClass="label-error" />
+          <Label layoutX="22.0" layoutY="153.0" text="weight" />
+          <Label layoutX="22.0" layoutY="188.0" text="rotors" />
+          <Label layoutX="22.0" layoutY="223.0" text="max speed" />
+          <Label layoutX="21.0" layoutY="258.0" text="max flight time" />
+          <Label layoutX="22.0" layoutY="317.0" text="opis" />
+          <Label layoutX="20.0" layoutY="377.0" text="start point" />
+          <TextField fx:id="droneCreateName" layoutX="140.0" layoutY="111.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="droneCreateWeight" layoutX="140.0" layoutY="146.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="droneCreateRotors" layoutX="140.0" layoutY="181.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="droneCreateSpeed" layoutX="140.0" layoutY="216.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="droneCreateFlightTime" layoutX="140.0" layoutY="251.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextArea fx:id="droneCreateDesc" layoutX="140.0" layoutY="286.0" prefHeight="80.0" prefWidth="220.0" wrapText="true" />
+          <ChoiceBox fx:id="droneCreateDronePoint" layoutX="140.0" layoutY="370.0" prefHeight="32.0" prefWidth="220.0" />
+          <Button fx:id="droneCreateButton" layoutX="24.0" layoutY="421.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="338.999977929685" text="ADD" />
         </Pane>
       </Tab>
       <Tab fx:id="tabEdit" disable="true" text="Edit">
         <Pane prefHeight="200.0" prefWidth="200.0">
-          <Label layoutX="140.0" layoutY="73.0" text="EDIT"/>
-          <Label layoutX="28.0" layoutY="159.0" text="name"/>
-          <Label fx:id="droneEditError" layoutX="27.0" layoutY="23.0" prefHeight="32.1328125" prefWidth="309.0"
-          />
-          <Label layoutX="29.0" layoutY="228.0" text="Description"/>
-          <Label layoutX="26.0" layoutY="196.0" text="battery"/>
-          <Label layoutX="30.0" layoutY="125.0" text="ID"/>
-          <TextField fx:id="droneEditId" editable="false" layoutX="141.0" layoutY="122.0" prefWidth="200.0"/>
-          <TextField fx:id="droneEditName" layoutX="139.0" layoutY="156.0" prefWidth="200.0"/>
-          <TextField fx:id="droneEditBattery" layoutX="139.0" layoutY="193.0" prefWidth="200.0"/>
-          <TextArea fx:id="droneEditDesc" layoutX="140.0" layoutY="228.0" prefHeight="64.0" prefWidth="200.0"
-                    wrapText="true"/>
-          <Button fx:id="droneEdiButton" layoutX="139.0" layoutY="320.0" mnemonicParsing="false" prefHeight="26.0"
-                  prefWidth="73.00009999999747" text="SAVE"/>
-          <Button fx:id="droneDeleteAction" layoutX="263.0" layoutY="320.0" mnemonicParsing="false"
-                  prefHeight="26.0" prefWidth="73.00009999999747" text="DELETE" textFill="#cc0000"/>
+          <Label layoutX="162.0" layoutY="73.0" styleClass="title-tabel" text="EDIT" />
+          <Label layoutX="20.0" layoutY="154.0" text="name" />
+          <Label fx:id="droneEditError" layoutX="27.0" layoutY="23.0" prefHeight="32.1328125" prefWidth="309.0" styleClass="label-error" />
+          <Label layoutX="20.0" layoutY="248.0" text="Description" />
+          <Label layoutX="19.0" layoutY="189.0" text="battery" />
+          <Label layoutX="22.0" layoutY="119.0" text="ID" />
+          <TextField fx:id="droneEditId" editable="false" layoutX="136.0" layoutY="112.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="droneEditName" layoutX="136.0" layoutY="147.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="droneEditBattery" layoutX="136.0" layoutY="182.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextArea fx:id="droneEditDesc" layoutX="136.0" layoutY="217.0" prefHeight="80.0" prefWidth="220.0" wrapText="true" />
+          <Button fx:id="droneEdiButton" disable="true" layoutX="20.0" layoutY="310.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="335.999977929685" text="SAVE" />
+          <Button fx:id="droneDeleteAction" disable="true" layoutX="20.0" layoutY="351.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="336.0000389648412" styleClass="black-button" text="DELETE" textFill="#cc0000" />
         </Pane>
       </Tab>
     </TabPane>
   </left>
+  <stylesheets>
+    <URL value="@../../style.css" />
+  </stylesheets>
 </BorderPane>

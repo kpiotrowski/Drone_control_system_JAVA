@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
 <GridPane alignment="CENTER" hgap="10.0" prefHeight="256.0" prefWidth="397.0" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="gui.login.LoginGUIController">
   <children>
-    <Pane prefHeight="400.0" prefWidth="356.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+    <Pane prefHeight="256.0" prefWidth="407.0" styleClass="wrapper" GridPane.columnIndex="0" GridPane.rowIndex="0">
       <children>
-        <TextField fx:id="login" layoutX="168.0" layoutY="90.0" prefWidth="200.0" />
-        <PasswordField fx:id="password" layoutX="168.0" layoutY="126.0" prefWidth="200.0" style="" text="" />
-        <Button fx:id="submitButton" layoutX="168.0" layoutY="182.0" mnemonicParsing="false" prefHeight="35.1328125" text="LOGIN" />
-        <Label layoutX="23.0" layoutY="129.0" text="password" />
-        <Label layoutX="23.0" layoutY="93.0" text="login" />
-        <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" disable="false" layoutX="27.0" layoutY="28.0" prefHeight="43.1328125" prefWidth="341.0" text="Label" textAlignment="CENTER" textFill="#d90000" visible="false" />
+        <TextField fx:id="login" layoutX="152.0" layoutY="90.0" prefHeight="32.0" prefWidth="220.0" />
+        <PasswordField fx:id="password" layoutX="152.0" layoutY="128.0" prefHeight="32.0" prefWidth="220.0" style="" text="" />
+        <Button fx:id="submitButton" layoutX="24.0" layoutY="182.0" mnemonicParsing="false" prefHeight="35.1328125" prefWidth="348.0" text="LOGIN" />
+        <Label layoutX="24.0" layoutY="135.0" text="password" />
+        <Label layoutX="24.0" layoutY="97.0" text="login" />
+        <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" disable="false" layoutX="27.0" layoutY="28.0" prefHeight="43.1328125" prefWidth="341.0" styleClass="label-error" text="Label" textAlignment="CENTER" textFill="#d90000" visible="false" />
       </children>
+      <stylesheets>
+        <URL value="@../style.css" />
+      </stylesheets>
     </Pane>
   </children>
   <columnConstraints>

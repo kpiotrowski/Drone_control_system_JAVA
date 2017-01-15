@@ -52,7 +52,7 @@ public class Main extends Application{
         };
         t.setOnSucceeded(e -> {
             MySQLController con = (MySQLController) t.getValue();
-            gui.setDatabaseStatus("Połączno z bazą danych",true);
+            gui.setDatabaseStatus("Połączono z bazą danych",true);
             gui.showMainStage();
             info.close();
             con.pinger();

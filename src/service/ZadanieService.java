@@ -107,18 +107,18 @@ public class ZadanieService extends Service implements ServiceInterface{
     @Override
     public Error validate(DataModel data) {
         Zadanie z = (Zadanie) data;
-        if(z.getStan()==null) return new Error("Stan nie może być pusty");
-        if(z.getData_rozpoczenia() == null) return new Error("Data rozpoczęcia nie może być pusta");
-        if(z.getTyp()==null) return new Error("Typ nie może być pusty");
-        if(z.getUzytkownik_id()==null) return new Error("Uzytkonik nie może być pusty");
+        if(z.getStan()==null) return new Error("State cannot be empty");
+        if(z.getData_rozpoczenia() == null) return new Error("Start date is required");
+        if(z.getTyp()==null) return new Error("Type is required");
+        if(z.getUzytkownik_id()==null) return new Error("User is required");
         if(z.getTyp() == Zadanie.TYPE_MOVE_TO_POINT){
-            if(z.getDron_id()==null) return new Error("Dla tego typu należy podać id drona");
-            if(z.getPunkt_koncowy_id()==null) return new Error("Dla tego typu zadania należy podać punkt końcowy");
-            if(z.getTrasa_nazwa()!=null || z.getTrasa_uzytkownik_id()!=null) return new Error("Dla tego typu zadania nie należy podawać trasy");
+            if(z.getDron_id()==null) return new Error("Drone id is required");
+            if(z.getPunkt_koncowy_id()==null) return new Error("Finish point is required");
+            if(z.getTrasa_nazwa()!=null || z.getTrasa_uzytkownik_id()!=null) return new Error("Route is required");
         } else{
-            if(z.getDron_id()!=null) return new Error("Dla tego typu nie należy podawć id drona");
-            if(z.getPunkt_koncowy_id()!=null) return new Error("Dla tego typu zadania nie należy podawć punktu końcowego");
-            if(z.getTrasa_nazwa()==null || z.getTrasa_uzytkownik_id()==null) return new Error("Dla tego typu zadania należy podawać trasę");
+            if(z.getDron_id()!=null) return new Error("Drone is not allowed");
+            if(z.getPunkt_koncowy_id()!=null) return new Error("Finish point is not allowed");
+            if(z.getTrasa_nazwa()==null || z.getTrasa_uzytkownik_id()==null) return new Error("Route is required");
         }
         return null;
     }

@@ -1,35 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<GridPane alignment="CENTER" hgap="10.0" prefHeight="400.0" prefWidth="450.0" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="gui.registration.RegistrationGUIController">
-  <children>
-    <Pane prefHeight="100.0" prefWidth="450.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
-      <children>
-        <TextField fx:id="name" layoutX="203.0" layoutY="82.0" prefWidth="200.0" />
-        <TextField fx:id="surname" layoutX="203.0" layoutY="117.0" prefWidth="200.0" />
-        <TextField fx:id="birthdate" layoutX="203.0" layoutY="153.0" prefWidth="200.0" />
-        <TextField fx:id="phone" layoutX="203.0" layoutY="189.0" prefWidth="200.0" />
-        <TextField fx:id="login" layoutX="203.0" layoutY="226.0" prefWidth="200.0" />
-        <PasswordField fx:id="password" layoutX="203.0" layoutY="262.0" prefWidth="200.0" style="" text="" />
-        <Button fx:id="submitButton" layoutX="203.0" layoutY="335.0" mnemonicParsing="false" prefHeight="35.1328125" text="REGISTER" />
-        <Label layoutX="45.0" layoutY="265.0" text="password" />
-        <Label layoutX="45.0" layoutY="229.0" text="login" />
-        <Label layoutX="45.0" layoutY="192.0" text="phone" />
-        <Label layoutX="45.0" layoutY="156.0" text="birthdate" />
-        <Label layoutX="45.0" layoutY="120.0" text="surname" />
-        <Label layoutX="45.0" layoutY="85.0" text="name" />
-        <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" disable="false" layoutX="45.0" layoutY="28.0" prefHeight="43.1328125" prefWidth="358.0" text="Label" textAlignment="CENTER" textFill="#d90000" visible="false" />
-      </children>
-    </Pane>
-  </children>
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="431.0" prefWidth="450.0" vgap="10.0"
+          xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
+          fx:controller="gui.registration.RegistrationGUIController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
   </rowConstraints>
+  <Pane prefHeight="100.0" prefWidth="450.0" style="&#10;" styleClass="wrapper" GridPane.columnIndex="0"
+        GridPane.rowIndex="0">
+    <stylesheets>
+      <URL value="@../style.css"/>
+    </stylesheets>
+    <TextField fx:id="name" layoutX="191.0" layoutY="77.0" prefHeight="32.0" prefWidth="220.0">
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </TextField>
+    <TextField fx:id="surname" layoutX="191.0" layoutY="114.0" prefHeight="32.0" prefWidth="220.0">
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </TextField>
+    <TextField fx:id="birthdate" layoutX="191.0" layoutY="150.0" prefHeight="32.0" prefWidth="220.0">
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </TextField>
+    <TextField fx:id="phone" layoutX="191.0" layoutY="186.0" prefHeight="32.0" prefWidth="220.0">
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </TextField>
+    <TextField fx:id="login" layoutX="191.0" layoutY="221.0" prefHeight="32.0" prefWidth="220.0">
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </TextField>
+    <PasswordField fx:id="password" layoutX="191.0" layoutY="257.0" prefHeight="32.0" prefWidth="220.0" style=""
+                   text="">
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </PasswordField>
+    <Button fx:id="submitButton" defaultButton="true" layoutX="43.0" layoutY="319.0" mnemonicParsing="false"
+            prefHeight="35.1328125" prefWidth="369.0" style="&#10;" text="REGISTER" textAlignment="CENTER"
+    >
+      <effect>
+        <ColorAdjust/>
+      </effect>
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </Button>
+    <Label labelFor="$password" layoutX="42.0" layoutY="264.0" text="password">
+      <font>
+        <Font size="15.0" fx:id="x1"/>
+      </font>
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+      <textFill>
+        <Color blue="0.125" green="0.125" red="0.125" fx:id="x2"/>
+      </textFill>
+    </Label>
+    <Label font="$x1" labelFor="$login" layoutX="44.0" layoutY="228.0" text="login" textFill="$x2">
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </Label>
+    <Label font="$x1" labelFor="$phone" layoutX="43.0" layoutY="193.0" text="phone" textFill="$x2">
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </Label>
+    <Label font="$x1" labelFor="$birthdate" layoutX="42.0" layoutY="157.0" text="birthdate" textFill="$x2">
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </Label>
+    <Label font="$x1" labelFor="$surname" layoutX="45.0" layoutY="121.0" text="surname" textFill="$x2">
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </Label>
+    <Label font="$x1" labelFor="$name" layoutX="44.0" layoutY="84.0" text="name" textFill="$x2">
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </Label>
+    <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="45.0" layoutY="21.0"
+           prefHeight="50.1328125" prefWidth="366.0" styleClass="label-error" textAlignment="CENTER"
+           textFill="RED" wrapText="true">
+      <stylesheets>
+        <URL value="@../style.css"/>
+      </stylesheets>
+    </Label>
+  </Pane>
 </GridPane>

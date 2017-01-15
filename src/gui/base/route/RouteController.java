@@ -21,6 +21,7 @@ import java.util.logging.ErrorManager;
 
 import static common.CommonFunc.emptyNullStr;
 import static common.CommonFunc.strToFloat;
+import static java.lang.Math.abs;
 
 /**
  * Created by no-one on 24.12.16.
@@ -38,6 +39,7 @@ public class RouteController {
     @FXML private Tab newTab;
     @FXML private Tab listTab;
     @FXML private Pane routeGraph;
+
     private ArrayList<RouteSingleField> newRouteFields = new ArrayList<>();
     private ObservableList<Punkt_kontrolny> dronePoints = FXCollections.observableArrayList();
     private Trasa selectedRoute;
@@ -109,6 +111,7 @@ public class RouteController {
 
     private void drawRoute(List<Punkt_na_trasie> dataList, boolean showDeleteBut) {
         routeGraph.getChildren().clear();
+        if(dataList.size()<2)return;
         if(showDeleteBut){
             this.routeDeleteButton.setVisible(true);
             routeGraph.getChildren().add(this.routeDeleteButton);
@@ -116,7 +119,7 @@ public class RouteController {
 
 
         Comparator<Punkt_na_trasie> comparator = (o1, o2) -> {
-            if (o1.getNumer_kolejny() < o2.getNumer_kolejny()) return -1;
+            if (o1.getNumer_kolejny() <= o2.getNumer_kolejny()) return -1;
             if (o1.getNumer_kolejny() > o2.getNumer_kolejny()) return 1;
             return 0;
         };
@@ -126,7 +129,7 @@ public class RouteController {
             Punkt_na_trasie pnt = dataList.get(i);
             Circle point = new Circle();
             double pointX = 15+(pnt.getWspX()-routeArea[0])*((routeGraph.getWidth()-30)/(routeArea[1]-routeArea[0]));
-            double pointY = 15+(pnt.getWspY()-routeArea[2])*((routeGraph.getHeight()-30)/(routeArea[3]-routeArea[2]));
+            double pointY = abs(routeGraph.getHeight()-15-(pnt.getWspY()-routeArea[2])*((routeGraph.getHeight()-30)/(routeArea[3]-routeArea[2])));
             point.setCenterX(pointX);
             point.setCenterY(pointY);
 
@@ -139,7 +142,7 @@ public class RouteController {
                 Punkt_na_trasie ii = dataList.get(i+1);
                 Line l = new Line();
                 double point2X = 15+(ii.getWspX()-routeArea[0])*((routeGraph.getWidth()-30)/(routeArea[1]-routeArea[0]));
-                double point2Y = 15+(ii.getWspY()-routeArea[2])*((routeGraph.getHeight()-30)/(routeArea[3]-routeArea[2]));
+                double point2Y = abs(routeGraph.getHeight()-15-(ii.getWspY()-routeArea[2])*((routeGraph.getHeight()-30)/(routeArea[3]-routeArea[2])));
                 l.setStartX(pointX);
                 l.setStartY(pointY);
                 l.setEndX(point2X);
@@ -157,6 +160,14 @@ public class RouteController {
             if(p.getWspX()>result[1]) result[1]=p.getWspX();
             if(p.getWspY()<result[2]) result[2]=p.getWspY();
             if(p.getWspY()>result[3]) result[3]=p.getWspY();
+        }
+        if(result[0]==result[1]){
+            result[0]-=15;
+            result[1]+=15;
+        }
+        if(result[2]==result[3]){
+            result[2]-=15;
+            result[3]+=15;
         }
         return result;
     }

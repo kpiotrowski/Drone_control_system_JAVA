@@ -158,6 +158,16 @@ public class DroneController {
         this.droneEditBattery.setText(String.valueOf(d.getPoziom_baterii()));
         this.droneEditDesc.setText(d.getOpis());
         this.tabPane.getSelectionModel().select(tabEdit);
+        this.droneDeleteAction.setDisable(false);
+        this.droneEdiButton.setDisable(false);
+    }
+    private void clearEditForm(){
+        this.droneEditId.setText("");
+        this.droneEditName.setText("");
+        this.droneEditBattery.setText("");
+        this.droneEditDesc.setText("");
+        this.droneDeleteAction.setDisable(true);
+        this.droneEdiButton.setDisable(true);
     }
 
     private void editAction(){
@@ -165,14 +175,14 @@ public class DroneController {
         Dron d = parseEditForm();
         Error valid = validateEditForm(d);
         if(valid!=null){
-            this.droneEditError.setText(valid.toString());
+            this.droneEditError.setText(valid.getMessage());
             return;
         }
         Task t = new Task() {
             protected Error call() throws Exception { return Main.droneService.update(d); }
         };
         t.setOnSucceeded(
-                onSuccessSimpleError(t,"Niepowodzenie aktualizacji informacji o dronie","Pomyśłnie zaktualizowano informacje o dronie")
+                onSuccessSimpleError(t,"Successfully updated drone info", "Failed to update drone info")
         );
         new Thread(t).start();
     }
@@ -231,7 +241,7 @@ public class DroneController {
                 }
             };
             t.setOnFailed(event -> {
-                Main.gui.showDialog("Błąd","Błąd podczas wyszukiwania danych",t.getException().getMessage(), Alert.AlertType.ERROR);
+                Main.gui.showDialog("Error","Failed to find drone data",t.getException().getMessage(), Alert.AlertType.ERROR);
             });
             t.setOnSucceeded(event -> {
                 List<DataModel> resultList = (List<DataModel>) t.getValue();
@@ -251,8 +261,11 @@ public class DroneController {
         };
         t.setOnSucceeded(event -> {
             Error e = (Error) t.getValue();
-            if(e!=null)  Main.gui.showDialog("Błąd","Niepowodzenie usuwania drona", e.getMessage(), Alert.AlertType.ERROR);
-            else Main.gui.showDialog("Info", "Pomyślnie usunięto drona", "", Alert.AlertType.INFORMATION);
+            if(e!=null)  Main.gui.showDialog("Error","Failed to delete drone", e.getMessage(), Alert.AlertType.ERROR);
+            else {
+                clearEditForm();
+                Main.gui.showDialog("Info", "Successfully deleted drone", "", Alert.AlertType.INFORMATION);
+            }
         });
         new Thread(t).start();
     }
@@ -286,7 +299,7 @@ public class DroneController {
         Dron d = this.parseCreateForm();
         Error valid = Main.droneService.validate(d);
         if(valid!=null){
-            this.droneCreateError.setText(valid.toString());
+            this.droneCreateError.setText(valid.getMessage());
             return;
         }
         Task t = new Task() {
@@ -297,14 +310,14 @@ public class DroneController {
         t.setOnSucceeded(event -> {
             Error e = (Error) t.getValue();
             if(e != null)
-                Main.gui.showDialog("Błąd","Niepowodzenie dodawania nowego drona", e.getMessage(), Alert.AlertType.ERROR);
+                Main.gui.showDialog("Error","Failed to create new drone", e.getMessage(), Alert.AlertType.ERROR);
             else {
                 this.clearCreateForm();
-                Main.gui.showDialog("INfo", "Pomyślnie dodano nowego drona", "", Alert.AlertType.INFORMATION);
+                Main.gui.showDialog("Info", "Successfully added new drone", "", Alert.AlertType.INFORMATION);
             }
         });
         t.setOnFailed(event -> {
-            System.out.println();t.getException().toString();
+            System.out.println();t.getException().getMessage();
         });
         new Thread(t).start();
     }
@@ -319,8 +332,8 @@ public class DroneController {
     }
 
     private Error validateEditForm(Dron d){
-        if(d.getId()==null) return new Error("Nieprawidłowe pole ID");
-        if(d.getPoziom_baterii()==null) return new Error("Nieprawodłowy poziom baterii");
+        if(d.getId()==null) return new Error("Incorrect ID");
+        if(d.getPoziom_baterii()==null) return new Error("Incorrect battery level");
         return null;
     }
 }

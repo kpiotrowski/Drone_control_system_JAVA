@@ -31,12 +31,11 @@ public class UserService extends Service implements ServiceInterface{
     @Override
     public Error insert(DataModel data) {
         Uzytkownik uz = (Uzytkownik) data;
-        StringBuilder builder = new StringBuilder();
-        builder.append("INSERT INTO "+ table +"(");
-        builder.append(insertStr);
-        builder.append(") VALUES(?,?,?,?,?,?,?)");
+        String builder = ("INSERT INTO " + table + "(") +
+                insertStr +
+                ") VALUES(?,?,?,?,?,?,?)";
 
-        try (PreparedStatement pstmt = mysql.getCon().prepareStatement(builder.toString());){
+        try (PreparedStatement pstmt = mysql.getCon().prepareStatement(builder);){
             statSetVarPar(pstmt, 1, uz.getImie());
             statSetVarPar(pstmt, 2, uz.getNazwisko());
             statSetVarPar(pstmt, 3, uz.getData_urodzenia());
@@ -81,11 +80,11 @@ public class UserService extends Service implements ServiceInterface{
     @Override
     public Error validate(DataModel data) {
         Uzytkownik uz = (Uzytkownik) data;
-        if(uz.getImie() == null || uz.getImie().length()==0) return new Error("Imie jest wymagane");
-        if(uz.getNazwisko() == null || uz.getNazwisko().length()==0) return new Error("Nazwisko jest wymagane");
-        if(uz.getLogin() == null || uz.getLogin().length()==0) return new Error("Login jest wymagany");
-        if(uz.getHaslo()==null || uz.getHaslo().length()==0) return new Error("Haslo jest wymagane");
-        if(uz.getPoziom_uprawnien() == null || uz.getPoziom_uprawnien()==null) return new Error("Błędny poziom uprawnień");
+        if(uz.getImie() == null || uz.getImie().length()==0) return new Error("Name is required");
+        if(uz.getNazwisko() == null || uz.getNazwisko().length()==0) return new Error("Surname  is required");
+        if(uz.getLogin() == null || uz.getLogin().length()==0) return new Error("Login is required");
+        if(uz.getHaslo()==null || uz.getHaslo().length()==0) return new Error("Password is required");
+        if(uz.getPoziom_uprawnien() == null || uz.getPoziom_uprawnien()==null) return new Error("Incorrect permissions level");
         return null;
     }
 
@@ -93,7 +92,6 @@ public class UserService extends Service implements ServiceInterface{
     public List<DataModel> parseToModel(ResultSet res) throws SQLException {
         Uzytkownik uz = new Uzytkownik();
         ArrayList<DataModel> list = new ArrayList<>();
-
         if( res.next() ){
             uz.setId(res.getInt(1));
             uz.setImie(res.getString(2));
@@ -133,7 +131,7 @@ public class UserService extends Service implements ServiceInterface{
 
     public Uzytkownik authUserReload() throws SQLException {
         Uzytkownik uz = getUser(Main.authenticatedUser.getLogin());
-        if(uz==null) throw new SQLException("Niepowodzenie podczas pobierania danych użytkownika");
+        if(uz==null) throw new SQLException("Failed to get user data.");
         return uz;
     }
 

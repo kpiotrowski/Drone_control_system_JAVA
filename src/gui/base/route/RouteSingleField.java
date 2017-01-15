@@ -12,7 +12,7 @@ import lombok.Setter;
 /**
  * Created by no-one on 02.01.17.
  */
-public class RouteSingleField {
+class RouteSingleField {
 
     @FXML @Getter private ChoiceBox<Punkt_kontrolny> selectPoint;
     @FXML @Getter private TextField x;
@@ -20,12 +20,12 @@ public class RouteSingleField {
     @FXML @Getter private TextField z;
     @FXML @Getter private Button del;
 
-    public void decNumber(){
+    void decNumber(){
         this.del.setId(String.valueOf(Integer.parseInt(this.del.getId())-1));
         this.recalculatePosition(Integer.parseInt(this.del.getId()));
     }
 
-    public RouteSingleField(int num, ObservableList<Punkt_kontrolny> dronePoints){
+    RouteSingleField(int num, ObservableList<Punkt_kontrolny> dronePoints){
         this.selectPoint = new ChoiceBox<>();
         this.selectPoint.setItems(dronePoints);
         if(dronePoints.size()>0)this.selectPoint.setValue(dronePoints.get(0));
@@ -58,21 +58,24 @@ public class RouteSingleField {
             }
         });
     }
-    public void recalculatePosition(int num){
+    private void recalculatePosition(int num){
         this.selectPoint.setLayoutX(10);
-        this.selectPoint.setLayoutY(num*70+10);
-        this.selectPoint.setPrefWidth(200);
+        this.selectPoint.setLayoutY(num*73+10);
+        this.selectPoint.setPrefWidth(220);
         this.del.setPrefWidth(30);
-        this.del.setLayoutX(235);
-        this.del.setLayoutY(num*70+10);
+        this.del.setLayoutX(255);
+        this.del.setLayoutY(num*73+10);
+
         this.x.setLayoutX(10);
-        this.x.setPrefWidth(85);
-        this.y.setLayoutX(95);
-        this.y.setPrefWidth(85);
-        this.z.setLayoutX(180);
-        this.z.setPrefWidth(85);
-        this.x.setLayoutY(num*70+37);
-        this.y.setLayoutY(num*70+37);
-        this.z.setLayoutY(num*70+37);
+        this.y.setLayoutX(102);
+        this.z.setLayoutX(194);
+
+        this.x.setLayoutY(num*73+42);
+        this.y.setLayoutY(num*73+42);
+        this.z.setLayoutY(num*73+42);
+        this.x.setStyle("-fx-pref-width: 90px;");
+        this.y.setStyle("-fx-pref-width: 90px;");
+        this.z.setStyle("-fx-pref-width: 90px;");
+
     }
 }

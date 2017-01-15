@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
@@ -15,7 +16,7 @@
         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
       </columnResizePolicy>
       <columns>
-        <TableColumn prefWidth="75.0" text="id" fx:id="columnId" />
+        <TableColumn prefWidth="75.0" style="&#10;" text="id" fx:id="columnId" />
         <TableColumn prefWidth="75.0" text="koorX" fx:id="columnKoorX" />
         <TableColumn prefWidth="75.0" text="koorY" fx:id="columnKoorY" />
         <TableColumn prefWidth="75.0" text="koorZ" fx:id="columnKoorZ" />
@@ -23,82 +24,81 @@
         <TableColumn prefWidth="113.0" text="drones now" fx:id="columnDronesNow" />
         <TableColumn prefWidth="311.0" text="name" fx:id="columnNazwa" />
       </columns>
+      <stylesheets>
+        <URL value="@../../style.css" />
+      </stylesheets>
     </TableView>
   </center>
   <left>
-    <TabPane fx:id="tabPane" prefHeight="785.0" prefWidth="355.0000999999975" tabClosingPolicy="UNAVAILABLE">
+    <TabPane fx:id="tabPane" prefHeight="785.0" prefWidth="350.0" tabClosingPolicy="UNAVAILABLE">
       <Tab fx:id="findTab" text="Find">
-        <Pane prefHeight="200.0" prefWidth="200.0">
-          <Label layoutX="29.0" layoutY="264.0" text="free places"/>
-          <Label layoutX="29.0" layoutY="231.0" text="koor Z"/>
-          <Label layoutX="213.0" layoutY="163.0" text="TO"/>
-          <Label layoutX="213.0" layoutY="197.0" text="TO"/>
-          <Label layoutX="213.0" layoutY="228.0" text="TO"/>
-          <Label fx:id="pointFindError" layoutX="29.0" layoutY="22.0" prefHeight="40.1328125" prefWidth="295.0"
-          >
+        <Pane prefHeight="200.0" prefWidth="340.0">
+          <Label layoutX="19.0" layoutY="272.0" text="free places" />
+          <Label layoutX="19.0" layoutY="237.0" text="koor Z" />
+          <Label layoutX="216.0" layoutY="168.0" text="TO" />
+          <Label layoutX="216.0" layoutY="202.0" text="TO" />
+          <Label layoutX="216.0" layoutY="236.0" text="TO" />
+          <Label fx:id="pointFindError" layoutX="31.0" layoutY="22.0" prefHeight="40.1328125" prefWidth="295.0" styleClass="label-error">
             <textFill>
-              <Color red="0.800" fx:id="x1"/>
+              <Color blue="0.000" green="0.000" red="0.800" fx:id="x1" />
             </textFill>
           </Label>
-          <Label layoutX="29.0" layoutY="197.0" text="koor Y"/>
-          <Label layoutX="29.0" layoutY="163.0" text="koor X"/>
-          <Label layoutX="160.0" layoutY="88.0" text="FIND"/>
-          <Label layoutX="29.0" layoutY="128.0" text="name"/>
-          <TextField fx:id="pointFindName" layoutX="122.0" layoutY="125.0" prefWidth="200.0"/>
-          <TextField fx:id="pointFindKoorXFrom" layoutX="122.0" layoutY="160.0" prefWidth="82.0"/>
-          <TextField fx:id="pointFindKoorXTo" layoutX="240.0" layoutY="160.0" prefWidth="82.0"/>
-          <TextField fx:id="pointFindKoorYFrom" layoutX="122.0" layoutY="194.0" prefWidth="82.0"/>
-          <TextField fx:id="pointFindKoorYTo" layoutX="240.0" layoutY="194.0" prefWidth="82.0"/>
-          <TextField fx:id="pointFindKoorZFrom" layoutX="122.0" layoutY="225.0" prefWidth="82.0"/>
-          <TextField fx:id="pointFindKoorZTo" layoutX="240.0" layoutY="225.0" prefWidth="82.0"/>
-          <TextField fx:id="pointFindFreePlaces" layoutX="122.0" layoutY="261.0" prefWidth="200.0"/>
-          <Button fx:id="pointFindButton" layoutX="133.0" layoutY="334.0" mnemonicParsing="false" prefHeight="28.0"
-                  prefWidth="60.0" text="FIND"/>
+          <Label layoutX="20.0" layoutY="202.0" text="koor Y" />
+          <Label layoutX="20.0" layoutY="168.0" text="koor X" />
+          <Label layoutX="160.0" layoutY="88.0" styleClass="title-tabel" text="FIND" />
+          <Label layoutX="20.0" layoutY="133.0" text="name" />
+          <TextField fx:id="pointFindName" layoutX="116.0" layoutY="126.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="pointFindKoorXFrom" layoutX="116.0" layoutY="160.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="pointFindKoorXTo" layoutX="251.0" layoutY="160.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="pointFindKoorYFrom" layoutX="116.0" layoutY="194.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="pointFindKoorYTo" layoutX="251.0" layoutY="194.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="pointFindKoorZFrom" layoutX="117.0" layoutY="229.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="pointFindKoorZTo" layoutX="251.0" layoutY="229.0" prefHeight="32.0" prefWidth="85.0" styleClass="text-field-short" />
+          <TextField fx:id="pointFindFreePlaces" layoutX="116.0" layoutY="264.0" prefHeight="32.0" prefWidth="220.0" />
+          <Button fx:id="pointFindButton" layoutX="17.0" layoutY="320.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="317.0" text="FIND" />
         </Pane>
       </Tab>
       <Tab fx:id="createTab" disable="true" text="Create">
         <Pane prefHeight="401.0" prefWidth="354.0">
-          <Label layoutX="82.0" layoutY="82.0" text="ADD NEW DRONE POINT"/>
-          <Label layoutX="25.0" layoutY="147.0" text="name"/>
-          <Label fx:id="pointCreateError" layoutX="23.0" layoutY="29.0" prefHeight="32.1328125" prefWidth="309.0"
-                 textFill="$x1"/>
-          <Label layoutX="23.0" layoutY="184.0" text="koor X"/>
-          <Label layoutX="25.0" layoutY="218.0" text="koor Y"/>
-          <Label layoutX="23.0" layoutY="249.0" text="koor Z"/>
-          <Label layoutX="23.0" layoutY="283.0" text="max drones"/>
-          <TextField fx:id="pointCreateName" layoutX="136.0" layoutY="144.0" prefWidth="200.0"/>
-          <TextField fx:id="pointCreateKoorX" layoutX="136.0" layoutY="181.0" prefWidth="200.0"/>
-          <TextField fx:id="pointCreateKoorY" layoutX="136.0" layoutY="215.0" prefWidth="200.0"/>
-          <TextField fx:id="pointCreateKoorZ" layoutX="136.0" layoutY="246.0" prefWidth="200.0"/>
-          <TextField fx:id="pointCreateMaxDrones" layoutX="136.0" layoutY="280.0" prefWidth="200.0"/>
-          <Button fx:id="pointCreateButton" layoutX="125.0" layoutY="331.0" mnemonicParsing="false"
-                  prefHeight="26.0" prefWidth="73.00009999999747" text="ADD"/>
+          <Label layoutX="72.0" layoutY="86.0" styleClass="title-tabel" text="ADD NEW DRONE POINT" />
+          <Label layoutX="19.0" layoutY="132.0" text="name" />
+          <Label fx:id="pointCreateError" layoutX="23.0" layoutY="14.0" prefHeight="47.1328125" prefWidth="309.0" styleClass="label-error" textFill="$x1" />
+          <Label layoutX="18.0" layoutY="168.0" text="koor X" />
+          <Label layoutX="19.0" layoutY="201.0" text="koor Y" />
+          <Label layoutX="18.0" layoutY="233.0" text="koor Z" />
+          <Label layoutX="17.0" layoutY="268.0" text="max drones" />
+          <TextField fx:id="pointCreateName" layoutX="115.0" layoutY="126.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="pointCreateKoorX" layoutX="115.0" layoutY="160.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="pointCreateKoorY" layoutX="115.0" layoutY="194.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="pointCreateKoorZ" layoutX="115.0" layoutY="228.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="pointCreateMaxDrones" layoutX="115.0" layoutY="262.0" prefHeight="32.0" prefWidth="220.0" />
+          <Button fx:id="pointCreateButton" layoutX="18.0" layoutY="309.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="316.999977929685" text="ADD" />
         </Pane>
       </Tab>
       <Tab fx:id="editTab" disable="true" text="Edit">
         <Pane prefHeight="200.0" prefWidth="200.0">
-          <Label layoutX="24.0" layoutY="111.0" text="name"/>
-          <Label layoutX="24.0" layoutY="144.0" text="koor X"/>
-          <Label layoutX="24.0" layoutY="176.0" text="koor Y"/>
-          <Label layoutX="24.0" layoutY="207.0" text="koor Z"/>
-          <Label layoutX="24.0" layoutY="241.0" text="max drones"/>
-          <Label layoutX="24.0" layoutY="274.0" text="drones now"/>
-          <Label layoutX="24.0" layoutY="76.0" text="ID"/>
-          <Label fx:id="pointEditError" layoutX="20.0" layoutY="31.0" prefHeight="26.0" prefWidth="311.0" text=""
-                 textFill="$x1"/>
-          <TextField fx:id="pointEditID" editable="false" layoutX="131.0" layoutY="76.0" prefWidth="200.0"/>
-          <TextField fx:id="pointEditName" layoutX="131.0" layoutY="108.0" prefWidth="200.0"/>
-          <TextField fx:id="pointEditKoorX" editable="false" layoutX="131.0" layoutY="141.0" prefWidth="200.0"/>
-          <TextField fx:id="pointEditKoorY" editable="false" layoutX="131.0" layoutY="173.0" prefWidth="200.0"/>
-          <TextField fx:id="pointEditKoorZ" editable="false" layoutX="131.0" layoutY="204.0" prefWidth="200.0"/>
-          <TextField fx:id="pointEditMaxDrones" layoutX="131.0" layoutY="238.0" prefWidth="200.0"/>
-          <TextField fx:id="pointEditDronesNow" editable="false" layoutX="131.0" layoutY="271.0" prefWidth="200.0"/>
-          <Button fx:id="pointEditButton" disable="true" layoutX="144.0" layoutY="330.0" mnemonicParsing="false"
-                  prefHeight="34.0" prefWidth="75.0" text="SAVE"/>
-          <Button fx:id="pointEditButtonDelete" disable="true" layoutX="256.0" layoutY="330.0"
-                  mnemonicParsing="false" prefHeight="34.0" prefWidth="75.0" text="DELETE" textFill="#990000"/>
+          <Label layoutX="19.0" layoutY="111.0" text="name" />
+          <Label layoutX="19.0" layoutY="143.0" text="koor X" />
+          <Label layoutX="19.0" layoutY="177.0" text="koor Y" />
+          <Label layoutX="19.0" layoutY="210.0" text="koor Z" />
+          <Label layoutX="19.0" layoutY="245.0" text="max drones" />
+          <Label layoutX="19.0" layoutY="279.0" text="drones now" />
+          <Label layoutX="19.0" layoutY="76.0" text="ID" />
+          <Label fx:id="pointEditError" layoutX="20.0" layoutY="23.0" prefHeight="34.0" prefWidth="311.0" styleClass="label-error" text="" textFill="$x1" />
+          <TextField fx:id="pointEditID" editable="false" layoutX="116.0" layoutY="68.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="pointEditName" layoutX="116.0" layoutY="102.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="pointEditKoorX" editable="false" layoutX="116.0" layoutY="136.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="pointEditKoorY" editable="false" layoutX="116.0" layoutY="170.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="pointEditKoorZ" editable="false" layoutX="116.0" layoutY="204.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="pointEditMaxDrones" layoutX="116.0" layoutY="238.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="pointEditDronesNow" editable="false" layoutX="116.0" layoutY="272.0" prefHeight="32.0" prefWidth="220.0" />
+          <Button fx:id="pointEditButton" disable="true" layoutX="20.0" layoutY="330.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="311.0" text="SAVE" visible="true" />
+          <Button fx:id="pointEditButtonDelete" disable="true" layoutX="20.0" layoutY="374.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="311.0" styleClass="black-button" text="DELETE" textFill="#990000" />
         </Pane>
       </Tab>
     </TabPane>
   </left>
+  <stylesheets>
+    <URL value="@../../style.css" />
+  </stylesheets>
 </BorderPane>

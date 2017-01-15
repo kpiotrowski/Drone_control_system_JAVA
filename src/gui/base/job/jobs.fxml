@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -31,62 +32,61 @@
     <TabPane fx:id="tabPane" prefHeight="785.0" prefWidth="355.0000999999975" tabClosingPolicy="UNAVAILABLE">
       <Tab fx:id="findTab" text="Find">
         <Pane prefHeight="200.0" prefWidth="200.0">
-          <Label layoutX="30.0" layoutY="296.0" text="start date" />
-          <Label layoutX="30.0" layoutY="263.0" text="drone" />
-          <Label fx:id="jobFindError" layoutX="29.0" layoutY="22.0" prefHeight="40.1328125" prefWidth="295.0">
+          <Label layoutX="23.0" layoutY="297.0" text="start date" />
+          <Label layoutX="23.0" layoutY="262.0" text="drone" />
+          <Label fx:id="jobFindError" layoutX="29.0" layoutY="22.0" prefHeight="34.1328125" prefWidth="295.0" styleClass="label-error">
             <textFill>
               <Color blue="0.000" green="0.000" red="0.800" fx:id="x1" />
             </textFill>
           </Label>
-          <Label layoutX="29.0" layoutY="197.0" text="finish point" />
-          <Label layoutX="29.0" layoutY="163.0" text="route" />
-          <Label layoutX="160.0" layoutY="88.0" text="FIND" />
-          <Label layoutX="29.0" layoutY="128.0" prefWidth="40.999908447265625" text="type" />
-          <Label fx:id="jobFindUserLabel" layoutX="30.0" layoutY="332.0" text="user" visible="false" />
-          <ChoiceBox fx:id="jobFindType" layoutX="122.0" layoutY="126.0" prefWidth="200.0" />
-          <ChoiceBox fx:id="jobFindRoute" layoutX="122.0" layoutY="161.0" prefWidth="200.0" />
-          <ChoiceBox fx:id="jobFindFinishPoint" layoutX="122.0" layoutY="195.0" prefWidth="200.0" />
-          <ChoiceBox fx:id="jobFindStatus" layoutX="122.0" layoutY="228.0" prefWidth="200.0" />
-          <TextField fx:id="jobFindDrone" layoutX="123.0" layoutY="261.0" prefWidth="200.0" />
-          <TextField fx:id="jobFindStartDate" layoutX="123.0" layoutY="293.0" prefWidth="200.0" />
-          <TextField fx:id="jobFindUser" layoutX="123.0" layoutY="329.0" prefWidth="200.0" visible="false" />
-          <Button fx:id="jobFindButton" layoutX="123.0" layoutY="370.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="60.0" text="FIND" />
-          <Label layoutX="29.0" layoutY="231.0" text="status" />
+          <Label layoutX="23.0" layoutY="192.0" text="finish point" />
+          <Label layoutX="23.0" layoutY="157.0" text="route" />
+          <Label layoutX="158.0" layoutY="77.0" styleClass="title-tabel" text="FIND" />
+          <Label layoutX="23.0" layoutY="122.0" prefWidth="40.999908447265625" text="type" />
+          <Label fx:id="jobFindUserLabel" layoutX="26.0" layoutY="328.0" text="user" visible="false" />
+          <ChoiceBox fx:id="jobFindType" layoutX="123.0" layoutY="115.0" prefHeight="32.0" prefWidth="220.0" />
+          <ChoiceBox fx:id="jobFindRoute" layoutX="123.0" layoutY="150.0" prefHeight="32.0" prefWidth="220.0" />
+          <ChoiceBox fx:id="jobFindFinishPoint" layoutX="123.0" layoutY="185.0" prefHeight="32.0" prefWidth="220.0" />
+          <ChoiceBox fx:id="jobFindStatus" layoutX="124.0" layoutY="220.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="jobFindDrone" layoutX="124.0" layoutY="255.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="jobFindStartDate" layoutX="124.0" layoutY="290.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="jobFindUser" editable="true" layoutX="123.0" layoutY="325.0" prefWidth="200.0" visible="false" />
+          <Button fx:id="jobFindButton" layoutX="23.0" layoutY="372.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="319.0" text="FIND" />
+          <Label layoutX="23.0" layoutY="227.0" text="status" />
         </Pane>
       </Tab>
       <Tab fx:id="createTab" text="Create">
         <Pane prefHeight="401.0" prefWidth="354.0">
-          <Label fx:id="jobCreateError" layoutX="23.0" layoutY="29.0" prefHeight="32.1328125" prefWidth="309.0" textFill="$x1" />
-          <Label layoutX="116.0" layoutY="82.0" text="ADD NEW JOB" />
-          <Label layoutX="25.0" layoutY="147.0" text="type" />
-          <Label layoutX="25.0" layoutY="186.0" text="start date" />
-          <Label layoutX="24.0" layoutY="223.0" text="route" />
-          <Label layoutX="25.0" layoutY="259.0" text="drone" />
-          <Label layoutX="25.0" layoutY="293.0" prefWidth="73.00018310546875" text="finish point" />
-          <ChoiceBox fx:id="jobCreateType" layoutX="136.0" layoutY="145.0" prefWidth="200.0" />
-          <TextField fx:id="jobCreateStartDate" layoutX="136.0" layoutY="183.0" prefWidth="200.0" />
-          <ChoiceBox fx:id="jobCreateRoute" layoutX="136.0" layoutY="221.0" prefWidth="200.0" />
-          <TextField fx:id="jobCreateDrone" disable="true" layoutX="136.0" layoutY="257.0" prefWidth="200.0" />
-          <ChoiceBox fx:id="jobCreateFinishPoint" disable="true" layoutX="136.0" layoutY="291.0" prefWidth="200.0" />
-          <Button fx:id="jobCreateButton" layoutX="136.0" layoutY="335.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.00009999999747" text="ADD" />
+          <Label fx:id="jobCreateError" layoutX="23.0" layoutY="29.0" prefHeight="32.1328125" prefWidth="309.0" styleClass="label-error" textFill="$x1" />
+          <Label layoutX="120.0" layoutY="82.0" styleClass="title-tabel" text="ADD NEW JOB" />
+          <Label layoutX="23.0" layoutY="129.0" text="type" />
+          <Label layoutX="23.0" layoutY="164.0" text="start date" />
+          <Label layoutX="23.0" layoutY="199.0" text="route" />
+          <Label layoutX="23.0" layoutY="234.0" text="drone" />
+          <Label layoutX="23.0" layoutY="269.0" prefWidth="97.0" text="finish point" />
+          <ChoiceBox fx:id="jobCreateType" layoutX="127.0" layoutY="122.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="jobCreateStartDate" layoutX="127.0" layoutY="157.0" prefHeight="32.0" prefWidth="220.0" />
+          <ChoiceBox fx:id="jobCreateRoute" layoutX="127.0" layoutY="192.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="jobCreateDrone" disable="true" layoutX="127.0" layoutY="227.0" prefHeight="32.0" prefWidth="220.0" />
+          <ChoiceBox fx:id="jobCreateFinishPoint" disable="true" layoutX="127.0" layoutY="262.0" prefHeight="32.0" prefWidth="220.0" />
+          <Button fx:id="jobCreateButton" layoutX="23.0" layoutY="312.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="323.999977929685" text="ADD" />
         </Pane>
       </Tab>
       <Tab fx:id="infoTab" text="Info">
         <Pane prefHeight="200.0" prefWidth="200.0">
-          <Label layoutX="32.0" layoutY="90.0" text="id"/>
-          <Label layoutX="32.0" layoutY="123.0" text="start date"/>
-          <Label fx:id="jobInfoError" layoutX="30.0" layoutY="26.0" prefHeight="40.1328125" prefWidth="295.0"
-                 textFill="$x1"/>
-          <TextField fx:id="jobInfoId" editable="false" layoutX="125.0" layoutY="88.0" prefWidth="200.0"/>
-          <TextField fx:id="jobInfoStartDate" layoutX="125.0" layoutY="121.0" prefWidth="200.0"/>
-          <Button fx:id="jobInfoUpdate" disable="true" layoutX="125.0" layoutY="172.0" mnemonicParsing="false"
-                  prefHeight="31.1328125" text="UPDATE"/>
-          <Button fx:id="jobInfoDelete" disable="true" layoutX="253.0" layoutY="173.0" mnemonicParsing="false"
-                  prefHeight="31.1328125" text="DELETE" textFill="$x1"/>
-          <Button fx:id="jobInfoDownloadResults" disable="true" layoutX="30.0" layoutY="247.0" mnemonicParsing="false"
-                  prefHeight="31.1328125" prefWidth="295.0" text="DOWNLOAD RESULTS" textFill="#006610"/>
+          <Label layoutX="23.0" layoutY="95.0" text="id" />
+          <Label layoutX="23.0" layoutY="130.0" text="start date" />
+          <Label fx:id="jobInfoError" layoutX="30.0" layoutY="14.0" prefHeight="43.1328125" prefWidth="295.0" styleClass="label-error" textFill="$x1" />
+          <TextField fx:id="jobInfoId" editable="false" layoutX="125.0" layoutY="88.0" prefHeight="32.0" prefWidth="220.0" />
+          <TextField fx:id="jobInfoStartDate" layoutX="125.0" layoutY="123.0" prefHeight="32.0" prefWidth="220.0" />
+          <Button fx:id="jobInfoUpdate" disable="true" layoutX="23.0" layoutY="172.0" mnemonicParsing="false" prefHeight="31.1328125" prefWidth="319.0" text="UPDATE" />
+          <Button fx:id="jobInfoDelete" disable="true" layoutX="23.0" layoutY="216.0" mnemonicParsing="false" prefHeight="31.132712500002526" prefWidth="319.0" styleClass="black-button" text="DELETE" textFill="$x1" />
+          <Button fx:id="jobInfoDownloadResults" disable="true" layoutX="23.0" layoutY="261.0" minHeight="17.4609375" mnemonicParsing="false" prefHeight="32.0" prefWidth="319.0" styleClass="green-button" text="DOWNLOAD RESULTS" textFill="#006610" />
         </Pane>
       </Tab>
     </TabPane>
   </left>
+  <stylesheets>
+    <URL value="@../../style.css" />
+  </stylesheets>
 </BorderPane>
