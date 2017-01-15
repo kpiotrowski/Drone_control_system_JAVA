@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
@@ -264,6 +265,7 @@ public class JobsController {
         });
         t.setOnSucceeded(event -> {
             dataModels.File data = (dataModels.File) t.getValue();
+            data.setData(Base64.getDecoder().decode(data.getData()));
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save file");
             fileChooser.setInitialFileName(data.getName()+"."+data.getType());

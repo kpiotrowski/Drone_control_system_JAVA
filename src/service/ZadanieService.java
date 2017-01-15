@@ -155,7 +155,7 @@ public class ZadanieService extends Service implements ServiceInterface{
     }
 
     public File downloadFile(Integer id) throws SQLException {
-        String sql = String.format("SELECT jobResultFile FROM %s WHERE id=?",table);
+        String sql = String.format("SELECT data,name,type FROM Plik WHERE id=(SELECT File_id FROM %s WHERE id=?)",table);
         ResultSet rs = null;
         try(PreparedStatement pstmt = mysql.getCon().prepareStatement(sql)) {
             pstmt.setInt(1,id);
@@ -164,6 +164,8 @@ public class ZadanieService extends Service implements ServiceInterface{
                 File f = new File();
                 Blob blob = rs.getBlob(1);
                 f.setData(blob.getBytes(1, (int) blob.length()));
+                f.setName(rs.getString(2));
+                f.setType(rs.getString(3));
                 return f;
             } else throw new SQLException("Failed to get file");
         } finally {
