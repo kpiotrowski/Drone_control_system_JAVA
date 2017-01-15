@@ -17,9 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static common.CommonFunc.emptyNullStr;
-import static common.CommonFunc.strToFloat;
-import static common.CommonFunc.strToInteger;
+import static common.CommonFunc.*;
 import static common.CommonTask.onSuccessSimpleError;
 
 /**
@@ -78,6 +76,9 @@ public class DroneController {
     @FXML private Tab createTab;
 
     private Dron selectedDrone;
+    private Control[] findForm;
+    private Control[] createForm;
+    private Control[] editForm;
 
     @FXML
     private void initialize() {
@@ -111,6 +112,14 @@ public class DroneController {
         this.tabDroneWeight.setCellValueFactory(new PropertyValueFactory<>("masa"));
         this.tabDroneName.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
         this.tabDroneId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        this.findForm = new Control[]{this.droneFindError, this.droneFindError, this.droneFindName,
+                this.droneFindKoorXFrom, this.droneFindKoorXTo, this.droneFindKoorYFrom, this.droneFindKoorYTo,
+                this.droneFindKoorZFrom, this.droneFindKoorZTo, this.droneFindFlightTime, this.droneFindSpeed,
+                this.droneFindWeightFrom, this.droneFindWeightTo, this.droneFindFree, this.droneFindDronePoint};
+        this.createForm = new Control[]{this.droneCreateName, this.droneCreateWeight, this.droneCreateRotors,
+                this.droneCreateSpeed, this.droneCreateFlightTime, this.droneCreateDesc, this.droneCreateDronePoint};
+        this.editForm = new Control[]{this.droneEditId, this.droneEditName, this.droneEditBattery,
+                this.droneEditDesc, this.droneDeleteAction, this.droneEdiButton,};
     }
 
     public void afterLogin(){
@@ -164,14 +173,10 @@ public class DroneController {
         this.droneDeleteAction.setDisable(false);
         this.droneEdiButton.setDisable(false);
     }
+
     private void clearEditForm(){
         selectedDrone=null;
-        this.droneEditId.setText("");
-        this.droneEditName.setText("");
-        this.droneEditBattery.setText("");
-        this.droneEditDesc.setText("");
-        this.droneDeleteAction.setDisable(true);
-        this.droneEdiButton.setDisable(true);
+        clearForm(this.editForm);
     }
 
     private void editAction(){
@@ -189,23 +194,6 @@ public class DroneController {
                 onSuccessSimpleError(t,"Successfully updated drone info", "Failed to update drone info")
         );
         new Thread(t).start();
-    }
-
-    private void clearFindForm(){
-        this.droneFindError.setText("");
-        this.droneFindName.setText("");
-        this.droneFindKoorXFrom.setText("");
-        this.droneFindKoorXTo.setText("");
-        this.droneFindKoorYFrom.setText("");
-        this.droneFindKoorYTo.setText("");
-        this.droneFindKoorZFrom.setText("");
-        this.droneFindKoorZTo.setText("");
-        this.droneFindFlightTime.setText("");
-        this.droneFindSpeed.setText("");
-        this.droneFindWeightFrom.setText("");
-        this.droneFindWeightTo.setText("");
-        this.droneFindFree.setSelected(false);
-        this.droneFindDronePoint.setValue(null);
     }
 
     private void findAction(){
@@ -250,7 +238,7 @@ public class DroneController {
             t.setOnSucceeded(event -> {
                 List<DataModel> resultList = (List<DataModel>) t.getValue();
                 this.updateTableView(resultList);
-                this.clearFindForm();
+                clearForm(findForm);
             });
             new Thread(t).start();
         } catch (NullPointerException e){
@@ -287,15 +275,6 @@ public class DroneController {
         d.setStan(0);
         return d;
     }
-    private void clearCreateForm(){
-        this.droneCreateName.setText("");
-        this.droneCreateWeight.setText("");
-        this.droneCreateRotors.setText("");
-        this.droneCreateSpeed.setText("");
-        this.droneCreateFlightTime.setText("");
-        this.droneCreateDesc.setText("");
-        this.droneCreateDronePoint.setValue(null);
-    }
 
     private void creteAction(){
         this.droneCreateError.setText("");
@@ -315,7 +294,7 @@ public class DroneController {
             if(e != null)
                 Main.gui.showDialog("Error","Failed to create new drone", e.getMessage(), Alert.AlertType.ERROR);
             else {
-                this.clearCreateForm();
+                clearForm(this.createForm);
                 Main.gui.showDialog("Info", "Successfully added new drone", "", Alert.AlertType.INFORMATION);
             }
         });

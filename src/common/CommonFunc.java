@@ -2,6 +2,7 @@ package common;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
 import com.sun.org.apache.xerces.internal.impl.dv.xs.FloatDV;
+import javafx.scene.control.*;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -104,6 +105,17 @@ public abstract class CommonFunc {
     public static void statSetVarPar(PreparedStatement pstmt, int index, Timestamp val) throws SQLException {
         if(val==null) pstmt.setNull(index, Types.FLOAT);
         else pstmt.setTimestamp(index, val);
+    }
+
+    public static void clearForm(Control[] list){
+        for (Control c: list) {
+            if(c instanceof Label) ((Label)c).setText("");
+            if(c instanceof TextField) ((TextField)c).setText("");
+            if(c instanceof ChoiceBox) ((ChoiceBox<?>)c).setValue(null);
+            if(c instanceof TextArea) ((TextArea)c).setText("");
+            if(c instanceof CheckBox) ((CheckBox)c).setSelected(false);
+            if(c instanceof Button) ((Button)c).setDisable(true);
+        }
     }
 
 

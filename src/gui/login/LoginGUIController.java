@@ -6,15 +6,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import main.Main;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
+import static common.CommonFunc.clearForm;
 
 /**
  * Created by no-one on 18.11.16.
@@ -24,6 +23,7 @@ public class LoginGUIController {
     @FXML private PasswordField password;
     @FXML private Button submitButton;
     @FXML private Label errorLabel;
+    private Control[] form;
 
     public LoginGUIController(){}
 
@@ -46,24 +46,19 @@ public class LoginGUIController {
                 auth = Main.userService.authenticate(loginS,passS);
                 if(auth!=null) {
                     actionAfterLogin(auth);
-                    clearForm();
+                    clearForm(form);
                 } else this.showError("Failed to authorize user.");
 
             } catch (SQLException e) {
                 this.showError(e.getMessage());
             }
         });
+        this.form = new Control[]{login,password,errorLabel};
     }
 
     private void showError(String err) {
         errorLabel.setText(err);
         errorLabel.setVisible(true);
-    }
-
-    private void clearForm(){
-        login.setText("");
-        password.setText("");
-        errorLabel.setVisible(false);
     }
 
     private void actionAfterLogin(Uzytkownik auth){

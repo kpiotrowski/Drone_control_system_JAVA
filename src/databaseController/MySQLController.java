@@ -22,7 +22,7 @@ public class MySQLController {
 
     public Connection getCon() throws SQLException {
         if (this.valid) return con;
-        else throw new SQLException("Nie można wykonać akcji, błąd połączenia z bazą danych. Poczekaj na nawiązanie połączenia.");
+        else throw new SQLException("This action cannot be done sue to database connection error. Try again later.");
     }
 
 
@@ -32,18 +32,18 @@ public class MySQLController {
         props.put("user", user);
         props.put("password", password);
 
-        System.out.println("Łączenie się z bazą danych");
+        System.out.println("Connecting to the database");
         DriverManager.setLoginTimeout(5);
         this.con = DriverManager.getConnection(conUrl, props);
-        System.out.println("Pomyślnie połączono się z bazą danych");
+        System.out.println("Connected to the database");
         con.setAutoCommit(false);
         con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-        Main.gui.setDatabaseStatus("Połączono z bazą danych", true);
+        Main.gui.setDatabaseStatus("Connected to the database", true);
         this.valid = true;
     }
 
     /**
-     * dnawia połączenie z bazą danych
+     * Odnawia połączenie z bazą danych
      */
     private void refresh(){
         Task t = new Task() {
@@ -70,7 +70,7 @@ public class MySQLController {
     }
 
     /**
-     * PInguje bazę banych, w razie błędu połączenia stara się je odnowić
+     * Pinguje bazę banych, w razie błędu połączenia stara się je odnowić
      */
     public void pinger(){
         Task t = new Task(){
@@ -84,19 +84,19 @@ public class MySQLController {
             };
         };
         t.setOnFailed((e) -> {
-            Main.gui.setDatabaseStatus("Błąd połączenia z bazą danych", false);
+            Main.gui.setDatabaseStatus("Database connection error", false);
             this.valid=false;
             refresh();
         });
         t.setOnSucceeded((e) -> {
             boolean valid = (boolean) t.getValue();
             if (valid) {
-                Main.gui.setDatabaseStatus("Połączono z bazą danych", true);
+                Main.gui.setDatabaseStatus("Connected to the database", true);
                 this.valid=true;
                 pinger();
             }
             else {
-                Main.gui.setDatabaseStatus("Błąd połączenia z bazą danych", false);
+                Main.gui.setDatabaseStatus("Database connection error", false);
                 this.valid=false;
                 refresh();
             }

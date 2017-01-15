@@ -10,8 +10,8 @@ import lombok.Setter;
 public class Dron extends DataModel {
     public static final int STATUS_WOLNY = 0;
     public static final int STATUS_PRZYDZIELONY_DO_ZADANIA = 1;
-    static final int STATUS_WYKONUJE_ZADANIE = 2;
-    static final int STATUS_WYŁĄCZONY = 3;
+    private static final int STATUS_WYKONUJE_ZADANIE = 2;
+    private static final int STATUS_WYŁĄCZONY = 3;
 
     @Getter @Setter private Integer id;
     @Getter @Setter private String nazwa;

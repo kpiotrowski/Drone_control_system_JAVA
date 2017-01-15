@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static common.CommonFunc.clearForm;
 import static common.CommonFunc.strToFloat;
 import static common.CommonFunc.strToInteger;
 import static common.CommonTask.onSuccessSimpleError;
@@ -69,6 +70,8 @@ public class PointsController {
     @FXML private TextField pointEditKoorZ;
     @FXML private TextField pointEditMaxDrones;
 
+    private Control[] createForm;
+
     public PointsController(){}
 
     @FXML
@@ -94,6 +97,8 @@ public class PointsController {
             });
             return row ;
         });
+        this.createForm = new Control[]{this.pointCreateError,this.pointCreateKoorX,this.pointCreateKoorY,
+                this.pointCreateKoorZ,this.pointCreateName,this.pointCreateMaxDrones};
     }
 
     private void setEditForm(Punkt_kontrolny p){
@@ -129,14 +134,6 @@ public class PointsController {
         p.setWspy(strToFloat(this.pointCreateKoorY.getText()));
         p.setWspz(strToFloat(this.pointCreateKoorZ.getText()));
         return p;
-    }
-    private void clearCreateForm(){
-        this.pointCreateError.setText("");
-        this.pointCreateKoorX.setText("");
-        this.pointCreateKoorY.setText("");
-        this.pointCreateKoorZ.setText("");
-        this.pointCreateName.setText("");
-        this.pointCreateMaxDrones.setText("");
     }
 
     private Punkt_kontrolny parseEditForm(){
@@ -233,7 +230,7 @@ public class PointsController {
             if(e != null)
                 Main.gui.showDialog("Error","Failed to add new drone point.", e.getMessage(), Alert.AlertType.ERROR);
             else {
-                this.clearCreateForm();
+                clearForm(this.createForm);
                 Main.gui.showDialog("Info", "Successfully created drone point.", "", Alert.AlertType.INFORMATION);
             }
         });

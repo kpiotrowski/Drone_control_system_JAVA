@@ -19,6 +19,7 @@ class RouteSingleField {
     @FXML @Getter private TextField y;
     @FXML @Getter private TextField z;
     @FXML @Getter private Button del;
+    private TextField[] fields;
 
     void decNumber(){
         this.del.setId(String.valueOf(Integer.parseInt(this.del.getId())-1));
@@ -33,25 +34,23 @@ class RouteSingleField {
         this.x = new TextField();
         this.y = new TextField();
         this.z = new TextField();
+        this.fields = new TextField[]{x,y,z};
+
         this.del = new Button("X");
         this.del.setId(String.valueOf(num));
-        this.x.setText("0");
-        this.y.setText("0");
+        for (TextField field : fields) field.setText("0");
         this.z.setText("100");
         this.recalculatePosition(num);
 
         this.selectPoint.setOnAction(e->{
             if(this.selectPoint.getValue()==null || this.selectPoint.getValue().getId() == -1){
-                this.x.setEditable(true);
-                this.y.setEditable(true);
-                this.z.setEditable(true);
-                this.x.setText("0");
-                this.y.setText("0");
+                for (TextField field : fields) {
+                    field.setEditable(true);
+                    field.setText("0");
+                }
                 this.z.setText("100");
             } else {
-                this.x.setEditable(false);
-                this.y.setEditable(false);
-                this.z.setEditable(false);
+                for (TextField field : fields) field.setEditable(false);
                 this.x.setText(String.valueOf(this.selectPoint.getValue().getWspx()));
                 this.y.setText(String.valueOf(this.selectPoint.getValue().getWspy()));
                 this.z.setText(String.valueOf(this.selectPoint.getValue().getWspz()));
@@ -65,17 +64,12 @@ class RouteSingleField {
         this.del.setPrefWidth(30);
         this.del.setLayoutX(255);
         this.del.setLayoutY(num*73+10);
-
         this.x.setLayoutX(10);
         this.y.setLayoutX(102);
         this.z.setLayoutX(194);
-
-        this.x.setLayoutY(num*73+42);
-        this.y.setLayoutY(num*73+42);
-        this.z.setLayoutY(num*73+42);
-        this.x.setStyle("-fx-pref-width: 90px;");
-        this.y.setStyle("-fx-pref-width: 90px;");
-        this.z.setStyle("-fx-pref-width: 90px;");
-
+        for (TextField field : fields) {
+            field.setLayoutY(num*73+42);
+            field.setStyle("-fx-pref-width: 90px;");
+        }
     }
 }

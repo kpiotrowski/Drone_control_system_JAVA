@@ -14,6 +14,8 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 
+import static common.CommonFunc.clearForm;
+
 /**
  * Created by no-one on 18.11.16.
  */
@@ -29,6 +31,7 @@ public class RegistrationGUIController {
     @FXML private PasswordField password;
     @FXML private Button submitButton;
     @FXML private Label errorLabel;
+    private Control[] form;
 
     public RegistrationGUIController() {}
 
@@ -48,7 +51,7 @@ public class RegistrationGUIController {
                 Error e = Main.userService.insert(uz);
                 if(e==null) {
                     Main.gui.showDialog("success", "Successfully registered user.", "", Alert.AlertType.INFORMATION);
-                    clearForm();
+                    clearForm(form);
                 } else
                     Main.gui.showDialog("error", "Failed to register user.", e.getMessage(), Alert.AlertType.ERROR);
             } catch (ParseException e) {
@@ -56,6 +59,7 @@ public class RegistrationGUIController {
                 errorLabel.setVisible(true);
             }
         });
+        this.form = new Control[]{name,surname,login,phone,password,birthdate,errorLabel};
     }
 
     @FXML
@@ -73,15 +77,4 @@ public class RegistrationGUIController {
             uz.setData_urodzenia(null);
         return uz;
     }
-
-    private void clearForm(){
-        name.setText("");
-        surname.setText("");
-        login.setText("");
-        phone.setText("");
-        password.setText("");
-        birthdate.setText("");
-        errorLabel.setVisible(false);
-    }
-
 }

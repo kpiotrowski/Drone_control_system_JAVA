@@ -13,8 +13,9 @@ public class Zadanie extends DataModel{
 
   private static final int TYPE_VIDEO = 0;
   private static final int TYPE_PHOTOS = 1;
-  public static final int TYPE_MOVE_TO_POINT = 2;
-  public static final String[] typesStr = new String[]{"make video","take_photos","move to point"};
+  private static final int TYPE_AIR = 2;
+  public static final int TYPE_MOVE_TO_POINT = 3;
+  public static final String[] typesStr = new String[]{"make video","take_photos","check_air","move to point"};
 
   @Getter @Setter Integer id;
   @Getter @Setter java.sql.Timestamp data_rozpoczenia;
@@ -44,7 +45,8 @@ public class Zadanie extends DataModel{
     switch (this.typ){
       case TYPE_VIDEO: return typesStr[0];
       case TYPE_PHOTOS: return typesStr[1];
-      case TYPE_MOVE_TO_POINT: return typesStr[2];
+      case TYPE_AIR: return typesStr[2];
+      case TYPE_MOVE_TO_POINT: return typesStr[3];
       default: return "other";
     }
   }

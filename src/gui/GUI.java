@@ -91,19 +91,17 @@ public class GUI {
     public Task getDronePointsTask(boolean free){
         ArrayList<FilterParam> filterList = new ArrayList<>();
         if(free) filterList.add(FilterParam.newF("max_ilosc_dronow-obecna_ilosc_dronow", ">", 0));
-        Task t = new Task() {
+        return new Task() {
             protected List<DataModel> call() throws SQLException {
                 return Main.punktKontrolnyService.find(filterList);
             }
         };
-        return t;
     }
     public Task getRoutesTask(Integer userId){
-        Task t = new Task() {
+        return new Task() {
             protected List<DataModel> call() throws SQLException {
                 return Main.trasaService.find(Main.authenticatedUser.getId());
             }
         };
-        return t;
     }
 }

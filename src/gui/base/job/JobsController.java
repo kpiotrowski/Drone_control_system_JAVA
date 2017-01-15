@@ -72,6 +72,9 @@ public class JobsController {
 
     private Zadanie selectedJob;
 
+    private Control[] createForm;
+    private Control[] infoForm;
+    private Control[] findForm;
 
     public JobsController(){}
 
@@ -142,6 +145,14 @@ public class JobsController {
                 }
             }
         });
+        this.createForm = new Control[]{   jobCreateError,jobCreateType,jobCreateStartDate,jobCreateRoute,
+                jobCreateDrone,jobCreateFinishPoint};
+        this.infoForm = new Control[]{this.jobInfoDownloadResults,this.jobInfoId,this.jobInfoDelete,this.jobInfoUpdate,
+                this.jobInfoStartDate
+        };
+        this.findForm = new Control[]{jobFindError,jobFindUser,jobFindType,jobFindStartDate,jobFindRoute,
+                jobFindFinishPoint,jobFindDrone,jobFindStatus
+        };
     }
 
     private Zadanie parseCreateForm(){
@@ -183,7 +194,7 @@ public class JobsController {
                 Main.gui.showDialog("Error", "Failed to create job.", e.getMessage(), Alert.AlertType.ERROR);
             else {
                 Main.gui.showDialog("Info", "Successfully created job.", "", Alert.AlertType.INFORMATION);
-                this.clearCreateForm();
+                clearForm(this.createForm);
             }
         });
         new Thread(t).start();
@@ -234,14 +245,7 @@ public class JobsController {
         Main.gui.showDialog("RESULT","Now you should download your results.","", Alert.AlertType.INFORMATION);
         //TODO IMEPLEMENT THIS
     }
-    private void clearCreateForm(){
-        this.jobCreateError.setText("");
-        jobCreateType.setValue(null);
-        jobCreateStartDate.setText("");
-        jobCreateRoute.setValue(null);
-        jobCreateDrone.setText("");
-        jobCreateFinishPoint.setValue(null);
-    }
+
     public void refreshPermissions(Uzytkownik uz){
         Integer maxjobType=Zadanie.TYPE_MOVE_TO_POINT;
         if (uz.getPoziom_uprawnien() == 0){
@@ -297,24 +301,10 @@ public class JobsController {
         this.tabPane.getSelectionModel().select(this.infoTab);
     }
     private void clearInfoForm(){
-        this.jobInfoDownloadResults.setDisable(true);
-        this.jobInfoId.setText("");
-        this.jobInfoDelete.setDisable(true);
-        this.jobInfoUpdate.setDisable(true);
-        this.jobInfoStartDate.setText("");
+        clearForm(this.infoForm);
         this.selectedJob=null;
     }
 
-    private void clearFindForm(){
-        this.jobFindError.setText("");
-        jobFindUser.setText("");
-        jobFindType.setValue(null);
-        jobFindStartDate.setText("");
-        jobFindRoute.setValue(null);
-        jobFindFinishPoint.setValue(null);
-        jobFindDrone.setText("");
-        jobFindStatus.setValue(null);
-    }
     private void find(){
         this.jobFindError.setText("");
         ArrayList<FilterParam> filterList = new ArrayList<>();
@@ -323,7 +313,6 @@ public class JobsController {
                 filterList.add(FilterParam.newF("Uzytkownik_id","=",Main.authenticatedUser.getId()));
             else if(jobFindUser.getText().length()>0)
                 filterList.add(FilterParam.newF("Uzytkownik_id","=",strToInteger(jobFindUser.getText())));
-
             if(jobFindType.getValue()!=null)
                 filterList.add(FilterParam.newF("typ","=",jobFindType.getValue().getKey()));
             if(jobFindStartDate.getText().length()>0)
@@ -350,7 +339,7 @@ public class JobsController {
             t.setOnSucceeded(event -> {
                 List<Zadanie> resultList = (List<Zadanie>) t.getValue();
                 this.updateTableView(resultList);
-                clearFindForm();
+                clearForm(this.findForm);
             });
             new Thread(t).start();
         } catch (ParseException e) {

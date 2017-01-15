@@ -35,7 +35,7 @@ public class Main extends Application{
         gui = new GUI();
         gui.initialize(primaryStage);
 
-        Alert info = gui.showDialog("database connect", "Connecting to database", "", Alert.AlertType.INFORMATION);
+        Alert info = gui.showDialog("database connect", "Connecting to the database", "", Alert.AlertType.INFORMATION);
         info.getDialogPane().lookupButton(ButtonType.OK).setVisible(false);
 
         Task t = new Task(){
@@ -52,7 +52,7 @@ public class Main extends Application{
         };
         t.setOnSucceeded(e -> {
             MySQLController con = (MySQLController) t.getValue();
-            gui.setDatabaseStatus("Połączono z bazą danych",true);
+            gui.setDatabaseStatus("Connected to the database",true);
             gui.showMainStage();
             info.close();
             con.pinger();
