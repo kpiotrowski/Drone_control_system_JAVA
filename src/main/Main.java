@@ -29,6 +29,7 @@ public class Main extends Application{
     public static ZadanieService zadanieService;
     public static TrasaService trasaService;
     public static PunktNaTrasieService punktNaTrasieService;
+    public static MySQLController mysql;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -51,19 +52,19 @@ public class Main extends Application{
             };
         };
         t.setOnSucceeded(e -> {
-            MySQLController con = (MySQLController) t.getValue();
+            mysql = (MySQLController) t.getValue();
             gui.setDatabaseStatus("Connected to the database",true);
             gui.showMainStage();
             info.close();
-            con.pinger();
+            mysql.pinger();
 
-            userService = new UserService(con);
-            polozenieService = new PolozenieService(con);
-            punktKontrolnyService = new PunktKontrolnyService(con);
-            punktNaTrasieService = new PunktNaTrasieService(con);
-            zadanieService = new ZadanieService(con);
-            trasaService = new TrasaService(con);
-            droneService = new DroneService(con, punktKontrolnyService);
+            userService = new UserService(mysql);
+            polozenieService = new PolozenieService(mysql);
+            punktKontrolnyService = new PunktKontrolnyService(mysql);
+            punktNaTrasieService = new PunktNaTrasieService(mysql);
+            zadanieService = new ZadanieService(mysql);
+            trasaService = new TrasaService(mysql);
+            droneService = new DroneService(mysql, punktKontrolnyService);
         });
         t.setOnFailed(e -> {
             if(t.getException() instanceof SQLException)

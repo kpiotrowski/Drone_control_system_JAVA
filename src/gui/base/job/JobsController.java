@@ -1,6 +1,7 @@
 package gui.base.job;
 
 import common.FilterParam;
+import common.RunOnFinish;
 import dataModels.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static common.CommonFunc.*;
+import static common.CommonTask.emptyRunOnFinish;
 import static common.CommonTask.onSuccessSimpleError;
 import static dataModels.Zadanie.statusStr;
 import static dataModels.Zadanie.typesStr;
@@ -85,6 +87,7 @@ public class JobsController {
     private Control[] createForm;
     private Control[] infoForm;
     private Control[] findForm;
+    private List<Zadanie> tableList;
 
     public JobsController(){}
 
@@ -165,6 +168,27 @@ public class JobsController {
         };
     }
 
+    public void refreshPermissions(Uzytkownik uz){
+        Integer maxjobType=Zadanie.TYPE_MOVE_TO_POINT;
+        if (uz.getPoziom_uprawnien() == 0){
+            this.jobFindUserLabel.setVisible(false);
+            this.jobFindUser.setVisible(false);
+            maxjobType--;
+        } else {
+            this.jobFindUserLabel.setVisible(true);
+            this.jobFindUser.setVisible(true);
+        }
+        ObservableList<Pair<Integer,String>> data = FXCollections.observableArrayList();
+        for(int i=0;i<typesStr.length && i<=maxjobType;i++){
+            Pair<Integer,String> p = new Pair<Integer, String>(i,typesStr[i]){
+                public String toString() {return getValue();}
+            };
+            data.add(p);
+        }
+        jobCreateType.setItems(data);
+        reloadData();
+    }
+
     private Zadanie parseCreateForm(){
         Zadanie z = new Zadanie();
         if(jobCreateType.getValue()!=null) z.setTyp(jobCreateType.getValue().getKey());
@@ -184,6 +208,7 @@ public class JobsController {
         if(jobCreateFinishPoint.getValue()!=null) z.setPunkt_koncowy_id(jobCreateFinishPoint.getValue().getId());
         return z;
     }
+
     private void create(){
         Zadanie z = parseCreateForm();
         if(z==null) return;
@@ -198,17 +223,13 @@ public class JobsController {
                 return Main.zadanieService.insert(z);
             }
         };
-        t.setOnSucceeded(event -> {
-            Error e = (Error) t.getValue();
-            if(e != null)
-                Main.gui.showDialog("Error", "Failed to create job.", e.getMessage(), Alert.AlertType.ERROR);
-            else {
-                Main.gui.showDialog("Info", "Successfully created job.", "", Alert.AlertType.INFORMATION);
-                clearForm(this.createForm);
-            }
-        });
+        t.setOnSucceeded(
+                onSuccessSimpleError(t, "Successfully created job.", "Failed to create job", new RunOnFinish() {
+                    public void run() {clearForm(createForm);}
+                }));
         new Thread(t).start();
     }
+
     private void update(){
         this.jobInfoError.setText("");
         Zadanie zz = new Zadanie();
@@ -226,7 +247,7 @@ public class JobsController {
                 }
             };
             t.setOnSucceeded(
-                    onSuccessSimpleError(t,"Successfully updated job info","Failed to update drone info")
+                    onSuccessSimpleError(t,"Successfully updated job info","Failed to update drone info",emptyRunOnFinish())
             );
             new Thread(t).start();
         } catch (ParseException e) {
@@ -240,15 +261,14 @@ public class JobsController {
         Task t = new Task() {
             protected Error call() { return Main.zadanieService.delete(id,droneId); }
         };
-        t.setOnSucceeded(event -> {
-                Error e = (Error) t.getValue();
-                if(e != null)
-                    Main.gui.showDialog("Error", "Failed to delete job", e.getMessage(), Alert.AlertType.ERROR);
-                else {
-                    Main.gui.showDialog("Info", "Successfully deleted job", "", Alert.AlertType.INFORMATION);
-                    this.clearInfoForm();
-                }
-        });
+        t.setOnSucceeded(
+                onSuccessSimpleError(t, "Successfully deleted job", "Failed to delete job", new RunOnFinish() {
+                    public void run() {
+                        tableList.remove(selectedJob);
+                        updateTableView(tableList);
+                        clearInfoForm();
+                    }
+                }));
         new Thread(t).start();
     }
 
@@ -280,27 +300,6 @@ public class JobsController {
             }
         });
         new Thread(t).start();
-    }
-
-    public void refreshPermissions(Uzytkownik uz){
-        Integer maxjobType=Zadanie.TYPE_MOVE_TO_POINT;
-        if (uz.getPoziom_uprawnien() == 0){
-            this.jobFindUserLabel.setVisible(false);
-            this.jobFindUser.setVisible(false);
-            maxjobType--;
-        } else {
-            this.jobFindUserLabel.setVisible(true);
-            this.jobFindUser.setVisible(true);
-        }
-        ObservableList<Pair<Integer,String>> data = FXCollections.observableArrayList();
-        for(int i=0;i<typesStr.length && i<=maxjobType;i++){
-            Pair<Integer,String> p = new Pair<Integer, String>(i,typesStr[i]){
-                public String toString() {return getValue();}
-            };
-            data.add(p);
-        }
-        jobCreateType.setItems(data);
-        reloadData();
     }
 
     private void reloadData(){
@@ -336,6 +335,7 @@ public class JobsController {
         this.selectedJob=z;
         this.tabPane.getSelectionModel().select(this.infoTab);
     }
+
     private void clearInfoForm(){
         clearForm(this.infoForm);
         this.selectedJob=null;
@@ -373,8 +373,8 @@ public class JobsController {
                 Main.gui.showDialog("Error","Failed to get jobs",t.getException().getMessage(), Alert.AlertType.ERROR);
             });
             t.setOnSucceeded(event -> {
-                List<Zadanie> resultList = (List<Zadanie>) t.getValue();
-                this.updateTableView(resultList);
+                tableList = (List<Zadanie>) t.getValue();
+                this.updateTableView(tableList);
                 clearForm(this.findForm);
             });
             new Thread(t).start();

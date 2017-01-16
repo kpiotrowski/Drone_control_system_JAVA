@@ -1,6 +1,7 @@
 package gui.base.drone;
 
 import common.FilterParam;
+import common.RunOnFinish;
 import dataModels.DataModel;
 import dataModels.Dron;
 import dataModels.Punkt_kontrolny;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static common.CommonFunc.*;
+import static common.CommonTask.emptyRunOnFinish;
 import static common.CommonTask.onSuccessSimpleError;
 
 /**
@@ -79,6 +81,7 @@ public class DroneController {
     private Control[] findForm;
     private Control[] createForm;
     private Control[] editForm;
+    private List<Dron> tableList;
 
     @FXML
     private void initialize() {
@@ -90,7 +93,7 @@ public class DroneController {
                     this.setDroneEditForm(rowData);
                 }
             });
-            return row ;
+            return row;
         });
         this.createTab.setOnSelectionChanged(event -> {
             if(this.createTab.isSelected())this.getPoints(this.droneCreateDronePoint, true);});
@@ -104,7 +107,7 @@ public class DroneController {
         this.tabDroneKoorZ.setCellValueFactory(new PropertyValueFactory<>("wspz"));
         this.tabDroneKoorY.setCellValueFactory(new PropertyValueFactory<>("wspy"));
         this.tabDroneKoorX.setCellValueFactory(new PropertyValueFactory<>("wspx"));
-        this.tabDroneState.setCellValueFactory(new PropertyValueFactory<>("stan"));
+        this.tabDroneState.setCellValueFactory(new PropertyValueFactory<>("stanString"));
         this.tabDroneBattery.setCellValueFactory(new PropertyValueFactory<>("poziom_baterii"));
         this.tabDroneFlightTime.setCellValueFactory(new PropertyValueFactory<>("max_czas_lotu"));
         this.tabDroneSpeed.setCellValueFactory(new PropertyValueFactory<>("max_predkosc"));
@@ -122,11 +125,12 @@ public class DroneController {
                 this.droneEditDesc, this.droneDeleteAction, this.droneEdiButton,};
     }
 
-    public void afterLogin(){
-        this.getPoints(this.droneFindDronePoint, false);
-    }
-
     public void refreshPermissions(Uzytkownik uz) {
+        clearForm(this.findForm);
+        clearForm(this.createForm);
+        clearEditForm();
+        this.tableList= new ArrayList<>();
+        updateTableView(this.tableList);
         if (uz.getPoziom_uprawnien() == 0){
             this.tabPane.getSelectionModel().select(0);
             this.tabEdit.setDisable(true);
@@ -135,65 +139,8 @@ public class DroneController {
             this.tabEdit.setDisable(false);
             this.createTab.setDisable(false);
         }
-    }
-    private void updateTableView(List<DataModel> dataList){
-        ObservableList<Dron> data = FXCollections.observableArrayList();
-        for (DataModel m: dataList) {
-            Dron d = (Dron)m;
-            data.add(d);
-        }
-        this.tableView.setItems(data);
-    }
-
-    private void getPoints(ChoiceBox<Punkt_kontrolny> box, boolean free){
-        Task t = Main.gui.getDronePointsTask(free);
-        t.setOnSucceeded(event -> {
-            List<DataModel> resultList = (List<DataModel>) t.getValue();
-            this.setSelectBoxValues(box, resultList);
-        });
-        new Thread(t).start();
-    }
-
-    private void setSelectBoxValues(ChoiceBox<Punkt_kontrolny> box, List<DataModel> dataList){
-        ObservableList<Punkt_kontrolny> data = FXCollections.observableArrayList();
-        for (DataModel m: dataList) {
-            Punkt_kontrolny d = (Punkt_kontrolny) m;
-            data.add(d);
-        }
-        box.setItems(data);
-    }
-
-    private void setDroneEditForm(Dron d){
-        selectedDrone=d;
-        this.droneEditId.setText(String.valueOf(d.getId()));
-        this.droneEditName.setText(d.getNazwa());
-        this.droneEditBattery.setText(String.valueOf(d.getPoziom_baterii()));
-        this.droneEditDesc.setText(d.getOpis());
-        this.tabPane.getSelectionModel().select(tabEdit);
-        this.droneDeleteAction.setDisable(false);
-        this.droneEdiButton.setDisable(false);
-    }
-
-    private void clearEditForm(){
-        selectedDrone=null;
-        clearForm(this.editForm);
-    }
-
-    private void editAction(){
-        this.droneEditError.setText("");
-        Dron d = parseEditForm();
-        Error valid = validateEditForm(d);
-        if(valid!=null){
-            this.droneEditError.setText(valid.getMessage());
-            return;
-        }
-        Task t = new Task() {
-            protected Error call() throws Exception { return Main.droneService.update(d); }
-        };
-        t.setOnSucceeded(
-                onSuccessSimpleError(t,"Successfully updated drone info", "Failed to update drone info")
-        );
-        new Thread(t).start();
+        this.getPoints(this.droneFindDronePoint, false);
+        this.getPoints(this.droneCreateDronePoint, true);
     }
 
     private void findAction(){
@@ -236,8 +183,8 @@ public class DroneController {
                 Main.gui.showDialog("Error","Failed to find drone data",t.getException().getMessage(), Alert.AlertType.ERROR);
             });
             t.setOnSucceeded(event -> {
-                List<DataModel> resultList = (List<DataModel>) t.getValue();
-                this.updateTableView(resultList);
+                tableList = (List<Dron>) t.getValue();
+                this.updateTableView(tableList);
                 clearForm(findForm);
             });
             new Thread(t).start();
@@ -246,19 +193,30 @@ public class DroneController {
         }
     }
 
-    private void deleteAction(){
-        Task t = new Task() {
-            protected Error call() { return Main.droneService.delete(selectedDrone.getId(),selectedDrone.getPunkt_kontrolny_id()); }
-        };
+    private void updateTableView(List<Dron> dataList){
+        ObservableList<Dron> data = FXCollections.observableArrayList();
+        for (Dron m: dataList) {
+            data.add(m);
+        }
+        this.tableView.setItems(data);
+    }
+
+    private void getPoints(ChoiceBox<Punkt_kontrolny> box, boolean free){
+        Task t = Main.gui.getDronePointsTask(free);
         t.setOnSucceeded(event -> {
-            Error e = (Error) t.getValue();
-            if(e!=null)  Main.gui.showDialog("Error","Failed to delete drone", e.getMessage(), Alert.AlertType.ERROR);
-            else {
-                clearEditForm();
-                Main.gui.showDialog("Info", "Successfully deleted drone", "", Alert.AlertType.INFORMATION);
-            }
+            List<DataModel> resultList = (List<DataModel>) t.getValue();
+            this.setSelectBoxValues(box, resultList);
         });
         new Thread(t).start();
+    }
+
+    private void setSelectBoxValues(ChoiceBox<Punkt_kontrolny> box, List<DataModel> dataList){
+        ObservableList<Punkt_kontrolny> data = FXCollections.observableArrayList();
+        for (DataModel m: dataList) {
+            Punkt_kontrolny d = (Punkt_kontrolny) m;
+            data.add(d);
+        }
+        box.setItems(data);
     }
 
     private Dron parseCreateForm(){
@@ -289,18 +247,48 @@ public class DroneController {
                 return Main.droneService.insert(d);
             }
         };
-        t.setOnSucceeded(event -> {
-            Error e = (Error) t.getValue();
-            if(e != null)
-                Main.gui.showDialog("Error","Failed to create new drone", e.getMessage(), Alert.AlertType.ERROR);
-            else {
-                clearForm(this.createForm);
-                Main.gui.showDialog("Info", "Successfully added new drone", "", Alert.AlertType.INFORMATION);
-            }
-        });
+        t.setOnSucceeded(
+                onSuccessSimpleError(t, "Successfully added new drone", "Failed to create new drone", new RunOnFinish() {
+                    public void run() {
+                        clearForm(createForm);
+                    }
+                }));
         t.setOnFailed(event -> {
             System.out.println();t.getException().getMessage();
         });
+        new Thread(t).start();
+    }
+
+    private void setDroneEditForm(Dron d){
+        selectedDrone=d;
+        this.droneEditId.setText(String.valueOf(d.getId()));
+        this.droneEditName.setText(d.getNazwa());
+        this.droneEditBattery.setText(String.valueOf(d.getPoziom_baterii()));
+        this.droneEditDesc.setText(d.getOpis());
+        this.tabPane.getSelectionModel().select(tabEdit);
+        this.droneDeleteAction.setDisable(false);
+        this.droneEdiButton.setDisable(false);
+    }
+
+    private void clearEditForm(){
+        selectedDrone=null;
+        clearForm(this.editForm);
+    }
+
+    private void editAction(){
+        this.droneEditError.setText("");
+        Dron d = parseEditForm();
+        Error valid = validateEditForm(d);
+        if(valid!=null){
+            this.droneEditError.setText(valid.getMessage());
+            return;
+        }
+        Task t = new Task() {
+            protected Error call() throws Exception { return Main.droneService.update(d); }
+        };
+        t.setOnSucceeded(
+                onSuccessSimpleError(t,"Successfully updated drone info", "Failed to update drone info",emptyRunOnFinish())
+        );
         new Thread(t).start();
     }
 
@@ -317,5 +305,20 @@ public class DroneController {
         if(d.getId()==null) return new Error("Incorrect ID");
         if(d.getPoziom_baterii()==null) return new Error("Incorrect battery level");
         return null;
+    }
+
+    private void deleteAction(){
+        Task t = new Task() {
+            protected Error call() { return Main.droneService.delete(selectedDrone.getId(),selectedDrone.getPunkt_kontrolny_id()); }
+        };
+        t.setOnSucceeded(
+                onSuccessSimpleError(t, "Successfully deleted drone", "Failed to delete drone", new RunOnFinish() {
+                    public void run() {
+                        tableList.remove(selectedDrone);
+                        updateTableView(tableList);
+                        clearEditForm();
+                    }
+                }));
+        new Thread(t).start();
     }
 }

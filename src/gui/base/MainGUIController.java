@@ -47,10 +47,7 @@ public class MainGUIController{
         this.usernameLabel.setVisible(true);
         this.mainTabPane.setVisible(true);
         this.reload.setVisible(true);
-        this.profileController.profileTabUpdate();
-        this.reloadTopInfo();
-        this.reloadPermissions();
-        this.droneController.afterLogin();
+        this.reload();
     }
 
     public void reloadTopInfo(){
@@ -58,12 +55,12 @@ public class MainGUIController{
     }
 
     private void reload(){
-        this.profileController.refresh();
         reloadTopInfo();
         reloadPermissions();
     }
 
     private void reloadPermissions(){
+        this.profileController.refresh();
         this.pointsController.refreshPermissions(Main.authenticatedUser);
         this.droneController.refreshPermissions(Main.authenticatedUser);
         this.routeController.refreshPermissions(Main.authenticatedUser);

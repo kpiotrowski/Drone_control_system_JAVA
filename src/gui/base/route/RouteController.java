@@ -1,5 +1,6 @@
 package gui.base.route;
 
+import common.RunOnFinish;
 import dataModels.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,7 @@ import java.util.logging.ErrorManager;
 
 import static common.CommonFunc.emptyNullStr;
 import static common.CommonFunc.strToFloat;
+import static common.CommonTask.onSuccessSimpleError;
 import static java.lang.Math.abs;
 
 /**
@@ -76,25 +78,173 @@ public class RouteController {
         this.newRouteCreate.setOnAction(e->{finishCreatingRoute();});
         this.routeDeleteButton.setOnAction(e->{this.deleteRoute();});
     }
+
+    public void refreshPermissions(Uzytkownik u){
+        clearNewRouteForm();
+        findRoutes();
+    }
+
     private void deleteRoute(){
         Task t = new Task(){
             protected Error call() {
                 return Main.trasaService.delete(selectedRoute.getNazwa(), selectedRoute.getUzytkownik_id());
             }
         };
-        t.setOnSucceeded(event -> {
-            Error e = (Error) t.getValue();
-            if(e != null)
-                Main.gui.showDialog("Error","Failed to delete route", e.getMessage(), Alert.AlertType.ERROR);
-            else {
-                routeGraph.getChildren().clear();
-                findRoutes();
-                Main.gui.showDialog("Info", "Successfully deleted route", "", Alert.AlertType.INFORMATION);
-            }
-        });
+        t.setOnSucceeded(
+                onSuccessSimpleError(t, "Successfully deleted route", "Failed to delete route", new RunOnFinish() {
+                    public void run() {
+                        routeGraph.getChildren().clear();
+                        findRoutes();
+                    }
+                }));
         new Thread(t).start();
     };
 
+    private void findRoutes(){
+        Task t = Main.gui.getRoutesTask(Main.authenticatedUser.getId());
+        t.setOnFailed(event -> {
+            Main.gui.showDialog("Error","Failed to get data",t.getException().getMessage(), Alert.AlertType.ERROR);
+        });
+        t.setOnSucceeded(event -> {
+            List<Trasa> resultList = (List<Trasa>) t.getValue();
+            this.updateListView(resultList);
+        });
+        new Thread(t).start();
+    }
+
+    private void updateListView(List<Trasa> dataList){
+        ObservableList<Trasa> data = FXCollections.observableArrayList();
+        for (Trasa m: dataList) data.add(m);
+        this.listView.setItems(data);
+        this.listView.refresh();
+    }
+
+    private void refreshNewRouteView(){
+        List<Punkt_na_trasie> list = createRouteFromFields();
+        this.drawRoute(list, false);
+    }
+
+    private void addNewRoutePoint(){
+        RouteSingleField newField = new RouteSingleField(this.newRouteFields.size(), dronePoints);
+        this.newRouteFields.add(newField);
+        addNewFieldToRouteBox(newField);
+        newField.getDel().setOnAction(e->{
+            int index = Integer.parseInt(((Button)e.getSource()).getId());
+            for(int i = index;i<this.newRouteFields.size();i++)
+                this.newRouteFields.get(i).decNumber();
+            this.newRouteFields.remove(index);
+            redrawFieldRouteBox();
+            if(this.newRouteFields.size()==0)
+                this.clearNewRouteForm();
+        });
+    }
+
+    private void finishCreatingRoute(){
+        this.newRouteError.setText("");
+        List<Punkt_na_trasie> list = createRouteFromFields();
+        Trasa t = new Trasa();
+        t.setUzytkownik_id(Main.authenticatedUser.getId());
+        t.setNazwa(emptyNullStr(this.newRouteName.getText()));
+        Error err = Main.trasaService.validate(t);
+        if(err!= null){
+            this.newRouteError.setText(err.getMessage());
+            return;
+        }
+        if(list.size()<2){
+            this.newRouteError.setText("Route must have at least 2 points");
+            return;
+        }
+        for (Punkt_na_trasie punkt: list) {
+            err = Main.punktNaTrasieService.validate(punkt);
+            if(err!=null){
+                this.newRouteError.setText(err.getMessage());
+                return;
+            }
+        }
+
+        Task task = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                return Main.trasaService.insert(t,list);
+            }
+        };
+        task.setOnSucceeded(
+                onSuccessSimpleError(task, "Successfully created route", "Failed to create route", new RunOnFinish() {
+                    @Override
+                    public void run() {clearNewRouteForm();}
+                }));
+        new Thread(task).start();
+    }
+
+    private void clearNewRouteForm(){
+        this.newRouteName.setText("");
+        this.newRouteFieldsBox.getChildren().clear();
+        this.newRouteFields.clear();
+        getAndSetDronePoints();
+        addNewRoutePoint();
+        refreshNewRouteView();
+    }
+
+    private void addNewFieldToRouteBox(RouteSingleField newField){
+        this.newRouteFieldsBox.getChildren().add(newField.getSelectPoint());
+        this.newRouteFieldsBox.getChildren().add(newField.getDel());
+        this.newRouteFieldsBox.getChildren().add(newField.getX());
+        this.newRouteFieldsBox.getChildren().add(newField.getY());
+        this.newRouteFieldsBox.getChildren().add(newField.getZ());
+        this.newRouteFieldsBox.setMinHeight(newField.getZ().getLayoutY()+50);
+    }
+
+    private void redrawFieldRouteBox(){
+        this.newRouteFieldsBox.getChildren().clear();
+        this.newRouteFields.forEach(this::addNewFieldToRouteBox);
+    }
+
+    private void getAndSetDronePoints(){
+        this.dronePoints.clear();
+        Task t = Main.gui.getDronePointsTask(false);
+        t.setOnSucceeded(event -> {
+            List<Punkt_kontrolny> resultList = (List<Punkt_kontrolny>) t.getValue();
+            Punkt_kontrolny creteNewPoint = new Punkt_kontrolny(){
+                public String toString(){
+                    return this.getNazwa();
+                }
+            };
+            creteNewPoint.setId(-1);
+            creteNewPoint.setNazwa("-- your own point --");
+            this.dronePoints.add(creteNewPoint);
+            for (Punkt_kontrolny p: resultList)
+                this.dronePoints.add(p);
+            for (RouteSingleField f: this.newRouteFields) {
+                f.getSelectPoint().setItems(this.dronePoints);
+                if(this.dronePoints.size()>0)f.getSelectPoint().setValue(this.dronePoints.get(0));
+            }
+
+        });
+        new Thread(t).start();
+    }
+
+    private List<Punkt_na_trasie> createRouteFromFields(){
+        ArrayList<Punkt_na_trasie> list = new ArrayList<>();
+        for (RouteSingleField field:this.newRouteFields) {
+            Punkt_na_trasie p = new Punkt_na_trasie();
+            p.setNumer_kolejny(Integer.valueOf(field.getDel().getId())+1);
+            p.setTrasa_nazwa(this.newRouteName.getText());
+            p.setTrasa_uzytkownik_id(Main.authenticatedUser.getId());
+            if(field.getSelectPoint().getValue()==null || field.getSelectPoint().getValue().getId()==-1){
+                p.setPolozenie_id(-1);
+                p.setWspX(strToFloat(field.getX().getText()));
+                p.setWspY(strToFloat(field.getY().getText()));
+                p.setWspZ(strToFloat(field.getZ().getText()));
+            } else {
+                p.setPunkt_kontrolny_id(field.getSelectPoint().getValue().getId());
+                p.setWspX(field.getSelectPoint().getValue().getWspx());
+                p.setWspY(field.getSelectPoint().getValue().getWspy());
+                p.setWspZ(field.getSelectPoint().getValue().getWspz());
+            }
+            list.add(p);
+        }
+        return list;
+    }
     private void getDrawRoute(Trasa tr){
         Task t = new Task(){
             protected List<DataModel> call() throws SQLException {
@@ -176,152 +326,5 @@ public class RouteController {
         return result;
     }
 
-    public void refreshPermissions(Uzytkownik u){
-        clearNewRouteForm();
-        findRoutes();
-    }
-
-    private void findRoutes(){
-        Task t = Main.gui.getRoutesTask(Main.authenticatedUser.getId());
-        t.setOnFailed(event -> {
-            Main.gui.showDialog("Error","Failed to get data",t.getException().getMessage(), Alert.AlertType.ERROR);
-        });
-        t.setOnSucceeded(event -> {
-            List<Trasa> resultList = (List<Trasa>) t.getValue();
-            this.updateListView(resultList);
-        });
-        new Thread(t).start();
-    }
-    private void updateListView(List<Trasa> dataList){
-        ObservableList<Trasa> data = FXCollections.observableArrayList();
-        for (Trasa m: dataList) data.add(m);
-        this.listView.setItems(data);
-        this.listView.refresh();
-    }
-
-    private void refreshNewRouteView(){
-        List<Punkt_na_trasie> list = createRouteFromFields();
-        this.drawRoute(list, false);
-    }
-    private void addNewRoutePoint(){
-        RouteSingleField newField = new RouteSingleField(this.newRouteFields.size(), dronePoints);
-        this.newRouteFields.add(newField);
-        addNewFieldToRouteBox(newField);
-        newField.getDel().setOnAction(e->{
-            int index = Integer.parseInt(((Button)e.getSource()).getId());
-            for(int i = index;i<this.newRouteFields.size();i++)
-                this.newRouteFields.get(i).decNumber();
-            this.newRouteFields.remove(index);
-            redrawFieldRouteBox();
-            if(this.newRouteFields.size()==0)
-                this.clearNewRouteForm();
-        });
-    }
-    private void finishCreatingRoute(){
-        this.newRouteError.setText("");
-        List<Punkt_na_trasie> list = createRouteFromFields();
-        Trasa t = new Trasa();
-        t.setUzytkownik_id(Main.authenticatedUser.getId());
-        t.setNazwa(emptyNullStr(this.newRouteName.getText()));
-        Error err = Main.trasaService.validate(t);
-        if(err!= null){
-            this.newRouteError.setText(err.getMessage());
-            return;
-        }
-        if(list.size()<2){
-            this.newRouteError.setText("Route must have at least 2 points");
-            return;
-        }
-        for (Punkt_na_trasie punkt: list) {
-            err = Main.punktNaTrasieService.validate(punkt);
-            if(err!=null){
-                this.newRouteError.setText(err.getMessage());
-                return;
-            }
-        }
-
-        Task task = new Task() {
-            @Override
-            protected Object call() throws Exception {
-                return Main.trasaService.insert(t,list);
-            }
-        };
-        task.setOnSucceeded(event -> {
-            Error e = (Error) task.getValue();
-            if(e != null)
-                Main.gui.showDialog("Error","Failed to create route", e.getMessage(), Alert.AlertType.ERROR);
-            else {
-                clearNewRouteForm();
-                Main.gui.showDialog("Info", "Successfully created route", "", Alert.AlertType.INFORMATION);
-            }
-        });
-        new Thread(task).start();
-    }
-    private void clearNewRouteForm(){
-        this.newRouteName.setText("");
-        this.newRouteFieldsBox.getChildren().clear();
-        this.newRouteFields.clear();
-        getAndSetDronePoints();
-        addNewRoutePoint();
-        refreshNewRouteView();
-    }
-    private void addNewFieldToRouteBox(RouteSingleField newField){
-        this.newRouteFieldsBox.getChildren().add(newField.getSelectPoint());
-        this.newRouteFieldsBox.getChildren().add(newField.getDel());
-        this.newRouteFieldsBox.getChildren().add(newField.getX());
-        this.newRouteFieldsBox.getChildren().add(newField.getY());
-        this.newRouteFieldsBox.getChildren().add(newField.getZ());
-        this.newRouteFieldsBox.setMinHeight(newField.getZ().getLayoutY()+50);
-    }
-    private void redrawFieldRouteBox(){
-        this.newRouteFieldsBox.getChildren().clear();
-        this.newRouteFields.forEach(this::addNewFieldToRouteBox);
-    }
-    private void getAndSetDronePoints(){
-        this.dronePoints.clear();
-        Task t = Main.gui.getDronePointsTask(false);
-        t.setOnSucceeded(event -> {
-            List<Punkt_kontrolny> resultList = (List<Punkt_kontrolny>) t.getValue();
-            Punkt_kontrolny creteNewPoint = new Punkt_kontrolny(){
-                public String toString(){
-                    return this.getNazwa();
-                }
-            };
-            creteNewPoint.setId(-1);
-            creteNewPoint.setNazwa("-- your own point --");
-            this.dronePoints.add(creteNewPoint);
-            for (Punkt_kontrolny p: resultList)
-                this.dronePoints.add(p);
-            for (RouteSingleField f: this.newRouteFields) {
-                f.getSelectPoint().setItems(this.dronePoints);
-                if(this.dronePoints.size()>0)f.getSelectPoint().setValue(this.dronePoints.get(0));
-            }
-
-        });
-        new Thread(t).start();
-    }
-
-    private List<Punkt_na_trasie> createRouteFromFields(){
-        ArrayList<Punkt_na_trasie> list = new ArrayList<>();
-        for (RouteSingleField field:this.newRouteFields) {
-            Punkt_na_trasie p = new Punkt_na_trasie();
-            p.setNumer_kolejny(Integer.valueOf(field.getDel().getId())+1);
-            p.setTrasa_nazwa(this.newRouteName.getText());
-            p.setTrasa_uzytkownik_id(Main.authenticatedUser.getId());
-            if(field.getSelectPoint().getValue()==null || field.getSelectPoint().getValue().getId()==-1){
-                p.setPolozenie_id(-1);
-                p.setWspX(strToFloat(field.getX().getText()));
-                p.setWspY(strToFloat(field.getY().getText()));
-                p.setWspZ(strToFloat(field.getZ().getText()));
-            } else {
-                p.setPunkt_kontrolny_id(field.getSelectPoint().getValue().getId());
-                p.setWspX(field.getSelectPoint().getValue().getWspx());
-                p.setWspY(field.getSelectPoint().getValue().getWspy());
-                p.setWspZ(field.getSelectPoint().getValue().getWspz());
-            }
-            list.add(p);
-        }
-        return list;
-    }
 
 }

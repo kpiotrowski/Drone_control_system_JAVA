@@ -1,6 +1,7 @@
 package gui.base.profile;
 
 import common.CommonFunc;
+import common.RunOnFinish;
 import dataModels.Uzytkownik;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import main.Main;
 import java.sql.SQLException;
 import java.text.ParseException;
 
+import static common.CommonTask.emptyRunOnFinish;
 import static common.CommonTask.onSuccessSimpleError;
 
 /**
@@ -45,7 +47,34 @@ public class ProfileController {
         this.updateProfileButton.setOnAction(event -> {this.updateProfile();});
     }
 
-    public void profileTabUpdate(){
+    @FXML
+    private Uzytkownik parseUpdateForm() throws ParseException {
+        Uzytkownik uz = new Uzytkownik();
+        uz.setImie(CommonFunc.emptyNullStr(profileName.getText()));
+        uz.setNazwisko(CommonFunc.emptyNullStr(profileSurname.getText()));
+        uz.setTelefon(CommonFunc.emptyNullStr(profilePhone.getText()));
+        if(profileDate.getText().length() > 0 )
+            uz.setData_urodzenia(CommonFunc.parseDateToSQL(profileDate.getText()));
+        else
+            uz.setData_urodzenia(null);
+        uz.setLogin(Main.authenticatedUser.getLogin());
+        uz.setHaslo(Main.authenticatedUser.getHaslo());
+        uz.setId(Main.authenticatedUser.getId());
+        uz.setPoziom_uprawnien(Main.authenticatedUser.getPoziom_uprawnien());
+        return uz;
+    }
+
+    public void refresh(){
+        try {
+            Main.authenticatedUser = Main.userService.authUserReload();
+            profileTabUpdate();
+        } catch (SQLException e) {
+            Main.gui.showDialog("error","Failed to get user data.", e.getMessage(), Alert.AlertType.ERROR);
+
+        }
+    }
+
+    private void profileTabUpdate(){
         if(Main.authenticatedUser==null) return;
         this.profileId.setText(String.valueOf(Main.authenticatedUser.getId()));
         this.profileName.setText(Main.authenticatedUser.getImie());
@@ -78,19 +107,9 @@ public class ProfileController {
             }
         };
         t.setOnSucceeded(
-                onSuccessSimpleError(t,"Successfully changed password.","Failed to change password.")
+                onSuccessSimpleError(t,"Successfully changed password.","Failed to change password.",emptyRunOnFinish())
         );
         new Thread(t).start();
-    }
-
-    public void refresh(){
-        try {
-            Main.authenticatedUser = Main.userService.authUserReload();
-            profileTabUpdate();
-        } catch (SQLException e) {
-            Main.gui.showDialog("error","Failed to get user data.", e.getMessage(), Alert.AlertType.ERROR);
-
-        }
     }
 
     private void updateProfile(){
@@ -105,15 +124,11 @@ public class ProfileController {
             Task t = new Task() {
                 protected Error call() { return Main.userService.update(uz); }
             };
-            t.setOnSucceeded(event -> {
-                Error e = (Error) t.getValue();
-                if(e != null) Main.gui.showDialog("error",e.getMessage(), "", Alert.AlertType.ERROR);
-                else {
-                    Main.gui.showDialog("success", "Successfully updated user data.", "", Alert.AlertType.INFORMATION);
-                    profileTabUpdate();
-                    Main.gui.mainCtrl.reloadTopInfo();
-                }
-            });
+            t.setOnSucceeded(
+                    onSuccessSimpleError(t, "Successfully updated user data", "Failed to update user Data", new RunOnFinish() {
+                        public void run() {Main.gui.mainCtrl.reloadTopInfo();}
+                    })
+            );
             new Thread(t).start();
         } catch (ParseException e) {
             setProfileError("Incorrect date format! (correct:dd-MM-yyyy)",0);
@@ -125,20 +140,5 @@ public class ProfileController {
         else this.passwordErrorLabel.setText(err);
     }
 
-    @FXML
-    private Uzytkownik parseUpdateForm() throws ParseException {
-        Uzytkownik uz = new Uzytkownik();
-        uz.setImie(CommonFunc.emptyNullStr(profileName.getText()));
-        uz.setNazwisko(CommonFunc.emptyNullStr(profileSurname.getText()));
-        uz.setTelefon(CommonFunc.emptyNullStr(profilePhone.getText()));
-        if(profileDate.getText().length() > 0 )
-            uz.setData_urodzenia(CommonFunc.parseDateToSQL(profileDate.getText()));
-        else
-            uz.setData_urodzenia(null);
-        uz.setLogin(Main.authenticatedUser.getLogin());
-        uz.setHaslo(Main.authenticatedUser.getHaslo());
-        uz.setId(Main.authenticatedUser.getId());
-        uz.setPoziom_uprawnien(Main.authenticatedUser.getPoziom_uprawnien());
-        return uz;
-    }
+
 }

@@ -12,16 +12,25 @@ import main.Main;
  */
 public final class CommonTask{
 
-    public static EventHandler<WorkerStateEvent> onSuccessSimpleError(Task t, String suc, String fail){
+    public static EventHandler<WorkerStateEvent> onSuccessSimpleError(Task t, String suc, String fail, RunOnFinish r){
         return new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent event) {
                 Error e = (Error) t.getValue();
                 if(e != null)
-                    Main.gui.showDialog("Błąd",fail, e.getMessage(), Alert.AlertType.ERROR);
-                else
+                    Main.gui.showDialog("Error",fail, e.getMessage(), Alert.AlertType.ERROR);
+                else{
+                    r.run();
                     Main.gui.showDialog("Info",suc,"", Alert.AlertType.INFORMATION);
+                }
             }
+        };
+    }
+
+    public static RunOnFinish emptyRunOnFinish(){
+        return new RunOnFinish() {
+            @Override
+            public void run() {}
         };
     }
 

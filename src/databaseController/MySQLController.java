@@ -16,7 +16,7 @@ import java.util.Properties;
 public class MySQLController {
 
     private Connection con;
-    public boolean valid = false;
+    private boolean valid = false;
     private String conUrl;
     private Properties props;
 

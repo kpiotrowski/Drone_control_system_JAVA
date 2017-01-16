@@ -29,7 +29,14 @@ public class ZadanieService extends Service implements ServiceInterface{
 
     @Override
     public Error insert(DataModel data) {
+        Savepoint s;
+        try {
+            s = mysql.getCon().setSavepoint();
+        } catch (SQLException e) {
+            return new Error(e.getMessage());
+        }
         Zadanie z = (Zadanie)data;
+        if(z.getDron_id()!=null) z.setStan(Zadanie.STATUS_PRZYDZIELONO_DRONA);
         String sql = String.format("INSERT INTO %s (%s) VALUES (?,?,?,?,?,?,?,?)",table,insertSql);
         try (PreparedStatement pstmt = mysql.getCon().prepareStatement(sql);) {
             statSetVarPar(pstmt,1,z.getData_rozpoczenia());
@@ -41,9 +48,20 @@ public class ZadanieService extends Service implements ServiceInterface{
             statSetVarPar(pstmt,7,z.getPunkt_koncowy_id());
             statSetVarPar(pstmt,8,z.getStan());
             pstmt.executeUpdate();
-            this.mysql.getCon().commit();
+            if(z.getDron_id()==null) this.mysql.getCon().commit();
         }catch (SQLException e) {
             return new Error(e);
+        }
+        if(z.getDron_id()!=null){
+            try {
+                if(Main.droneService.setStatus(z.getDron_id(), Dron.STATUS_PRZYDZIELONY_DO_ZADANIA)==null) mysql.getCon().commit();
+                else {
+                    mysql.getCon().rollback(s);
+                    return new Error("Unable to change drone status");
+                }
+            } catch (SQLException e) {
+                return new Error(e.getMessage());
+            }
         }
         return null;
     }
@@ -99,7 +117,7 @@ public class ZadanieService extends Service implements ServiceInterface{
                 return new Error("Unable to change drone status");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            return new Error(e.getMessage());
         }
 
         return null;

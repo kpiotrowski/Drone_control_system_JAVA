@@ -51,9 +51,13 @@ public class GUI {
         this.registrationScene = new Scene(registrationScene);
 
         this.primaryStage = primaryStage;
-
         primaryStage.setTitle(Consts.mainTitle);
         primaryStage.setScene(this.primaryScene);
+        this.primaryStage.setOnCloseRequest(event -> {
+            try {
+                Main.mysql.getCon().close();
+            } catch (SQLException ignored) {}
+        });
     }
 
     public void showRegForm(){
