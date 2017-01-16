@@ -56,7 +56,7 @@ public class ZadanieService extends Service implements ServiceInterface{
             try {
                 if(Main.droneService.setStatus(z.getDron_id(), Dron.STATUS_PRZYDZIELONY_DO_ZADANIA)==null) mysql.getCon().commit();
                 else {
-                    mysql.getCon().rollback(s);
+                    this.rollback(s);
                     return new Error("Unable to change drone status");
                 }
             } catch (SQLException e) {
@@ -113,7 +113,7 @@ public class ZadanieService extends Service implements ServiceInterface{
             }
             if(Main.droneService.setStatus(droneId, Dron.STATUS_WOLNY)==null) mysql.getCon().commit();
             else {
-                mysql.getCon().rollback(s);
+                this.rollback(s);
                 return new Error("Unable to change drone status");
             }
         } catch (SQLException e) {
@@ -189,5 +189,10 @@ public class ZadanieService extends Service implements ServiceInterface{
         } finally {
             if (rs != null) rs.close();
         }
+    }
+
+    private void rollback(Savepoint s) throws SQLException {
+        mysql.getCon().rollback(s);
+        mysql.getCon().commit();
     }
 }

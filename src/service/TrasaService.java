@@ -106,12 +106,12 @@ public class TrasaService extends Service implements ServiceInterface {
         try {
             Error err = Main.polozenieService.insertPolozenieAndSetIds(list);
             if(err != null){
-                mysql.getCon().rollback(s);
+                this.rollback(s);
                 return err;
             }
             err = Main.punktNaTrasieService.insertRoutePoints(list);
             if (err != null) {
-                mysql.getCon().rollback(s);
+                this.rollback(s);
                 return err;
             } else
                 mysql.getCon().commit();
@@ -119,6 +119,11 @@ public class TrasaService extends Service implements ServiceInterface {
             return new Error(e.getMessage());
         }
         return null;
+    }
+
+    private void rollback(Savepoint s) throws SQLException {
+        mysql.getCon().rollback(s);
+        mysql.getCon().commit();
     }
 
 }

@@ -65,6 +65,7 @@ public class DroneService extends Service implements ServiceInterface{
         try {
             if (error != null) {
                 mysql.getCon().rollback(s);
+                mysql.getCon().commit();
                 return error;
             } else mysql.getCon().commit();
         } catch (SQLException e) {
@@ -113,9 +114,9 @@ public class DroneService extends Service implements ServiceInterface{
     }
 
     public Error delete(Integer id, Integer pointId) {
-        Savepoint s;
+        Savepoint ss;
         try {
-            s = mysql.getCon().setSavepoint();
+            ss = mysql.getCon().setSavepoint();
         } catch (SQLException e) {
             return new Error(e.getMessage());
         }
@@ -125,8 +126,9 @@ public class DroneService extends Service implements ServiceInterface{
         try {
             error = this.punktKonService.incCurrentDrones(pointId,false);
             if (error != null) {
-                mysql.getCon().rollback(s);
-                return error;
+                mysql.getCon().rollback(ss);
+                mysql.getCon().commit();
+                return new Error(error.getMessage());
             } else mysql.getCon().commit();
         } catch (SQLException e) {
             return new Error(e.getMessage());
